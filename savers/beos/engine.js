@@ -91,7 +91,13 @@ export class BeOSEngine {
     }
     this.clockEl = document.createElement('div');
     this.clockEl.className = 'beos-clock';
-    this.tray.append(this.wsEl, this.clockEl);
+    this.pulseEl = document.createElement('div');
+    this.pulseEl.className = 'beos-pulse';
+    this.pulseEl.setAttribute('aria-label', 'Pulse');
+    const pulseBar = document.createElement('i');
+    this.pulseEl.appendChild(pulseBar);
+    this._pulse = 0.22;
+    this.tray.append(this.wsEl, this.pulseEl, this.clockEl);
     this.deskbar.append(this.beBtn, this.appsEl, this.tray);
 
     this.menuLayer = document.createElement('div');
@@ -131,6 +137,7 @@ export class BeOSEngine {
     this.syncWorkspaces();
     this._tickClock();
     this.clockTimer = setInterval(() => this._tickClock(), 1000);
+    this.pulseTimer = setInterval(() => this._tickPulse(), 220);
     this._onResize = () => this.layoutDesktop();
     window.addEventListener('resize', this._onResize);
     this.layoutDesktop();
@@ -141,26 +148,42 @@ export class BeOSEngine {
     this.stylesReady = this._loadCss();
   }
 
+  _tickPulse() {
+    if (this.paused || this.destroyed || !this.pulseEl) return;
+    this._pulse += (Math.random() - 0.45) * 0.16;
+    this._pulse = Math.max(0.08, Math.min(0.96, this._pulse));
+    const bar = this.pulseEl.firstElementChild;
+    if (!bar) return;
+    bar.style.height = `${Math.round(this._pulse * 100)}%`;
+    bar.style.background = this._pulse > 0.85 ? '#e23b2f' : this._pulse > 0.62 ? '#f0c030' : '#3cab3a';
+  }
+
   _loadCss() {
     const id = 'beos-css';
+    const href = new URL('./beos.css?v=4', import.meta.url).href;
     let link = document.getElementById(id);
-    const ready = (node) =>
+    const ready = (node, wait) =>
       new Promise((resolve) => {
-        if (node.sheet) {
+        if (!wait && node.sheet) {
           resolve();
           return;
         }
         node.addEventListener('load', () => resolve(), { once: true });
         node.addEventListener('error', () => resolve(), { once: true });
       });
+    let wait = true;
     if (!link) {
       link = document.createElement('link');
       link.id = id;
       link.rel = 'stylesheet';
-      link.href = new URL('./beos.css', import.meta.url).href;
+      link.href = href;
       document.head.appendChild(link);
+    } else if (link.href !== href) {
+      link.href = href;
+    } else {
+      wait = false;
     }
-    return ready(link).then(() => {
+    return ready(link, wait).then(() => {
       if (this.destroyed) return;
       this.root.style.background = '';
       this.boot.style.cssText = '';
@@ -730,6 +753,7 @@ export class BeOSEngine {
   destroy() {
     this.destroyed = true;
     clearInterval(this.clockTimer);
+    clearInterval(this.pulseTimer);
     window.removeEventListener('resize', this._onResize);
     this.root.remove();
   }

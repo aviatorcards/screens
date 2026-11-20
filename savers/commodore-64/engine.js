@@ -426,24 +426,39 @@ export class C64Engine {
     this.printLine(buf);
   }
 
-  async run1541Load(filename, suffix = ',8', signal = null) {
+  async run1541Load(filename, suffix = ',8', signal = null, missing = false) {
     await this.typeBasicCommand(`LOAD "${filename}"${suffix}`, signal);
     this.printLine('');
     this.printLine(`SEARCHING FOR ${filename}`);
     this.setDriveActivity(true, true, `1541 DRIVE 8 · ${filename}`);
-    for (let i = 0; i < 4; i++) {
-      this.sounds.driveStep();
-      await this.wait(210, signal);
+    await this.strobeBorder(8, signal);
+    if (missing) {
+      this.setDriveActivity(false, false);
+      this.printLine('?FILE NOT FOUND ERROR');
+      this.printLine('READY.');
+      await this.wait(420, signal);
+      return;
     }
     this.printLine('LOADING');
-    for (let i = 0; i < 6; i++) {
-      this.sounds.driveStep();
-      await this.wait(220, signal);
-    }
+    await this.strobeBorder(16, signal);
     this.setDriveActivity(true, false, '1541 DRIVE 8 · READY');
     this.printLine('READY.');
     await this.wait(420, signal);
     this.setDriveActivity(false, false);
+  }
+
+  /** Kernal disk load flickers the border between the screen color and black. */
+  async strobeBorder(ticks, signal) {
+    const painted = this.root.style.getPropertyValue('--c64-border') || VIC_COLORS[14];
+    try {
+      for (let i = 0; i < ticks; i++) {
+        this.root.style.setProperty('--c64-border', i % 2 ? painted : '#000000');
+        this.sounds.driveStep();
+        await this.wait(80, signal);
+      }
+    } finally {
+      this.root.style.setProperty('--c64-border', painted);
+    }
   }
 
   /* =================================================================

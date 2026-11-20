@@ -1,0 +1,824 @@
+/* KDE 3.1 — Keramik windows, Crystal-like glyphs, kicker along the bottom. */
+
+.kde {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #1a3d6e;
+  color: #1c2836;
+  font-family: "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", sans-serif;
+  font-size: 12px;
+  line-height: 1.3;
+  user-select: none;
+  cursor: none;
+}
+
+.kde *,
+.kde *::before,
+.kde *::after {
+  box-sizing: border-box;
+}
+
+.kde button,
+.kde input {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.kde-desk {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 40px;
+  left: 0;
+  background:
+    radial-gradient(120% 70% at 50% -10%, rgba(255, 255, 255, 0.16), transparent 52%),
+    linear-gradient(#4a82c0, #1c457c 48%, #14325c);
+}
+
+.kde-deskicons,
+.kde-windows {
+  position: absolute;
+  inset: 0;
+}
+
+.kde-windows {
+  z-index: 2;
+}
+
+.kde-deskicon,
+.kde-ficon {
+  border: 0;
+  background: transparent;
+  color: #fff;
+  padding: 4px 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 84px;
+}
+
+.kde-deskicon {
+  position: absolute;
+}
+
+.kde-glyph {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+}
+
+.kde-ficon .kde-glyph {
+  width: 32px;
+  height: 32px;
+}
+
+.kde-glyph svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+}
+
+.kde-deskicon .kde-label {
+  color: #fff;
+  text-shadow: 0 1px 1px #000, 0 0 2px #000;
+  font-size: 12px;
+  text-align: center;
+}
+
+.kde-ficon .kde-label {
+  color: #1c2836;
+  font-size: 11px;
+  text-align: center;
+}
+
+.kde-deskicon.selected .kde-label,
+.kde-ficon.selected .kde-label {
+  background: #1d4e8f;
+  color: #fff;
+  text-shadow: none;
+  border-radius: 3px;
+  padding: 0 4px;
+}
+
+.kde-kicker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40px;
+  z-index: 20;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  padding: 0 6px 4px;
+  background: linear-gradient(#fbfdff, #d7e3ee 36%, #c5d4e2 72%, #b7c6d4);
+  border-top: 1px solid #f7fbff;
+  box-shadow: inset 0 1px 0 #fff, 0 -1px 0 #8ea0b4;
+}
+
+.kde-kbtn {
+  width: 46px;
+  height: 46px;
+  margin-bottom: 2px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.kde-kbtn svg {
+  width: 46px;
+  height: 46px;
+  display: block;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.7)) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.35));
+}
+
+.kde-kbtn.pressed,
+.kde-kbtn.lit {
+  transform: translateY(1px);
+}
+
+.kde-tasks {
+  flex: 1;
+  min-width: 0;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.kde-task {
+  max-width: 190px;
+  height: 26px;
+  padding: 0 12px;
+  border: 1px solid #6a7c90;
+  border-radius: 13px;
+  background: linear-gradient(#fbfdff, #d5e0ea 55%, #c5d3e1);
+  box-shadow: inset 0 1px 0 #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #1c2836;
+}
+
+.kde-task.on {
+  background: linear-gradient(#d5e4f4, #a9bfd4);
+  box-shadow: inset 0 1px 2px rgba(20, 40, 70, 0.4);
+}
+
+.kde-pager {
+  display: flex;
+  gap: 2px;
+  height: 26px;
+  align-items: center;
+  padding: 2px 3px;
+  border: 1px solid #7d8b9c;
+  border-radius: 4px;
+  background: linear-gradient(#b7c6d6, #e4edf5);
+  box-shadow: inset 1px 1px 2px rgba(30, 50, 70, 0.28);
+}
+
+.kde-deskbtn {
+  width: 18px;
+  height: 14px;
+  padding: 0;
+  border: 1px solid #3d5870;
+  border-radius: 2px;
+  background: #5d7e9c;
+  color: #e7f1fa;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.kde-deskbtn.on {
+  background: linear-gradient(#eef6ff, #9ec0de);
+  color: #1c2836;
+  box-shadow: inset 0 0 0 1px #fff;
+}
+
+.kde-clock {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  margin-left: 2px;
+  padding: 0 8px 0 10px;
+  border-left: 1px solid #9aabbc;
+  box-shadow: -1px 0 0 #fff;
+  font-variant-numeric: tabular-nums;
+  color: #1c2836;
+}
+
+.kde-win {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  padding: 4px 4px 5px;
+  background: linear-gradient(#e7eef4, #c5d2e0 48%, #b3c2d2);
+  border: 1px solid #6a7c90;
+  border-radius: 10px 10px 4px 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 4px 12px rgba(10, 24, 48, 0.3);
+  overflow: hidden;
+}
+
+.kde-win.active {
+  background: linear-gradient(#fbfdff, #d5e3f0 42%, #b9cadb);
+}
+
+.kde-win.dragging {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 12px 26px rgba(20, 32, 48, 0.42);
+}
+
+.kde-title {
+  height: 24px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px 0 6px;
+  background: transparent;
+  color: #6a7b8c;
+}
+
+.kde-title-icon,
+.kde-title-icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.kde-title-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 700;
+}
+
+.kde-win.active .kde-title {
+  color: #1c2836;
+}
+
+.kde-win.active .kde-title-text {
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.kde-pills {
+  display: flex;
+  gap: 3px;
+}
+
+.kde-deco {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  position: relative;
+  flex: none;
+  border-radius: 2px;
+  border: 1px solid #5d6e82;
+  background: linear-gradient(#fbfdff, #c5d2e0);
+  box-shadow: inset 0 1px 0 #fff;
+  color: transparent;
+  font-size: 0;
+}
+
+.kde-deco::before,
+.kde-deco.close::after {
+  content: "";
+  position: absolute;
+  background: #243140;
+}
+
+.kde-deco.min::before {
+  left: 3px;
+  right: 3px;
+  bottom: 4px;
+  height: 2px;
+}
+
+.kde-deco.max::before {
+  left: 3px;
+  right: 3px;
+  top: 3px;
+  bottom: 3px;
+  background: transparent;
+  border: 1.5px solid #243140;
+}
+
+.kde-deco.close::before,
+.kde-deco.close::after {
+  left: 7px;
+  top: 3px;
+  width: 1.5px;
+  height: 10px;
+}
+
+.kde-deco.close::before {
+  transform: rotate(45deg);
+}
+
+.kde-deco.close::after {
+  transform: rotate(-45deg);
+}
+
+.kde-deco.pressed {
+  background: #b7c6d6;
+  box-shadow: inset 0 1px 2px rgba(20, 40, 70, 0.35);
+}
+
+.kde-frame {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #e7edf3;
+  border: 1px solid #9aabbc;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.kde-menubar {
+  flex: none;
+  display: flex;
+  height: 22px;
+  background: #e7edf3;
+  border-bottom: 1px solid #c5d0dc;
+  padding: 0 4px;
+}
+
+.kde-menu {
+  border: 0;
+  background: transparent;
+  padding: 0 8px;
+  height: 22px;
+  color: #1c2836;
+}
+
+.kde-menu.lit {
+  background: linear-gradient(#7eb0e4, #3a74bc);
+  color: #fff;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.kde-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.kde-app {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #e7edf3;
+}
+
+.kde-toolbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 6px;
+  background: linear-gradient(#f7fbff, #d5e2ee);
+  border-bottom: 1px solid #c5d0dc;
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.kde-tb {
+  width: 26px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  display: grid;
+  place-items: center;
+}
+
+.kde-tb svg {
+  width: 16px;
+  height: 16px;
+}
+
+.kde-tb.pressed {
+  border-color: #7d8b9c;
+  background: #d5e0ea;
+}
+
+.kde-entry {
+  flex: 1;
+  min-width: 0;
+  height: 24px;
+  border: 1px solid #7d8b9c;
+  border-radius: 4px;
+  background: #fff;
+  color: #1c2836;
+  padding: 2px 8px;
+  box-shadow: inset 1px 1px 2px rgba(40, 60, 80, 0.18);
+}
+
+.kde-tabs {
+  flex: none;
+  display: flex;
+  gap: 2px;
+  padding: 4px 6px 0;
+  background: #e7edf3;
+}
+
+.kde-tab {
+  border: 1px solid #8ea0b4;
+  border-bottom: 0;
+  background: linear-gradient(#f4f8fb, #d5dee8);
+  color: #1c2836;
+  border-radius: 6px 6px 0 0;
+  padding: 4px 12px 3px;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.kde-tab.on {
+  background: #fff;
+  font-weight: 700;
+  position: relative;
+  top: 1px;
+  padding-bottom: 4px;
+  box-shadow: none;
+}
+
+.kde-view {
+  flex: 1;
+  min-height: 0;
+  margin: 0 6px;
+  background: #fff;
+  border: 1px solid #c5d0dc;
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 4px;
+  padding: 8px;
+}
+
+.kde-page {
+  flex: 1 1 100%;
+  padding: 8px 10px 24px;
+  color: #1c2836;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.kde-page h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.kde-page p {
+  margin: 0 0 10px;
+}
+
+.kde-status {
+  flex: none;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  color: #3d4e62;
+  font-size: 11px;
+}
+
+.kde-doc,
+.kde-term {
+  flex: 1;
+  min-height: 0;
+  margin: 6px;
+  overflow: auto;
+  padding: 8px 10px;
+  white-space: pre-wrap;
+  font-family: "DejaVu Sans Mono", "Liberation Mono", ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.kde-doc {
+  background: #fff;
+  color: #1c2836;
+  border: 1px solid #c5d0dc;
+  border-radius: 3px;
+}
+
+.kde-term {
+  background: #111418;
+  color: #d5dde6;
+  border-radius: 3px;
+}
+
+.kde-caret {
+  display: inline-block;
+  width: 7px;
+  height: 1em;
+  background: currentColor;
+  vertical-align: text-bottom;
+  animation: kde-blink 1.05s steps(1) infinite;
+}
+
+@keyframes kde-blink {
+  50% { opacity: 0; }
+}
+
+.kde-dialog {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px;
+}
+
+.kde-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kde-field span {
+  width: 72px;
+  flex: none;
+}
+
+.kde-dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.kde-btn {
+  min-width: 78px;
+  height: 26px;
+  padding: 0 12px;
+  border-radius: 13px;
+  border: 1px solid #6a7c90;
+  background: linear-gradient(#fbfdff, #d5e0ea 55%, #c5d3e1);
+  box-shadow: inset 0 1px 0 #fff;
+  color: #1c2836;
+}
+
+.kde-btn.pressed {
+  background: #c5d2e0;
+  box-shadow: inset 0 1px 2px rgba(20, 40, 70, 0.35);
+}
+
+.kde-results {
+  flex: 1;
+  min-height: 0;
+  background: #fff;
+  border: 1px solid #c5d0dc;
+  border-radius: 4px;
+  overflow: auto;
+}
+
+.kde-hit {
+  padding: 6px 8px;
+  border-bottom: 1px solid #e7edf3;
+}
+
+.kde-about {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  padding: 12px;
+}
+
+.kde-about-mark,
+.kde-about-mark svg {
+  width: 56px;
+  height: 56px;
+}
+
+.kde-about h2 {
+  margin: 6px 0 0;
+  font-size: 15px;
+}
+
+.kde-about p {
+  margin: 0;
+}
+
+.kde-calc {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+}
+
+.kde-calc-display {
+  height: 34px;
+  border-radius: 6px;
+  border: 1px solid #7d8b9c;
+  background: #e7f3ea;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 8px;
+  font-family: "DejaVu Sans Mono", ui-monospace, monospace;
+  font-size: 18px;
+}
+
+.kde-keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.kde-key {
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid #6a7c90;
+  background: linear-gradient(#fbfdff, #d5e0ea);
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.kde-menus {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.kde-pop {
+  position: absolute;
+  pointer-events: auto;
+  min-width: 180px;
+  padding: 4px;
+  background: #f4f8fb;
+  border: 1px solid #7d8b9c;
+  border-radius: 6px;
+  box-shadow: inset 0 1px 0 #fff, 0 4px 12px rgba(0, 0, 0, 0.28);
+}
+
+.kde-mi {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #1c2836;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 16px 4px 8px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.kde-mi .mi-ico,
+.kde-mi .mi-ico svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.kde-mi .mi-label {
+  flex: 1;
+}
+
+.kde-mi.sub::after {
+  content: "▸";
+  font-size: 10px;
+}
+
+.kde-mi.lit {
+  background: linear-gradient(#8eb8e8, #3a74bc);
+  color: #fff;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.kde-sep {
+  height: 1px;
+  margin: 3px 8px;
+  background: #c5d0dc;
+}
+
+.kde-lock,
+.kde-boot {
+  display: none;
+  position: absolute;
+  inset: 0;
+}
+
+.kde-lock.on,
+.kde-boot.on {
+  display: flex;
+}
+
+.kde-lock {
+  z-index: 60;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 24, 48, 0.72);
+}
+
+.kde-lock-card {
+  width: 280px;
+  padding: 18px 16px 16px;
+  border-radius: 10px;
+  background: linear-gradient(#fbfdff, #d5e2ee);
+  border: 1px solid #7d8b9c;
+  box-shadow: inset 0 1px 0 #fff, 0 10px 24px rgba(8, 20, 40, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.kde-lock-card h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 16px;
+}
+
+.kde-lock-card .kde-entry {
+  flex: none;
+  width: 100%;
+}
+
+.kde-boot {
+  z-index: 70;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: radial-gradient(circle at 50% 40%, #3f74b5, #102848 72%);
+  color: #f4f8fb;
+}
+
+.kde-boot-mark,
+.kde-boot-mark svg {
+  width: 84px;
+  height: 84px;
+}
+
+.kde-boot-word {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.kde-boot-track {
+  width: 240px;
+  height: 10px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+}
+
+.kde-boot-track i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(#fff, #b7d4f2);
+}
+
+.kde-cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 80;
+  width: 15px;
+  height: 20px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.kde-cursor.on {
+  opacity: 1;
+}
+
+.kde-ring {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 76;
+  animation: kde-ring 0.36s ease-out forwards;
+}
+
+@keyframes kde-ring {
+  to { transform: scale(1.8); opacity: 0; }
+}

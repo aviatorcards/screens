@@ -350,7 +350,7 @@ export const RETRO_WEB_PAGES = {
         </div>
         <div style="background:#f3f6fb;border:1px solid #cbd5e1;padding:12px;text-align:left;font-family:Geneva,Verdana,sans-serif;font-size:11px;line-height:1.5;color:#222;">
           <strong>Desktop Movies for the Rest of Us.</strong><br/>
-          Introducing the new 400MHz PowerPC G3 iMac DV with FireWire, slot-loading DVD-ROM drive, Harmon Kardon Odyssey audio, and <strong>Mac OS 9</strong> pre-installed — starting at $1,299.
+          Introducing the new 400MHz PowerPC G3 iMac DV with FireWire, slot-loading DVD-ROM drive, Harman Kardon Odyssey audio, and <strong>Mac OS 9</strong> pre-installed — starting at $1,299.
           <div style="margin-top:8px;display:flex;gap:14px;color:#0033cc;text-decoration:underline;">
             <span data-ns-link="macnn">Read MacNN Coverage →</span>
             <span data-ns-link="yahoo">Browse Yahoo! Directory →</span>
@@ -404,10 +404,10 @@ export const RETRO_WEB_PAGES = {
         <div style="font-size:11px;line-height:1.5;color:#111;display:flex;flex-direction:column;gap:9px;">
           <div style="border-bottom:1px dotted #aaa;padding-bottom:7px;">
             <strong style="color:#003399;">Mac OS 9.2 Update Brings Snappier Platinum UI &amp; Sherlock 2 Speedups</strong><br/>
-            Users report noticeably faster Finder window redraws, improved Open Transport stability, and smoother QuickTime 4 streaming playback.
+            Users report noticeably faster Finder window redraws, improved Open Transport stability, and smoother QuickTime 5 playback.
           </div>
           <div style="border-bottom:1px dotted #aaa;padding-bottom:7px;">
-            <strong style="color:#003399;">VersionTracker Picks: SoundJam MP, GraphicConverter, StuffIt Expander 5.5</strong><br/>
+            <strong style="color:#003399;">VersionTracker Picks: iTunes, GraphicConverter, StuffIt Expander 5.5</strong><br/>
             Essential shareware utilities for every PowerPC desktop—plus a fresh set of Kaleidoscope Platinum themes.
           </div>
           <div>
@@ -620,7 +620,7 @@ export function createOutlookWindow(engine, cfg = {}) {
       subject: `Mac OS Updates for ${d.shortDate}`,
       date: d.fmtOffset(380),
       unread: false,
-      body: `Top Downloads Today:\n• StuffIt Expander 5.5 (Freeware)\n• GraphicConverter 3.8 (Shareware)\n• SoundJam MP 1.5 (MP3 Player for Mac OS 9)\n• Kaleidoscope 2.2 (Platinum & retro schemes)`,
+      body: `Top Downloads Today:\n• StuffIt Expander 5.5 (Freeware)\n• GraphicConverter 3.8 (Shareware)\n• iTunes (MP3 Player for Mac OS 9)\n• Kaleidoscope 2.2 (Platinum & retro schemes)`,
     },
   ];
 
@@ -1054,9 +1054,9 @@ export function createSoundJamWindow(engine, cfg = {}) {
   const tracks = cfg.tracks || [];
   const win = engine.createWindow({
     id: cfg.id || 'os9-soundjam',
-    appName: 'SoundJam MP',
+    appName: 'iTunes',
     appIcon: ICONS.soundjam,
-    title: 'SoundJam MP',
+    title: 'iTunes',
     titleIcon: ICONS.soundjam,
     className: 'soundjam',
     x: cfg.x,

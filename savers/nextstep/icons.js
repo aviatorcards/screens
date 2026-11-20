@@ -1,5 +1,5 @@
 /**
- * Crisp Classic NeXTSTEP 3.3 (1993) SVG Icons & Cursors
+ * Crisp Classic NeXTSTEP 3.3 (1994) SVG Icons & Cursors
  */
 
 export const NEXT_ICONS = {

@@ -590,6 +590,37 @@
   text-align: center;
 }
 
+.wb-guru {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 22px;
+  padding: 28px;
+  background: #c00000;
+  color: #000;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.35;
+  animation: wb-guru 0.32s steps(2, end) infinite;
+}
+
+.wb-guru.on { display: flex; }
+
+.wb-guru p { margin: 0; }
+
+.wb-guru-code { font-size: 15px; }
+
+@keyframes wb-guru {
+  50% {
+    background: #000;
+    color: #c00000;
+  }
+}
+
 .wb-cursor {
   position: absolute;
   left: 0;

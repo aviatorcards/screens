@@ -12,6 +12,7 @@ import {
   openRecycle,
   openShutdown,
   openSolitaire,
+  openWelcome,
   openWordPad,
   revealMine,
   showDriveC,
@@ -23,6 +24,11 @@ export async function playBootSequence(engine, signal) {
   const win98 = engine.era === '98';
   engine.onStatus(win98 ? 'Windows 98 — Starting' : 'Windows 95 — Starting');
   engine.closePopups();
+  if (win98) {
+    engine.showScanDisk();
+    await engine.wait(1700, signal);
+    engine.hideScanDisk();
+  }
   engine.showBoot();
   await engine.wait(420, signal);
   if (win98) engine.sounds.startup98();
@@ -38,6 +44,25 @@ export async function playBootSequence(engine, signal) {
 function fresh(engine) {
   engine.resetDesk();
   engine.setEra('95');
+}
+
+async function welcomeTips(engine, signal) {
+  engine.onStatus('Welcome');
+  fresh(engine);
+  await engine.wait(200, signal);
+  const win = openWelcome(engine);
+  await engine.wait(800, signal);
+  await engine.click(win.nextBtn, { pressClass: 'pressed' }, signal);
+  win.tipIndex += 1;
+  win.tipEl.textContent = win.tips[win.tipIndex];
+  await engine.wait(800, signal);
+  await engine.click(win.nextBtn, { pressClass: 'pressed' }, signal);
+  win.tipIndex += 1;
+  win.tipEl.textContent = win.tips[win.tipIndex];
+  await engine.wait(700, signal);
+  await engine.click(win.closeBtn, { pressClass: 'pressed' }, signal);
+  engine.closeWindow(win);
+  await engine.wait(240, signal);
 }
 
 async function startExplorer(engine, signal) {
@@ -96,7 +121,7 @@ async function solitaire(engine, signal) {
   engine.onStatus('Solitaire');
   fresh(engine);
   await engine.wait(160, signal);
-  await engine.openStart(['Programs', 'Accessories', 'Solitaire'], signal);
+  await engine.openStart(['Programs', 'Accessories', 'Games', 'Solitaire'], signal);
   const win = openSolitaire(engine);
   await engine.wait(280, signal);
   await engine.moveToElement(win.ace, 0.5, 0.45, null, signal);
@@ -131,7 +156,7 @@ async function minesweeper(engine, signal) {
   engine.onStatus('Minesweeper');
   fresh(engine);
   await engine.wait(160, signal);
-  await engine.openStart(['Programs', 'Accessories', 'Minesweeper'], signal);
+  await engine.openStart(['Programs', 'Accessories', 'Games', 'Minesweeper'], signal);
   const win = openMinesweeper(engine);
   await engine.wait(260, signal);
   await engine.click(findControl(win, '4,4'), { pressClass: 'pressed' }, signal);
@@ -195,7 +220,7 @@ async function windows98(engine, signal) {
   engine.setEra('98');
   await playBootSequence(engine, signal);
   engine.onStatus('Internet Explorer');
-  await engine.openStart(['Programs', 'Accessories', 'Internet Explorer'], signal);
+  await engine.openStart(['Programs', 'Internet Explorer'], signal);
   openInternet(engine);
   await engine.wait(640, signal);
   engine.onStatus('Notepad — Windows 98');
@@ -203,7 +228,14 @@ async function windows98(engine, signal) {
   const note = openNotepad(engine, 188, 54);
   await engine.wait(240, signal);
   await engine.click(note.docEl, { rx: 0.24, ry: 0.74 }, signal);
-  await engine.typeText(note.docEl, '\n[1998 · Windows 98 SE] Gradient title bars, Quick Launch & USB!', signal);
+  await engine.typeText(note.docEl, '\n[1999 · Windows 98 SE] Internet Explorer 5 and Internet Connection Sharing.', signal);
+  await engine.wait(420, signal);
+  await engine.openStart(['Programs', 'MS-DOS Prompt'], signal);
+  const dos = openDosPrompt(engine);
+  await engine.wait(180, signal);
+  await engine.click(dos.termEl, { rx: 0.16, ry: 0.12 }, signal);
+  await engine.typeText(dos.termEl, 'ver', signal);
+  termInsert(dos, '\n\nWindows 98 [Version 4.10.2222]\n\nC:\\WINDOWS>');
   await engine.wait(640, signal);
 }
 
@@ -236,6 +268,7 @@ async function shutDown(engine, signal) {
 }
 
 export const REGULAR_VIGNETTES = [
+  { id: 'welcome', run: welcomeTips },
   { id: 'start-explorer', run: startExplorer },
   { id: 'my-computer', run: myComputer },
   { id: 'notepad-journal', run: notepadJournal },

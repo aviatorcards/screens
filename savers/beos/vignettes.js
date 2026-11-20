@@ -93,7 +93,7 @@ async function terminalSession(engine, signal) {
   termInsert(win, '\nBeOS desk 5.0 1000009 BePC BeOS\ndesk:/boot/home$ ');
   await engine.wait(420, signal);
   await engine.typeText(win.termEl, 'df', signal);
-  termInsert(win, '\nMount      Type   Total   Free\n/boot      bfs    2047M   1612M\ndesk:/boot/home$ ');
+  termInsert(win, '\nMount   Type  Total  Free   Flags\n/boot   bfs   512M   318M   clean\ndesk:/boot/home$ ');
   await engine.wait(700, signal);
 }
 

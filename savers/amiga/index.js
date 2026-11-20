@@ -73,6 +73,7 @@ export function createScreensaver() {
           if (engine && !engine.destroyed) {
             engine.closePopups();
             engine.hideBoing();
+            engine.hideGuru();
             engine.hideBoot();
             engine.setCursorVisible(true);
           }

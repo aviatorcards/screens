@@ -73,22 +73,25 @@ async function shell(engine, signal) {
   const win = openShell(engine);
   await engine.wait(180, signal);
   await engine.click(win.docEl, { rx: 0.22, ry: 0.24 }, signal);
-  await runCmd(engine, win.docEl, 'version', 'Kickstart version 34.5\nWorkbench version 34.28', signal);
+  await runCmd(engine, win.docEl, 'version', 'Kickstart version 34.5\nWorkbench version 34.20', signal);
   await runCmd(
     engine,
     win.docEl,
     'dir',
-    'System (dir)\nUtilities (dir)\nExpansion (dir)\nDevs (dir)\nFonts (dir)\nTrashcan (dir)',
+    'System (dir)\nUtilities (dir)\nExpansion (dir)\nDevs (dir)\nFonts (dir)\nPrefs (dir)\nTrashcan (dir)',
     signal,
   );
   await runCmd(
     engine,
     win.docEl,
     'avail',
-    'Type  Available  In-Use  Maximum\nchip    487424  536576  1024000\nfast   1048576       0  1048576',
+    'Type       Available       In-Use   Maximum    Largest\nchip          487424       536576   1048576     487424\nfast         1048576            0   1048576    1048576\ntotal        1536000       536576   2097152    1048576',
     signal,
   );
-  await engine.wait(420, signal);
+  await engine.typeText(win.docEl, 'say "Workbench"', signal);
+  engine.sounds.say();
+  termPrint(win.docEl, '\n1.Workbench1.3:> ');
+  await engine.wait(720, signal);
 }
 
 async function notepad(engine, signal) {
@@ -105,7 +108,7 @@ async function notepad(engine, signal) {
   const note = openNotepad(engine);
   await engine.wait(180, signal);
   await engine.click(note.docEl, { rx: 0.16, ry: 0.18 }, signal);
-  await engine.typeText(note.docEl, 'August 1987\n\nDrawers on the blue screen.\nThe Shell still speaks Topaz.', signal);
+  await engine.typeText(note.docEl, '1988\n\nDrawers on the blue screen.\nThe Shell still speaks Topaz.', signal);
   await engine.wait(480, signal);
 }
 
@@ -136,6 +139,18 @@ async function version(engine, signal) {
   await engine.click(win.ok, { pressClass: 'lit' }, signal);
   engine.closeWindow(win);
   await engine.wait(240, signal);
+}
+
+async function guru(engine, signal) {
+  engine.onStatus('Guru Meditation');
+  fresh(engine);
+  await engine.wait(220, signal);
+  engine.showGuru();
+  engine.sounds.guru();
+  await engine.wait(2200, signal);
+  engine.hideGuru();
+  engine.setCursorVisible(true);
+  await engine.wait(280, signal);
 }
 
 async function clock(engine, signal) {
@@ -175,6 +190,7 @@ export const REGULAR_VIGNETTES = [
   { id: 'notepad', run: notepad },
   { id: 'dpaint', run: dpaint },
   { id: 'version', run: version },
+  { id: 'guru', run: guru },
   { id: 'clock', run: clock },
 ];
 

@@ -1,7 +1,7 @@
 import { FLAG, iconSvg } from './icons.js';
 
 export const NOTES = `[1985 · MS-DOS 3.1] Started NOTES.TXT on a 286 with 640K RAM.
-[1992 · Windows 3.1] Overlapping windows, TrueType fonts & Solitaire!`;
+[1992 · Windows 3.1] TrueType fonts and Minesweeper.`;
 
 const LETTER = `April 6, 1992
 
@@ -762,6 +762,29 @@ export function openControlPanel(engine) {
   });
 }
 
+export function openColorDialog(engine) {
+  return openDialog(engine, {
+    title: 'Color',
+    width: 340,
+    height: 248,
+    buttons: ['OK', 'Cancel'],
+    defaultLabel: 'OK',
+    build(root) {
+      const list = document.createElement('div');
+      list.className = 'w31-schemes';
+      for (const name of ['Windows Default', 'Arizona', 'Ocean', 'Hot Dog Stand', 'Black Leather Jacket']) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `w31-scheme${name === 'Windows Default' ? ' on' : ''}`;
+        btn.dataset.label = name;
+        btn.textContent = name;
+        list.appendChild(btn);
+      }
+      root.appendChild(list);
+    },
+  });
+}
+
 export function openDesktopDialog(engine) {
   return openDialog(engine, {
     title: 'Desktop',
@@ -862,7 +885,7 @@ export function openAbout(engine) {
   return openDialog(engine, {
     title: 'About Program Manager',
     width: 360,
-    height: 360,
+    height: 380,
     buttons: ['OK'],
     defaultLabel: 'OK',
     build(root) {
@@ -884,6 +907,7 @@ export function openAbout(engine) {
         '',
         '386 Enhanced Mode',
         '4,096 KB free memory',
+        'System Resources: 85% Free',
       ]) {
         if (!line) {
           const gap = document.createElement('div');

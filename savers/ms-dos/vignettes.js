@@ -44,8 +44,8 @@ export async function dosColdBoot(engine, signal) {
     'MSCDEX Version 2.23 — Drive D: = Driver MSCD001 unit 0',
     'Microsoft (R) Mouse Driver Version 9.01 — Mouse driver installed',
     '',
-    'MS-DOS Version 6.22',
-    '(C)Copyright Microsoft Corp 1981-1994.',
+    'Microsoft(R) MS-DOS(R) Version 6.22',
+    '             (C)Copyright Microsoft Corp 1981-1994.',
     '',
   ];
   for (const line of bootLines) {
@@ -71,7 +71,7 @@ async function dosDirAndMem(engine, signal) {
   await engine.pulseHdd(3, 85, signal);
 
   const dirRows = [
-    ' Volume in drive C is MSDOS_622',
+    ' Volume in drive C has no label',
     ' Volume Serial Number is 1F4A-94C8',
     ' Directory of C:\\',
     '',
@@ -83,8 +83,8 @@ async function dosDirAndMem(engine, signal) {
     `AUTOEXEC BAT           482 ${d.dirDate}  ${d.dirTime}`,
     `CONFIG   SYS           318 09-12-94   8:10p`,
     `NOTES    TXT         1,840 ${d.dirDate}  ${d.dirTime}`,
-    '         8 file(s)         57,285 bytes',
-    '                      342,814,720 bytes free',
+    '         4 file(s)         57,285 bytes',
+    '         4 dir(s)     342,814,720 bytes free',
     '',
   ];
   for (const row of dirRows) {
@@ -92,7 +92,31 @@ async function dosDirAndMem(engine, signal) {
     await engine.wait(65, signal);
   }
   engine.showPromptIdle();
-  await engine.wait(900, signal);
+  await engine.wait(700, signal);
+
+  await engine.typeCommand('VER', signal);
+  engine.printLine('');
+  engine.printLine('MS-DOS Version 6.22');
+  engine.printLine('');
+  engine.showPromptIdle();
+  await engine.wait(480, signal);
+
+  await engine.typeCommand('DIRR', signal);
+  engine.printLine('Bad command or file name');
+  engine.printLine('');
+  engine.showPromptIdle();
+  await engine.wait(420, signal);
+
+  await engine.typeCommand('DIR A:', signal);
+  engine.sounds.postBeep();
+  engine.printLine('Not ready reading drive A');
+  engine.printLine('Abort, Retry, Fail?');
+  await engine.wait(700, signal);
+  engine.replaceLastHtml('Abort, Retry, Fail?A');
+  engine.sounds.keyClick();
+  engine.printLine('');
+  engine.showPromptIdle();
+  await engine.wait(480, signal);
 
   await engine.typeCommand('MEM /C', signal);
   await engine.wait(220, signal);
@@ -539,13 +563,13 @@ async function dosScanDisk(engine, signal) {
 }
 
 /* =====================================================================
-   7. MS-DOS QBasic 1.1 → Mode 13h 256-Color VGA Starfield Demo!
+   7. MS-DOS QBasic 1.1 → GORILLA.BAS
    ===================================================================== */
 export async function dosQBasicDemo(engine, signal) {
-  engine.onStatus('QBasic 1.1 — Running Mode 13h VGA starfield');
+  engine.onStatus('QBasic 1.1 — GORILLA.BAS');
   engine.hideTui();
   engine.cwd = 'C:\\';
-  await engine.typeCommand('QBASIC /RUN STARS.BAS', signal);
+  await engine.typeCommand('QBASIC /RUN GORILLA.BAS', signal);
   await engine.pulseHdd(2, 85, signal);
 
   const tui = engine.showTui(`
@@ -560,7 +584,7 @@ export async function dosQBasicDemo(engine, signal) {
     </div>
     <div class="tui-blue-app">
       <div class="tui-edit-frame">
-        <div class="tui-edit-title">STARS.BAS</div>
+        <div class="tui-edit-title">GORILLA.BAS</div>
         <div class="tui-edit-body" id="qb-code"></div>
       </div>
     </div>
@@ -571,53 +595,63 @@ export async function dosQBasicDemo(engine, signal) {
   `);
 
   const codeEl = tui.querySelector('#qb-code');
-  const code = `REM  VGA MODE 13H 3D STARFIELD — QBASIC 1.1\nSCREEN 13\nDIM X(90), Y(90), Z(90)\nFOR I = 1 TO 90\n  X(I) = (RND - .5) * 320 : Y(I) = (RND - .5) * 200 : Z(I) = RND * 64 + 1\nNEXT I\nDO WHILE INKEY$ = ""\n  GOSUB DRAWSTARS\nLOOP`;
+  const code = `REM  GORILLA.BAS — QBasic 1.1\nSCREEN 9\nPRINT "Player 1"\nPRINT "Player 2"\nPRINT "Angle, velocity:"`;
   codeEl.textContent = code;
   await engine.wait(1100, signal);
 
-  // Switch to Mode 13h 320x200 VGA starfield!
   const ctx = engine.vgaCtx;
-  const stars = Array.from({ length: 110 }, () => ({
-    x: (Math.random() - 0.5) * 320,
-    y: (Math.random() - 0.5) * 200,
-    z: Math.random() * 60 + 2,
-    hue: pickRandom(['#ffffff', '#55ffff', '#ffff55', '#5555ff']),
-  }));
-
   engine.showVgaCanvas(true);
   let alive = true;
+  let elapsed = 0;
   let last = performance.now();
   let raf = 0;
+
+  const gorilla = (x, y) => {
+    ctx.fillStyle = '#aa5500';
+    ctx.fillRect(x + 6, y, 10, 8);
+    ctx.fillRect(x, y + 8, 22, 12);
+    ctx.fillRect(x + 2, y + 20, 6, 8);
+    ctx.fillRect(x + 14, y + 20, 6, 8);
+  };
 
   const render = (now) => {
     if (!alive || engine.destroyed) return;
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
+    if (!engine.paused) elapsed += dt * engine.speed;
 
-    ctx.fillStyle = '#000000';
+    ctx.fillStyle = '#0000aa';
     ctx.fillRect(0, 0, 320, 200);
-
-    for (const s of stars) {
-      if (!engine.paused) {
-        s.z -= dt * 26 * engine.speed;
-        if (s.z <= 1) {
-          s.x = (Math.random() - 0.5) * 320;
-          s.y = (Math.random() - 0.5) * 200;
-          s.z = 64;
-        }
-      }
-      const sx = 160 + (s.x / s.z) * 48;
-      const sy = 100 + (s.y / s.z) * 48;
-      if (sx >= 0 && sx < 320 && sy >= 0 && sy < 200) {
-        const size = s.z < 18 ? 3 : s.z < 36 ? 2 : 1;
-        ctx.fillStyle = s.z > 44 ? '#555555' : s.hue;
-        ctx.fillRect(Math.round(sx), Math.round(sy), size, size);
+    ctx.fillStyle = '#ffff55';
+    ctx.beginPath();
+    ctx.arc(246, 28, 12, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#aaaaaa';
+    ctx.fillRect(16, 108, 78, 92);
+    ctx.fillRect(226, 92, 78, 108);
+    ctx.fillStyle = '#5555ff';
+    for (let row = 0; row < 5; row += 1) {
+      for (let col = 0; col < 4; col += 1) {
+        ctx.fillRect(24 + col * 18, 118 + row * 16, 8, 10);
+        ctx.fillRect(236 + col * 18, 104 + row * 16, 8, 10);
       }
     }
-
-    ctx.fillStyle = '#55ffff';
+    gorilla(36, 80);
+    gorilla(250, 64);
+    const p = (elapsed % 2.2) / 2.2;
+    const bx = 62 + p * 190;
+    const by = 78 - Math.sin(p * Math.PI) * 62;
+    ctx.save();
+    ctx.translate(bx, by);
+    ctx.rotate(-0.7 + p * 1.4);
+    ctx.fillStyle = '#ffff55';
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 8, 3.2, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+    ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 9px monospace';
-    ctx.fillText('VGA 320x200 MODE 13H · QBASIC 1.1', 10, 190);
+    ctx.fillText('GORILLA.BAS · SCREEN 9 · QBASIC 1.1', 8, 14);
     raf = requestAnimationFrame(render);
   };
 
@@ -709,20 +743,19 @@ async function dosDoomTease(engine, signal) {
   await engine.pulseHdd(3, 95, signal);
 
   engine.clearTerm();
-  engine.printHtml('<span class="vga-bg-red">                         DOOM System Startup v1.666                         </span>');
+  engine.printHtml('<span class="vga-bg-red">                     DOOM Shareware Startup v1.666                      </span>');
   const log = [
     'V_Init: allocate screens.',
     'M_LoadDefaults: Load system defaults.',
     'Z_Init: Init zone memory allocation daemon.',
     'W_Init: Init WADfiles.',
-    '        adding doom1.wad (shareware version)',
+    'adding doom1.wad',
     'M_Init: Init miscellaneous info.',
     'R_Init: Init DOOM refresh daemon - .............................',
     'P_Init: Init Playloop state.',
     'I_Init: Setting up machine state.',
     'D_CheckNetGame: Checking network game status.',
     'S_Init: Setting up sound.',
-    'I_InitSound: configured audio device: Sound Blaster 16 (IRQ 5)',
   ];
   for (const line of log) {
     engine.printLine(line);

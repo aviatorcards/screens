@@ -274,16 +274,14 @@ export async function os2CommandRexx(engine) {
   const out = win.body.querySelector('[data-cmd-out]');
   const today = formatWarpDate();
 
-  out.textContent =
-    'Operating System/2 Command Interpreter Version 4.00\n' +
-    'Type HELP = help  (C) Copyright IBM Corp. 1981, 1996.\n\n[C:\\] ';
+  out.textContent = '[C:\\] ';
   await engine.wait(500);
 
   await engine.typeText(out, 'ver /r', { charMs: 65 });
   await engine.wait(220);
   out.textContent +=
     '\nThe Operating System/2 Version is 4.00\n' +
-    'Revision 9.023 (IBM OS/2 Warp 4)\n\n[C:\\] ';
+    'Revision 9.023\n\n[C:\\] ';
   await engine.wait(700);
 
   await engine.typeText(out, 'dir c:\\projects', { charMs: 55 });
@@ -537,7 +535,7 @@ export async function pulseCpuMonitor(engine) {
         <div class="warp-pulse-stats">
           <span data-p-cur>CPU: 14%</span>
           <span data-p-thr>Threads: 38</span>
-          <span>SMP: Ready</span>
+          <span>UNI</span>
         </div>
       </div>
     `,
@@ -789,7 +787,29 @@ export async function systemEditorRexx(engine) {
   fileItem.classList.remove('active');
   statusLeft.textContent = 'Saved C:\\PROJECTS\\WARP4.CMD (278 bytes)';
 
-  await engine.wait(900);
+  const fault = engine.createWindow({
+    id: 'sys3175',
+    title: 'SYS3175',
+    icon: WARP_ICONS.editor,
+    width: 440,
+    height: 210,
+    x: 170,
+    y: 96,
+    bodyHtml: `
+      <div style="flex:1;display:flex;flex-direction:column;gap:10px;padding:14px 16px;">
+        <p style="margin:0;">A program in this session encountered a problem and cannot continue.</p>
+        <p style="margin:0;">E.EXE</p>
+        <div style="margin-top:auto;display:flex;justify-content:center;">
+          <button type="button" class="warp-btn default" data-sys-ok>OK</button>
+        </div>
+      </div>
+    `,
+  });
+  engine.sounds.click();
+  await engine.wait(1100);
+  await engine.clickEl(fault.body.querySelector('[data-sys-ok]'));
+  engine.closeWindow('sys3175');
+  await engine.wait(280);
   trayEd.classList.remove('active');
   await engine.clickCloseWindow('sys-editor');
 }

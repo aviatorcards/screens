@@ -1,5 +1,5 @@
 import { XP_ICONS } from './icons.js?v=12';
-import { XP_THEMES } from './engine.js?v=12';
+import { XP_THEMES } from './engine.js?v=13';
 
 function formatLongDate(now = new Date()) {
   return now.toLocaleDateString('en-US', {
@@ -14,7 +14,7 @@ function formatLongDate(now = new Date()) {
  * 0. Windows XP Boot (3 Blue Blocks) -> Royal Blue "welcome" -> Startup Chord + Tour Balloon
  */
 export async function xpBootAndWelcome(engine) {
-  engine.setStatus('Starting Windows XP Professional…');
+  engine.setStatus('Starting Windows XP…');
   engine.closeAllWindows();
 
   const boot = document.createElement('div');
@@ -25,7 +25,6 @@ export async function xpBootAndWelcome(engine) {
       <div>
         <div style="font-size:15px;color:#cfd8e8;letter-spacing:0.5px;">Microsoft<sup style="font-size:9px;">®</sup></div>
         <div style="font-size:44px;font-weight:700;line-height:1;letter-spacing:-1px;">Windows<span style="color:#f56224;font-size:24px;vertical-align:super;margin-left:3px;">xp</span></div>
-        <div style="font-size:14px;color:#b8c4d8;margin-top:4px;">Professional</div>
       </div>
     </div>
     <div class="xp-boot-bar">
@@ -64,6 +63,12 @@ export async function xpBootAndWelcome(engine) {
       XP_ICONS.xpFlag,
     );
     await engine.wait(1650);
+    engine.hideBalloon();
+    engine.showBalloon(
+      'Desktop Cleanup',
+      'There are unused icons on your desktop.',
+    );
+    await engine.wait(1500);
     engine.hideBalloon();
   } finally {
     if (engine.overlayEl) {
@@ -970,19 +975,23 @@ export async function errorCascade(engine) {
       engine.checkAbort();
       const d = document.createElement('div');
       d.className = 'xp-win active';
-      d.style.cssText = `width:320px;height:132px;left:${x}px;top:${y}px;z-index:${200 + i};`;
+      d.style.cssText = `width:440px;height:168px;left:${x}px;top:${y}px;z-index:${200 + i};`;
       d.innerHTML = `
         <div class="xp-titlebar">
-          <span class="xp-title-text">Windows XP</span>
+          <span class="xp-title-text">Notepad</span>
           <div class="xp-cap-btns"><div class="xp-cap close">×</div></div>
         </div>
-        <div class="xp-body" style="background:#ece9d8;padding:14px;justify-content:space-between;">
-          <div style="display:flex;align-items:center;gap:12px;">
+        <div class="xp-body" style="background:#ece9d8;padding:12px 14px;justify-content:space-between;">
+          <div style="display:flex;align-items:flex-start;gap:12px;">
             <div style="width:30px;height:30px;flex-shrink:0;">${XP_ICONS.errorIcon}</div>
-            <div style="font-size:11.5px;">Task failed successfully.</div>
+            <div style="font-size:11.5px;line-height:1.35;">
+              <div>Notepad has encountered a problem and needs to close. We are sorry for the inconvenience.</div>
+              <div style="margin-top:6px;">If you were in the middle of something, the information you were working on might be lost.</div>
+            </div>
           </div>
-          <div style="display:flex;justify-content:center;">
-            <span class="xp-btn default" data-ok>OK</span>
+          <div style="display:flex;justify-content:center;gap:8px;">
+            <span class="xp-btn default" data-ok>Send Error Report</span>
+            <span class="xp-btn">Don't Send</span>
           </div>
         </div>
       `;
@@ -991,8 +1000,8 @@ export async function errorCascade(engine) {
       if (i % 4 === 0 && i > 0) engine.sounds.xpError();
       x += vx;
       y += vy;
-      if (x + 330 > w) vx = -Math.abs(vx);
-      if (y + 150 > h) vy = -Math.abs(vy);
+      if (x + 450 > w) vx = -Math.abs(vx);
+      if (y + 186 > h) vy = -Math.abs(vy);
       await engine.wait(95);
     }
 

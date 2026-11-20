@@ -82,24 +82,30 @@ export class Win31Engine {
 
   _loadCss() {
     const id = 'win31-css';
+    const href = new URL('./win31.css?v=6', import.meta.url).href;
     let link = document.getElementById(id);
-    const ready = (node) =>
+    const ready = (node, wait) =>
       new Promise((resolve) => {
-        if (node.sheet) {
+        if (!wait && node.sheet) {
           resolve();
           return;
         }
         node.addEventListener('load', () => resolve(), { once: true });
         node.addEventListener('error', () => resolve(), { once: true });
       });
+    let wait = true;
     if (!link) {
       link = document.createElement('link');
       link.id = id;
       link.rel = 'stylesheet';
-      link.href = new URL('./win31.css?v=5', import.meta.url).href;
+      link.href = href;
       document.head.appendChild(link);
+    } else if (link.href !== href) {
+      link.href = href;
+    } else {
+      wait = false;
     }
-    return ready(link).then(() => {
+    return ready(link, wait).then(() => {
       if (this.destroyed) return;
       this.root.style.background = '';
       this.boot.style.cssText = '';
@@ -615,11 +621,16 @@ export class Win31Engine {
     this.starLayer.classList.remove('on');
   }
 
+  setScheme(name) {
+    this.root.classList.toggle('scheme-hotdog', name === 'hotdog');
+  }
+
   resetDesk() {
     this.closePopups();
     this.closeAllWindows();
     this.hideDos();
     this.hideStarfield();
+    this.setScheme('');
   }
 
   destroy() {

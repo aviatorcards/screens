@@ -695,3 +695,44 @@
 .w31-boot-win { margin: 0; font-size: 42px; font-weight: 700; letter-spacing: -0.03em; }
 .w31-boot-ver { margin: 6px 0 0; font-size: 16px; }
 .w31-boot-mode { margin: 22px 0 0; font-size: 13px; opacity: 0.8; }
+
+.w31.scheme-hotdog { background: #ffff00; }
+
+.w31.scheme-hotdog .w31-icons.gray { background: #ffff00; }
+
+.w31.scheme-hotdog .w31-win {
+  border: 2px solid #000;
+  box-shadow: inset 0 0 0 3px #ff0000;
+}
+
+.w31.scheme-hotdog .w31-title {
+  background: #ff0000;
+  color: #fff;
+}
+
+.w31.scheme-hotdog .w31-win.active > .w31-title {
+  background: #000;
+  color: #fff;
+}
+
+.w31-schemes {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 4px 8px 8px;
+  border: 1px solid #808080;
+  background: #fff;
+  overflow: auto;
+}
+
+.w31-scheme {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: #fff;
+  color: #000;
+  padding: 3px 8px;
+}
+
+.w31-scheme.on { background: #000080; color: #fff; }

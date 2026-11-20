@@ -6,6 +6,7 @@ import {
   openCalendar,
   openClock,
   openControlPanel,
+  openColorDialog,
   openDesktopDialog,
   openDosPrompt,
   openExitDialog,
@@ -225,7 +226,24 @@ async function desktopSettings(engine, signal) {
   await engine.wait(460, signal);
   await engine.click(dialog.okBtn, { pressClass: 'pressed' }, signal);
   engine.closeWindow(dialog);
+  await engine.wait(200, signal);
+  await engine.doubleClick(findControl(panel, 'Color'), signal);
+  const color = openColorDialog(engine);
+  await engine.wait(280, signal);
+  const pick = async (label) => {
+    const row = findControl(color, label);
+    color.el.querySelectorAll('.w31-scheme').forEach((node) => node.classList.toggle('on', node === row));
+    await engine.click(row, {}, signal);
+  };
+  await pick('Hot Dog Stand');
+  engine.setScheme('hotdog');
+  await engine.wait(1100, signal);
+  await pick('Windows Default');
+  engine.setScheme('');
   await engine.wait(360, signal);
+  await engine.click(color.okBtn, { pressClass: 'pressed' }, signal);
+  engine.closeWindow(color);
+  await engine.wait(280, signal);
 }
 
 async function clockCalendar(engine, signal) {

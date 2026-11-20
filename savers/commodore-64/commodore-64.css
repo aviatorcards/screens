@@ -136,11 +136,6 @@
 .c64-drive-hud.active .c64-drive-led {
   background: #ff3b30;
   box-shadow: 0 0 10px #ff3b30, 0 0 3px #ffb4ae;
-  animation: c64-led-blink 0.22s steps(2, start) infinite;
-}
-
-@keyframes c64-led-blink {
-  50% { opacity: 0.35; }
 }
 
 /* =====================================================================

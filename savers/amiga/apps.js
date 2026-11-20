@@ -60,7 +60,7 @@ const DISK_ICONS = [
   ['System', 'drawer'],
   ['Utilities', 'drawer'],
   ['Expansion', 'drawer'],
-  ['Preferences', 'prefs'],
+  ['Prefs', 'prefs'],
 ];
 
 const UTIL_ICONS = [
@@ -195,7 +195,7 @@ export function openVersion(engine) {
   const body = document.createElement('div');
   body.className = 'wb-req';
   const a = document.createElement('p');
-  a.textContent = 'Workbench version 34.28';
+  a.textContent = 'Workbench version 34.20';
   const b = document.createElement('p');
   b.textContent = 'Kickstart version 34.5';
   const ok = document.createElement('button');

@@ -82,6 +82,22 @@ h1 {
 
 .hero-actions {
   margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.play-btn.play-all {
+  background: transparent;
+  color: #f4f1ea;
+  border: 1px solid rgba(244, 241, 234, 0.38);
+  box-shadow: none;
+  font-weight: 650;
+}
+
+.play-btn.play-all:hover {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .play-btn {
@@ -693,6 +709,159 @@ h1 {
   padding: 0 6px;
 }
 
+.thumb-gnome {
+  background: linear-gradient(#39374b, #42528f);
+}
+
+.thumb-gnome::before {
+  content: "Applications    Actions";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 16px;
+  padding-left: 22px;
+  background:
+    radial-gradient(circle at 10px 8px, #3c4a28 4px, transparent 4.5px),
+    linear-gradient(#eceae6, #d2d0cb);
+  border-bottom: 1px solid #6e6c68;
+  color: #1c1c1c;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+.thumb-gnome::after {
+  content: "Home";
+  position: absolute;
+  left: 18px;
+  top: 34px;
+  width: 132px;
+  height: 68px;
+  border: 1px solid #6e6c68;
+  background:
+    linear-gradient(#e6e4df, #d0cec9) 0 0 / 100% 14px no-repeat,
+    #f7f7f5;
+  color: #1c1c1c;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 14px;
+  padding: 0 6px;
+  box-shadow: 1px 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+.thumb-kde {
+  background:
+    linear-gradient(#d5e0ea, #d5e0ea) bottom / 100% 16px no-repeat,
+    linear-gradient(#3f74b5, #163864);
+}
+
+.thumb-kde::before {
+  content: "K";
+  position: absolute;
+  left: 6px;
+  bottom: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #2d6ec2;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 22px;
+  text-align: center;
+}
+
+.thumb-kde::after {
+  content: "Konqueror";
+  position: absolute;
+  left: 28px;
+  top: 22px;
+  width: 148px;
+  height: 72px;
+  border: 1px solid #7d8b9c;
+  border-radius: 7px 7px 2px 2px;
+  background:
+    linear-gradient(#f7fbff, #c5d6e6) 0 0 / 100% 16px no-repeat,
+    #f4f8fb;
+  color: #1c2836;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  padding: 0 6px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.thumb-compilers {
+  background: #0e1214;
+}
+
+.thumb-compilers::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffb020;
+  box-shadow: 0 0 6px #ffb020;
+}
+
+.thumb-compilers::after {
+  content: "src $ cc -o squares squares.c\A ./squares\A 1 1\A 2 4";
+  position: absolute;
+  left: 12px;
+  top: 22px;
+  color: #d5dde6;
+  font-family: ui-monospace, "Courier New", Courier, monospace;
+  font-size: 9px;
+  font-weight: 650;
+  line-height: 1.45;
+  white-space: pre;
+}
+
+.thumb-solaris {
+  background: linear-gradient(#3a78c2, #1e4b86);
+}
+
+.thumb-solaris::before {
+  content: "Terminal";
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  width: 132px;
+  height: 52px;
+  box-sizing: border-box;
+  background: #d5dde6;
+  border: 2px solid #f7fbff;
+  border-color: #f7fbff #5e6b78 #5e6b78 #f7fbff;
+  box-shadow: inset 0 14px 0 #6f93c4;
+  color: #1a1a1a;
+  font-size: 9px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 14px;
+}
+
+.thumb-solaris::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  width: 168px;
+  height: 26px;
+  margin-left: -84px;
+  background:
+    linear-gradient(#6f93c4, #6f93c4) 72px 4px / 20px 8px no-repeat,
+    linear-gradient(#e7eef5, #e7eef5) 94px 4px / 20px 8px no-repeat,
+    linear-gradient(#e7eef5, #e7eef5) 72px 14px / 20px 8px no-repeat,
+    linear-gradient(#e7eef5, #e7eef5) 94px 14px / 20px 8px no-repeat,
+    #c3ceda;
+  border: 2px solid #f7fbff;
+  border-color: #f7fbff #5e6b78 #5e6b78 #f7fbff;
+}
+
 .thumb-amiga {
   background: #0055aa;
 }
@@ -733,6 +902,75 @@ h1 {
   box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
 }
 
+.thumb-apple2 {
+  background:
+    radial-gradient(circle at right 14px bottom 12px, #ff2c24 3.5px, transparent 4px),
+    radial-gradient(ellipse at 50% 48%, #0a1f0e 0%, #030a04 100%);
+  box-shadow: inset 0 0 26px rgba(0, 0, 0, 0.72);
+}
+
+.thumb-apple2::after {
+  content: "      APPLE //E\A\A ]CATALOG\A  B 034 VISICALC\A ]_";
+  position: absolute;
+  left: 14px;
+  top: 16px;
+  color: #46ff78;
+  font-family: ui-monospace, "Courier New", Courier, monospace;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.4;
+  white-space: pre;
+  text-shadow: 0 0 7px rgba(70, 255, 120, 0.48);
+}
+
+.thumb-lisa {
+  background-color: #c8c7c0;
+  background-image:
+    radial-gradient(#111 0.9px, transparent 0.9px),
+    radial-gradient(#111 0.9px, #f5f4ed 0.9px);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+}
+
+.thumb-lisa::before {
+  content: "File/Print   Edit   Housekeeping";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 16px;
+  background: #f5f4ed;
+  border-bottom: 1.5px solid #0f0f0e;
+  color: #0f0f0e;
+  font-size: 8.5px;
+  font-weight: 700;
+  line-height: 16px;
+  padding: 0 8px;
+}
+
+.thumb-lisa::after {
+  content: "Cupertino Memo — LisaWrite";
+  position: absolute;
+  left: 18px;
+  top: 28px;
+  width: 158px;
+  height: 78px;
+  box-sizing: border-box;
+  padding: 0 6px;
+  background:
+    linear-gradient(#f5f4ed, #f5f4ed) 4px 3px / 8px 9px no-repeat,
+    linear-gradient(#0f0f0e, #0f0f0e) 0 0 / 100% 15px no-repeat,
+    #f5f4ed;
+  border: 1.5px solid #0f0f0e;
+  box-shadow: 2px 2px 0 #0f0f0e;
+  color: #f5f4ed;
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 15px;
+  text-align: center;
+  white-space: nowrap;
+}
+
 .thumb-c64 {
   background: #352879;
   box-shadow: inset 0 0 0 12px #6c5eb5;
@@ -758,7 +996,7 @@ h1 {
 }
 
 .thumb-cpm::after {
-  content: "CP/M-80 Version 2.2\A\A A>DIR\A A: PIP      COM\A A>_";
+  content: "64K CP/M VERS 2.2\A\A A>DIR\A A: PIP      COM\A A>_";
   position: absolute;
   left: 14px;
   top: 16px;

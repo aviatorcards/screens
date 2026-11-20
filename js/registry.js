@@ -10,7 +10,7 @@ export const SCREENSAVERS = [
     shortName: 'Mac OS 9.2',
     era: '1999 · Platinum',
     description:
-      'A Platinum desktop that uses itself. Finder, SimpleText, QuickTime, SoundJam, Netscape, and Sherlock take turns at the machine, and sometimes the toasters fly.',
+      'A Platinum desktop that uses itself. Finder, SimpleText, QuickTime, iTunes, Netscape, and Sherlock take turns at the machine, and sometimes the toasters fly.',
     thumbClass: 'thumb-macos9',
     status: 'available',
     specials: [
@@ -19,7 +19,7 @@ export const SCREENSAVERS = [
       { key: 'appearance', label: 'Switch OS 9 Theme' },
       { key: 'control-strip', label: 'Use Control Strip' },
     ],
-    load: () => import('../savers/mac-os-9/index.js?v=4'),
+    load: () => import('../savers/mac-os-9/index.js?v=5'),
   },
   {
     id: 'windows-evolution',
@@ -35,10 +35,28 @@ export const SCREENSAVERS = [
       { key: 'era-win1', label: '1985 · Windows 1.01' },
       { key: 'era-win31', label: '1992 · Windows 3.1' },
       { key: 'era-win95', label: '1995 · Windows 95' },
-      { key: 'era-win98', label: '1998 · Windows 98 SE' },
+      { key: 'era-win98', label: '1999 · Windows 98 SE' },
       { key: 'era-winxp', label: '2001 · Windows XP Luna' },
     ],
-    load: () => import('../savers/windows-evolution/index.js?v=4'),
+    load: () => import('../savers/windows-evolution/index.js?v=6'),
+  },
+  {
+    id: 'apple-ii',
+    name: 'Apple II+ / //e',
+    shortName: 'Apple II',
+    era: '1979 · 8-bit',
+    description:
+      'Monitor II green phosphor & NTSC color composite: DOS 3.3 Disk II boot, Lo-Res kaleidoscopes, Hi-Res vector art, VisiCalc, The Oregon Trail, AppleWorks 2.0, The Print Shop, and Woz’s CALL -151 6502 Monitor.',
+    thumbClass: 'thumb-apple2',
+    status: 'available',
+    specials: [
+      { key: 'apple2-boot', label: 'Cold Boot & Disk II Catalog' },
+      { key: 'visicalc', label: 'VisiCalc (1979) Spreadsheet' },
+      { key: 'oregon', label: 'The Oregon Trail (MECC)' },
+      { key: 'hires-demo', label: 'Hi-Res Vector & Apple Logo' },
+      { key: 'monitor', label: 'CALL -151 (6502 Monitor)' },
+    ],
+    load: () => import('../savers/apple-ii/index.js?v=1'),
   },
   {
     id: 'cpm',
@@ -46,9 +64,16 @@ export const SCREENSAVERS = [
     shortName: 'CP/M',
     era: '1979 · CP/M',
     description:
-      'Planned: CP/M-80 2.2 on a green phosphor screen. The A> prompt runs DIR, PIP, and a little MBASIC.',
+      'CP/M-80 2.2 on a green phosphor screen. The A> prompt runs DIR, PIP, and a little MBASIC.',
     thumbClass: 'thumb-cpm',
-    status: 'coming-soon',
+    status: 'available',
+    specials: [
+      { key: 'cpm-boot', label: 'Cold boot' },
+      { key: 'cpm-dir', label: 'DIR' },
+      { key: 'cpm-pip', label: 'PIP' },
+      { key: 'cpm-mbasic', label: 'MBASIC' },
+    ],
+    load: () => import('../savers/cpm/index.js?v=1'),
   },
   {
     id: 'commodore-64',
@@ -65,13 +90,31 @@ export const SCREENSAVERS = [
       { key: 'sid-demo', label: '6581 SID Demo Scene' },
       { key: 'hard-reset', label: 'C64 Power-On Reset' },
     ],
-    load: () => import('../savers/commodore-64/index.js?v=3'),
+    load: () => import('../savers/commodore-64/index.js?v=4'),
+  },
+  {
+    id: 'apple-lisa',
+    name: 'Apple Lisa OS 7/7',
+    shortName: 'Apple Lisa',
+    era: '1983 · Lisa OS',
+    description:
+      'Crisp 1-bit Lisa Office System 7/7 with ROM self-test, ProFile 5 MB hard disk, Stationery Pads, split-pane scrollbars, LisaWrite, LisaDraw, LisaCalc, LisaGraph, LisaProject PERT charts, and the Wastebasket.',
+    thumbClass: 'thumb-lisa',
+    status: 'available',
+    specials: [
+      { key: 'lisa-boot', label: 'Lisa Self-Test & ProFile Boot' },
+      { key: 'lisa-draw', label: 'LisaDraw Vector Studio' },
+      { key: 'lisa-graph', label: 'LisaCalc → LisaGraph Suite' },
+      { key: 'lisa-project', label: 'LisaProject Critical Path' },
+      { key: 'lisa-guide', label: 'LisaGuide Mouse Tutorial' },
+    ],
+    load: () => import('../savers/apple-lisa/index.js?v=1'),
   },
   {
     id: 'amiga-workbench',
     name: 'Amiga Workbench',
     shortName: 'Workbench',
-    era: '1987 · Amiga',
+    era: '1988 · Amiga',
     description:
       'Workbench 1.3 on the bright blue screen. Drawers open, the Shell types, Deluxe Paint draws, and the Boing Ball takes a bounce.',
     thumbClass: 'thumb-amiga',
@@ -82,7 +125,7 @@ export const SCREENSAVERS = [
       { key: 'shell', label: 'AmigaShell' },
       { key: 'kickstart', label: 'Kickstart Disk' },
     ],
-    load: () => import('../savers/amiga/index.js?v=3'),
+    load: () => import('../savers/amiga/index.js?v=4'),
   },
   {
     id: 'windows-3.1',
@@ -99,13 +142,13 @@ export const SCREENSAVERS = [
       { key: 'gpf', label: 'General Protection Fault' },
       { key: 'restart', label: 'Restart Windows' },
     ],
-    load: () => import('../savers/windows-3.1/index.js?v=5'),
+    load: () => import('../savers/windows-3.1/index.js?v=6'),
   },
   {
     id: 'nextstep',
     name: 'NeXTSTEP 3.3',
     shortName: 'NeXTSTEP',
-    era: '1993 · NeXTSTEP',
+    era: '1994 · NeXTSTEP',
     description:
       'NeXTSTEP 3.3 Workspace on a matte dark gray desk. Miller Columns File Viewer, Tim Berners-Lee’s WorldWideWeb.app, Interface Builder, Terminal, Edit, NeXTmail, Display PostScript, floating left menus, and the right-edge Dock.',
     thumbClass: 'thumb-next',
@@ -116,7 +159,7 @@ export const SCREENSAVERS = [
       { key: 'interface-builder', label: 'Interface Builder (.nib)' },
       { key: 'dps-demo', label: 'Display PostScript Vector' },
     ],
-    load: () => import('../savers/nextstep/index.js?v=5'),
+    load: () => import('../savers/nextstep/index.js?v=6'),
   },
   {
     id: 'ms-dos',
@@ -124,16 +167,16 @@ export const SCREENSAVERS = [
     shortName: 'MS-DOS 6.22',
     era: '1994 · MS-DOS',
     description:
-      '486DX2 BIOS POST into MS-DOS 6.22 — DIR, MEM, hypnotic DEFRAG cluster maps, MS-DOS Edit, Norton Commander, ScanDisk, QBasic Mode 13h, 14.4K ANSI BBS, and DOOM startup.',
+      '486DX2 BIOS POST into MS-DOS 6.22 — DIR, MEM, hypnotic DEFRAG cluster maps, MS-DOS Edit, Norton Commander, ScanDisk, QBasic GORILLA.BAS, 14.4K ANSI BBS, and DOOM startup.',
     thumbClass: 'thumb-dos',
     status: 'available',
     specials: [
       { key: 'defrag', label: 'Run MS-DOS Defrag' },
       { key: 'bbs', label: 'Dial 14.4K ANSI BBS' },
-      { key: 'qbasic', label: 'QBasic Mode 13h Starfield' },
+      { key: 'qbasic', label: 'QBasic GORILLA.BAS' },
       { key: 'bios-boot', label: '486DX2 BIOS Cold Boot' },
     ],
-    load: () => import('../savers/ms-dos/index.js?v=3'),
+    load: () => import('../savers/ms-dos/index.js?v=4'),
   },
   {
     id: 'mac-system-7',
@@ -141,7 +184,7 @@ export const SCREENSAVERS = [
     shortName: 'System 7.5',
     era: '1994 · Classic',
     description:
-      'Crisp 1-bit & 256-color Classic Mac desktop with HyperCard 2.2, Balloon Help, Finder disclosure triangles, SimpleText PlainTalk speech, yellow Note Pad, Desktop Patterns, 15-tile Puzzle, and After Dark: Starry Night.',
+      'Crisp 1-bit Classic Mac desktop with HyperCard 2.2, the Guide menu, Finder list view, SimpleText, Stickies, Desktop Patterns, and After Dark: Starry Night.',
     thumbClass: 'thumb-sys7',
     status: 'available',
     specials: [
@@ -150,7 +193,7 @@ export const SCREENSAVERS = [
       { key: 'after-dark-city', label: 'After Dark: Starry Night' },
       { key: 'desktop-patterns', label: 'Desktop Patterns Panel' },
     ],
-    load: () => import('../savers/mac-system-7/index.js?v=7'),
+    load: () => import('../savers/mac-system-7/index.js?v=8'),
   },
   {
     id: 'windows-95',
@@ -158,7 +201,7 @@ export const SCREENSAVERS = [
     shortName: 'Windows 95',
     era: '1995 · Windows 95',
     description:
-      'Windows 95 on the teal desk, then Windows 98 SE when the title bars go gradient. My Computer, WordPad, and Internet Explorer take a turn, and the taskbar keeps whatever is running.',
+      'Windows 95 on the teal desk, then Windows 98 SE in 1999 when the title bars go gradient. My Computer, WordPad, and Internet Explorer take a turn, and the taskbar keeps whatever is running.',
     thumbClass: 'thumb-win95',
     status: 'available',
     specials: [
@@ -167,7 +210,7 @@ export const SCREENSAVERS = [
       { key: 'win98', label: 'Windows 98 SE' },
       { key: 'shutdown', label: 'Shut Down' },
     ],
-    load: () => import('../savers/windows-95/index.js?v=6'),
+    load: () => import('../savers/windows-95/index.js?v=7'),
   },
   {
     id: 'os2-warp',
@@ -184,7 +227,7 @@ export const SCREENSAVERS = [
       { key: 'scheme-palette', label: 'WPS Scheme Palette Drag' },
       { key: 'webexplorer', label: 'IBM WebExplorer (1996)' },
     ],
-    load: () => import('../savers/os2-warp/index.js?v=6'),
+    load: () => import('../savers/os2-warp/index.js?v=7'),
   },
   {
     id: 'haiku',
@@ -192,7 +235,7 @@ export const SCREENSAVERS = [
     shortName: 'BeOS',
     era: '2000 · BeOS',
     description:
-      'A BeOS Release 5 desk that uses itself. Yellow tabs, Tracker, Deskbar, Terminal, and NetPositive take turns, and the workspaces still switch.',
+      'A BeOS Release 5 desk that uses itself. Yellow tabs, Tracker, Deskbar, Pulse, Terminal, and NetPositive take turns, and the workspaces still switch.',
     thumbClass: 'thumb-haiku',
     status: 'available',
     specials: [
@@ -201,7 +244,7 @@ export const SCREENSAVERS = [
       { key: 'find', label: 'Find on the disk' },
       { key: 'restart', label: 'Restart' },
     ],
-    load: () => import('../savers/beos/index.js?v=3'),
+    load: () => import('../savers/beos/index.js?v=4'),
   },
   {
     id: 'windows-xp',
@@ -220,7 +263,77 @@ export const SCREENSAVERS = [
       { key: 'pipes-3d', label: '3D Pipes Screensaver' },
       { key: 'error-cascade', label: 'Classic XP Error Cascade' },
     ],
-    load: () => import('../savers/windows-xp/index.js?v=12'),
+    load: () => import('../savers/windows-xp/index.js?v=13'),
+  },
+  {
+    id: 'solaris',
+    name: 'Solaris 9',
+    shortName: 'Solaris',
+    era: '2002 · CDE',
+    description:
+      'Solaris 9 Common Desktop Environment. A centered Front Panel, four workspaces named One through Four, and Motif windows. File Manager, Text Editor, the terminal, Calendar, and Style Manager take turns on the desk. The user drags windows by the title bar.',
+    thumbClass: 'thumb-solaris',
+    status: 'available',
+    specials: [
+      { key: 'lock', label: 'Lock Display' },
+      { key: 'logout', label: 'Log out' },
+      { key: 'workspace', label: 'Switch workspace' },
+    ],
+    load: () => import('../savers/solaris/index.js?v=1'),
+  },
+  {
+    id: 'gnome-2',
+    name: 'GNOME 2.4',
+    shortName: 'GNOME',
+    era: '2003 · GNOME 2.4',
+    description:
+      'GNOME 2.4 on the Simple theme. A gray menu panel, Nautilus, gedit, Epiphany 1.0, and the bottom workspace switcher take turns on the blue-gray desk. The user drags windows by the title bar.',
+    thumbClass: 'thumb-gnome',
+    status: 'available',
+    specials: [
+      { key: 'about', label: 'About GNOME' },
+      { key: 'lock', label: 'Lock Screen' },
+      { key: 'workspaces', label: 'Switch workspace' },
+      { key: 'logout', label: 'Log Out' },
+    ],
+    load: () => import('../savers/gnome-2/index.js?v=4'),
+  },
+  {
+    id: 'kde-3',
+    name: 'KDE 3.1',
+    shortName: 'KDE',
+    era: '2003 · KDE 3.1',
+    description:
+      'KDE 3.1 with Keramik windows and the bottom kicker. Konqueror browses in tabs, and KWrite, KCalc, and Konsole take a turn. The user drags windows by the title bar.',
+    thumbClass: 'thumb-kde',
+    status: 'available',
+    specials: [
+      { key: 'about', label: 'About KDE' },
+      { key: 'lock', label: 'Lock Session' },
+      { key: 'desktops', label: 'Switch desktop' },
+      { key: 'logout', label: 'Logout' },
+    ],
+    load: () => import('../savers/kde-3/index.js?v=4'),
+  },
+  {
+    id: 'compilers',
+    name: 'Compilers',
+    shortName: 'Compilers',
+    era: 'C · Rust · Zig · Swift',
+    description:
+      'C, C++, Rust, Zig, Swift, Go, and Haskell take turns in a terminal. Each program is typed, then the compiler prints a verbose log, then the program runs. Rust stops on a type error, then the fix is compiled.',
+    thumbClass: 'thumb-compilers',
+    status: 'available',
+    specials: [
+      { key: 'lang-c', label: 'C' },
+      { key: 'lang-cpp', label: 'C++' },
+      { key: 'lang-rust', label: 'Rust' },
+      { key: 'lang-zig', label: 'Zig' },
+      { key: 'lang-swift', label: 'Swift' },
+      { key: 'lang-go', label: 'Go' },
+      { key: 'lang-hs', label: 'Haskell' },
+    ],
+    load: () => import('../savers/compilers/index.js?v=2'),
   },
 ];
 

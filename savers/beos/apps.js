@@ -339,7 +339,7 @@ export const WELCOME_HTML = {
         <li>apps — StyledEdit, Terminal, NetPositive, MediaPlayer</li>
         <li>preferences — where the desk color lives</li>
       </ul>
-      <p>Thirty-two workspaces if you want them. Four are showing in the Deskbar tonight.</p>
+      <p>Thirty-two workspaces if you want them. Four are showing in the Deskbar tonight. Pulse is the one meter beside them.</p>
       <p>The pointer will move on by itself. Leave the yellow tab where it is.</p>
     `;
     return doc;

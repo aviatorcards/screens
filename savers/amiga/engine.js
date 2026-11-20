@@ -10,7 +10,7 @@ export class AbortSceneError extends Error {
 }
 
 const BAR = 28;
-const MEM = '487424 graphics mem  1048576 other mem';
+const SCREEN_TITLE = 'Workbench Release.';
 
 const CURSOR = `<svg width="17" height="23" viewBox="0 0 17 23" shape-rendering="crispEdges" aria-hidden="true">
   <polygon fill="#000" points="0,0 0,17 4,13 6,21 10,19 8,13 14,13"/>
@@ -113,6 +113,15 @@ export class WbEngine {
     this.hand.append(arm, this.disk, fingers);
     this.boot.append(this.drive, this.hand);
 
+    this.guru = document.createElement('div');
+    this.guru.className = 'wb-guru';
+    const guruLead = document.createElement('p');
+    guruLead.textContent = 'Software Failure.  Press left mouse button to continue.';
+    const guruCode = document.createElement('p');
+    guruCode.className = 'wb-guru-code';
+    guruCode.textContent = 'Guru Meditation #80000005.00C0172A';
+    this.guru.append(guruLead, guruCode);
+
     this.bar = document.createElement('div');
     this.bar.className = 'wb-bar';
     const depth = document.createElement('button');
@@ -123,7 +132,7 @@ export class WbEngine {
     this.barFill.className = 'wb-bar-fill';
     this.barTitle = document.createElement('span');
     this.barTitle.className = 'wb-bar-title';
-    this.barTitle.textContent = 'Workbench Screen';
+    this.barTitle.textContent = SCREEN_TITLE;
     this.barMenus = document.createElement('div');
     this.barMenus.className = 'wb-bar-menus';
     this.barFill.append(this.barTitle, this.barMenus);
@@ -140,6 +149,7 @@ export class WbEngine {
       this.menuLayer,
       this.boingLayer,
       this.boot,
+      this.guru,
       this.cursorEl,
     );
     container.appendChild(this.root);
@@ -177,7 +187,7 @@ export class WbEngine {
 
   _loadCss() {
     const id = 'wb-css';
-    const href = new URL('./wb.css?v=3', import.meta.url).href;
+    const href = new URL('./wb.css?v=4', import.meta.url).href;
     let link = document.getElementById(id);
     const ready = (node, wait) => new Promise((resolve) => {
       if (!wait && node.sheet) {
@@ -476,7 +486,6 @@ export class WbEngine {
     win.el.style.zIndex = String(this.z);
     this.windowsEl.appendChild(win.el);
     this.activeKind = win.kind || 'workbench';
-    this.setBarTitle(MEM);
   }
 
   closeWindow(win) {
@@ -487,7 +496,7 @@ export class WbEngine {
     if (top) this.focusWindow(top);
     else {
       this.activeKind = 'workbench';
-      this.setBarTitle('Workbench Screen');
+      this.setBarTitle(SCREEN_TITLE);
     }
   }
 
@@ -630,10 +639,20 @@ export class WbEngine {
     this.boingLayer.classList.remove('on');
   }
 
+  showGuru() {
+    this.guru.classList.add('on');
+    this.setCursorVisible(false);
+  }
+
+  hideGuru() {
+    this.guru.classList.remove('on');
+  }
+
   resetDesk() {
     this.closePopups();
     this.closeAllWindows();
     this.hideBoing();
+    this.hideGuru();
     this.hideBoot();
     this.deskIcons.querySelectorAll('.selected').forEach((node) => node.classList.remove('selected'));
   }

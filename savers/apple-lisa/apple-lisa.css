@@ -1,0 +1,859 @@
+/* =========================================================
+   Apple Lisa — Lisa Office System 7/7 (1983)
+   Authentic 1-bit monochrome desktop, Stationery Pads,
+   split-pane scrollbars, ProFile 5 MB & Wastebasket.
+   ========================================================= */
+
+.lisa-root {
+  --lisa-white: #f5f4ed;
+  --lisa-black: #0f0f0e;
+  --lisa-contrast: 1;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #c8c7c0;
+  background-image:
+    radial-gradient(var(--lisa-black) 0.9px, transparent 0.9px),
+    radial-gradient(var(--lisa-black) 0.9px, var(--lisa-white) 0.9px);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+  color: var(--lisa-black);
+  font-family: "Geneva", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  user-select: none;
+  filter: brightness(var(--lisa-contrast));
+  transition: filter 0.35s ease;
+}
+
+/* Subtle 12" monochrome CRT scanline + tube vignette */
+.lisa-root::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 900;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 2px,
+      rgba(0, 0, 0, 0.045) 2px,
+      rgba(0, 0, 0, 0.045) 3px
+    ),
+    radial-gradient(ellipse at 50% 50%, transparent 72%, rgba(0, 0, 0, 0.16) 100%);
+}
+
+/* Rounded 12" CRT screen corners */
+.lisa-corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  z-index: 880;
+  pointer-events: none;
+}
+.lisa-corner.tl { top: 0; left: 0; background: radial-gradient(circle at 100% 100%, transparent 9px, #000 10px); }
+.lisa-corner.tr { top: 0; right: 0; background: radial-gradient(circle at 0 100%, transparent 9px, #000 10px); }
+.lisa-corner.bl { bottom: 0; left: 0; background: radial-gradient(circle at 100% 0, transparent 9px, #000 10px); }
+.lisa-corner.br { bottom: 0; right: 0; background: radial-gradient(circle at 0 0, transparent 9px, #000 10px); }
+
+/* =========================================================
+   Menu Bar (Document-centric Lisa OS — no Apple logo!)
+   ========================================================= */
+.lisa-menubar {
+  position: relative;
+  z-index: 500;
+  height: 22px;
+  background: var(--lisa-white);
+  border-bottom: 1.5px solid var(--lisa-black);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.lisa-menu-left,
+.lisa-menu-right {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.lisa-mitem {
+  padding: 2px 9px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.lisa-mitem.active {
+  background: var(--lisa-black);
+  color: var(--lisa-white);
+}
+
+.lisa-app-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 1px 7px;
+  border: 1px solid var(--lisa-black);
+  font-size: 11px;
+  margin-right: 8px;
+}
+
+.lisa-clock {
+  font-size: 11.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Pull-down Menu */
+.lisa-dropdown {
+  position: absolute;
+  top: 22px;
+  z-index: 620;
+  min-width: 176px;
+  background: var(--lisa-white);
+  border: 1.5px solid var(--lisa-black);
+  box-shadow: 2px 2px 0 var(--lisa-black);
+  padding: 3px 0;
+}
+
+.lisa-dd-item {
+  padding: 3px 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.lisa-dd-item.disabled {
+  opacity: 0.42;
+}
+
+.lisa-dd-item.highlight {
+  background: var(--lisa-black);
+  color: var(--lisa-white);
+}
+
+.lisa-dd-sep {
+  height: 1px;
+  margin: 3px 0;
+  border-top: 1px dotted var(--lisa-black);
+}
+
+/* =========================================================
+   Desktop & Icons (Stationery Pads, ProFile, Wastebasket)
+   ========================================================= */
+.lisa-desktop {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 22px);
+  overflow: hidden;
+}
+
+.lisa-desk-left {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10;
+}
+
+.lisa-desk-right {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10;
+}
+
+.lisa-desk-bottom {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  z-index: 10;
+}
+
+.lisa-icon {
+  width: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-align: center;
+}
+
+.lisa-icon-glyph {
+  width: 40px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+}
+
+.lisa-icon-label {
+  background: var(--lisa-white);
+  color: var(--lisa-black);
+  padding: 1px 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.2;
+  border: 1px solid transparent;
+  max-width: 96px;
+  word-wrap: break-word;
+}
+
+.lisa-icon.selected .lisa-icon-glyph {
+  filter: invert(1);
+}
+
+.lisa-icon.selected .lisa-icon-label,
+.lisa-icon.drop-target .lisa-icon-label {
+  background: var(--lisa-black);
+  color: var(--lisa-white);
+}
+
+.lisa-torn-sheet {
+  position: absolute;
+  z-index: 350;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+/* =========================================================
+   Iconic Lisa OS Windows (No Pinstripes! Folder Icon + Split Scrollbars)
+   ========================================================= */
+.lisa-windows {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.lisa-win {
+  position: absolute;
+  background: var(--lisa-white);
+  border: 1.5px solid var(--lisa-black);
+  box-shadow: 2px 2px 0 var(--lisa-black);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.lisa-win.active {
+  outline: 1px solid var(--lisa-black);
+  outline-offset: 1px;
+  box-shadow: 3px 3px 0 var(--lisa-black);
+}
+
+.lisa-titlebar {
+  flex: none;
+  height: 22px;
+  background: var(--lisa-white);
+  border-bottom: 1.5px solid var(--lisa-black);
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  gap: 6px;
+}
+
+.lisa-win.active .lisa-titlebar {
+  background: var(--lisa-black);
+  color: var(--lisa-white);
+}
+
+.lisa-title-docbtn {
+  width: 15px;
+  height: 15px;
+  background: var(--lisa-white);
+  color: var(--lisa-black);
+  border: 1px solid var(--lisa-black);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.lisa-title-text {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lisa-win-inner {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 16px;
+  grid-template-rows: 1fr 16px;
+}
+
+.lisa-win.no-scroll .lisa-win-inner {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+.lisa-win-body {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--lisa-white);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Signature Lisa Split-Pane Vertical & Horizontal Scrollbars */
+.lisa-vscroll {
+  border-left: 1.5px solid var(--lisa-black);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background:
+    repeating-linear-gradient(45deg, rgba(15, 15, 14, 0.14) 0 1px, transparent 1px 3px),
+    var(--lisa-white);
+}
+
+.lisa-hscroll {
+  border-top: 1.5px solid var(--lisa-black);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background:
+    repeating-linear-gradient(45deg, rgba(15, 15, 14, 0.14) 0 1px, transparent 1px 3px),
+    var(--lisa-white);
+}
+
+.lisa-sbtn {
+  width: 14px;
+  height: 14px;
+  background: var(--lisa-white);
+  border: 1px solid var(--lisa-black);
+  display: grid;
+  place-items: center;
+  font-size: 8px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.lisa-split-knob {
+  width: 14px;
+  height: 5px;
+  background: var(--lisa-black);
+}
+
+.lisa-sthumb-v {
+  width: 12px;
+  height: 28px;
+  margin: 0 auto;
+  background: var(--lisa-white);
+  border: 1px solid var(--lisa-black);
+}
+
+.lisa-sthumb-h {
+  width: 36px;
+  height: 12px;
+  background: var(--lisa-white);
+  border: 1px solid var(--lisa-black);
+}
+
+.lisa-resize-box {
+  border-left: 1.5px solid var(--lisa-black);
+  border-top: 1.5px solid var(--lisa-black);
+  background: var(--lisa-white);
+  position: relative;
+}
+
+.lisa-resize-box::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--lisa-black);
+}
+
+.lisa-resize-box::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--lisa-black);
+  background: var(--lisa-white);
+}
+
+/* Standard 1-bit Lisa Buttons */
+.lisa-btn {
+  display: inline-block;
+  padding: 3px 12px;
+  border: 1.5px solid var(--lisa-black);
+  border-radius: 5px;
+  background: var(--lisa-white);
+  color: var(--lisa-black);
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.lisa-btn.default {
+  box-shadow: 0 0 0 1.5px var(--lisa-white), 0 0 0 3px var(--lisa-black);
+}
+
+.lisa-btn.pressed {
+  background: var(--lisa-black);
+  color: var(--lisa-white);
+}
+
+/* =========================================================
+   App Interiors (LisaWrite, LisaDraw, LisaCalc, LisaGraph, LisaProject)
+   ========================================================= */
+
+/* LisaWrite */
+.lw-ruler {
+  flex: none;
+  height: 24px;
+  border-bottom: 1.5px solid var(--lisa-black);
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 700;
+  background:
+    repeating-linear-gradient(to right, var(--lisa-black) 0 1px, transparent 1px 12px) left bottom / 100% 5px no-repeat,
+    var(--lisa-white);
+}
+
+.lw-page {
+  flex: 1;
+  padding: 14px 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13.5px;
+  line-height: 1.52;
+  white-space: pre-wrap;
+  overflow: hidden;
+}
+
+.lw-caret {
+  display: inline-block;
+  width: 1.5px;
+  height: 14px;
+  background: var(--lisa-black);
+  vertical-align: -2px;
+  animation: lisa-blink 0.9s steps(1) infinite;
+}
+
+@keyframes lisa-blink {
+  50% { opacity: 0; }
+}
+
+/* LisaDraw */
+.ld-wrap {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.ld-palette {
+  width: 44px;
+  flex: none;
+  border-right: 1.5px solid var(--lisa-black);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 4px;
+  gap: 5px;
+}
+
+.ld-tool {
+  width: 32px;
+  height: 24px;
+  border: 1px solid var(--lisa-black);
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.ld-tool.active {
+  background: var(--lisa-black);
+  color: var(--lisa-white);
+}
+
+.ld-canvas-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ld-patterns {
+  height: 22px;
+  border-bottom: 1px solid var(--lisa-black);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.ld-swatch {
+  width: 22px;
+  height: 13px;
+  border: 1px solid var(--lisa-black);
+}
+
+.ld-swatch.active {
+  outline: 2px solid var(--lisa-black);
+  outline-offset: 1px;
+}
+
+.ld-canvas {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-image: radial-gradient(rgba(15, 15, 14, 0.22) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* LisaCalc */
+.lc-formula-bar {
+  flex: none;
+  padding: 4px 10px;
+  border-bottom: 1.5px solid var(--lisa-black);
+  display: flex;
+  justify-content: space-between;
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.lc-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 34px 1.6fr repeat(4, 1fr);
+  grid-auto-rows: 24px;
+  font-size: 11.5px;
+  overflow: hidden;
+}
+
+.lc-cell {
+  border-right: 1px solid var(--lisa-black);
+  border-bottom: 1px solid var(--lisa-black);
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.lc-cell.hdr {
+  justify-content: center;
+  font-weight: 700;
+  background:
+    repeating-linear-gradient(45deg, rgba(15, 15, 14, 0.1) 0 1px, transparent 1px 3px),
+    var(--lisa-white);
+}
+
+.lc-cell.num {
+  justify-content: flex-end;
+  font-variant-numeric: tabular-nums;
+}
+
+.lc-cell.active {
+  background: var(--lisa-black);
+  color: var(--lisa-white);
+  font-weight: 700;
+}
+
+/* LisaGraph & LisaProject */
+.lg-head {
+  flex: none;
+  padding: 5px 10px;
+  border-bottom: 1.5px solid var(--lisa-black);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.lg-tabs {
+  display: flex;
+  gap: 5px;
+}
+
+.lg-tab {
+  padding: 2px 8px;
+  border: 1px solid var(--lisa-black);
+}
+
+.lg-tab.active {
+  background: var(--lisa-black);
+  color: var(--lisa-white);
+}
+
+.lg-canvas {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ProFile Folder List */
+.lf-info {
+  flex: none;
+  padding: 4px 10px;
+  border-bottom: 1px solid var(--lisa-black);
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.lf-rows {
+  flex: 1;
+  padding: 4px 0;
+  font-size: 11.5px;
+}
+
+.lf-row {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 0.7fr 1.1fr;
+  padding: 4px 10px;
+  border-bottom: 1px dotted rgba(15, 15, 14, 0.35);
+  align-items: center;
+}
+
+.lf-row.hdr {
+  font-weight: 700;
+  border-bottom: 1.5px solid var(--lisa-black);
+}
+
+.lf-row.selected {
+  background: var(--lisa-black);
+  color: var(--lisa-white);
+}
+
+/* Lisa Calculator (with paper tape!) */
+.lcalc-wrap {
+  display: grid;
+  grid-template-columns: 1fr 124px;
+  height: 100%;
+}
+
+.lcalc-pad {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-right: 1.5px solid var(--lisa-black);
+}
+
+.lcalc-lcd {
+  border: 1.5px solid var(--lisa-black);
+  padding: 6px 8px;
+  text-align: right;
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.lcalc-keys {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+
+.lcalc-key {
+  border: 1.5px solid var(--lisa-black);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 13px;
+  box-shadow: 1px 1px 0 var(--lisa-black);
+}
+
+.lcalc-key.pressed {
+  background: var(--lisa-black);
+  color: var(--lisa-white);
+}
+
+.lcalc-tape {
+  padding: 8px;
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 11px;
+  line-height: 1.45;
+  white-space: pre;
+  overflow: hidden;
+  background: #fbfaf4;
+}
+
+/* LisaTerminal VT100 */
+.lterm-body {
+  flex: 1;
+  padding: 10px 12px;
+  background: var(--lisa-white);
+  color: var(--lisa-black);
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.42;
+  white-space: pre-wrap;
+  overflow: hidden;
+}
+
+/* =========================================================
+   Lisa ROM Self-Test Boot Screen
+   ========================================================= */
+.lisa-boot {
+  position: absolute;
+  inset: 0;
+  z-index: 800;
+  background: var(--lisa-white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  transition: opacity 0.45s ease;
+}
+
+.lisa-boot.fade-out {
+  opacity: 0;
+}
+
+.lisa-boot-card {
+  width: min(500px, 88vw);
+  border: 2px solid var(--lisa-black);
+  padding: 22px 26px;
+  box-shadow: 4px 4px 0 var(--lisa-black);
+  background: var(--lisa-white);
+  text-align: center;
+}
+
+.lisa-boot-title {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.lisa-boot-sub {
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+
+.lisa-selftest-row {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.lisa-st-chip {
+  width: 68px;
+  padding: 7px 4px;
+  border: 1.5px solid var(--lisa-black);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  opacity: 0.3;
+}
+
+.lisa-st-chip.testing {
+  opacity: 1;
+  background: var(--lisa-black);
+  color: var(--lisa-white);
+}
+
+.lisa-st-chip.ok {
+  opacity: 1;
+  background: var(--lisa-white);
+  color: var(--lisa-black);
+}
+
+/* =========================================================
+   Ghost Cursor & Drag Outline
+   ========================================================= */
+.lisa-cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 850;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.lisa-drag-ghost {
+  position: fixed;
+  z-index: 840;
+  pointer-events: none;
+  border: 1.5px dotted var(--lisa-black);
+  background: rgba(245, 244, 237, 0.75);
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  transform: translate(10px, 8px);
+}
+
+/* ProFile 5 MB subtle hardware activity pill */
+.lisa-profile-hud {
+  position: fixed;
+  left: 16px;
+  bottom: 14px;
+  z-index: 860;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border: 1.5px solid var(--lisa-black);
+  background: var(--lisa-white);
+  color: var(--lisa-black);
+  font-size: 10.5px;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.lisa-profile-hud.visible {
+  opacity: 1;
+}
+
+.lisa-profile-led {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--lisa-black);
+  background: #fff;
+}
+
+.lisa-profile-hud.busy .lisa-profile-led {
+  background: #d92b2b;
+  box-shadow: 0 0 6px rgba(217, 43, 43, 0.7);
+}

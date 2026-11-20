@@ -41,6 +41,7 @@ export function createScreensaver() {
     mountOptions.onReady?.();
 
     const initialQueue = [
+      'welcome',
       'start-explorer',
       'my-computer',
       'notepad-journal',

@@ -1,0 +1,976 @@
+/* GNOME 2.4 — Simple theme, Metacity, menu panel and bottom edge panel. */
+
+.gnome {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #39374b;
+  color: #1c1c1c;
+  font-family: "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", sans-serif;
+  font-size: 12px;
+  line-height: 1.3;
+  user-select: none;
+  cursor: none;
+}
+
+.gnome *,
+.gnome *::before,
+.gnome *::after {
+  box-sizing: border-box;
+}
+
+.gnome button,
+.gnome input {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.gnome-desk {
+  position: absolute;
+  top: 28px;
+  right: 0;
+  bottom: 28px;
+  left: 0;
+  background: linear-gradient(#39374b, #42528f);
+}
+
+.gnome-deskicons,
+.gnome-windows {
+  position: absolute;
+  inset: 0;
+}
+
+.gnome-windows {
+  z-index: 2;
+}
+
+.gnome-deskicon,
+.gnome-ficon {
+  border: 0;
+  background: transparent;
+  color: #fff;
+  padding: 4px 2px 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 88px;
+}
+
+.gnome-deskicon {
+  position: absolute;
+}
+
+.gnome-glyph {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+}
+
+.gnome-ficon .gnome-glyph {
+  width: 36px;
+  height: 36px;
+}
+
+.gnome-glyph svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.28));
+}
+
+.gnome-deskicon .gnome-label,
+.gnome-ficon .gnome-label {
+  font-size: 12px;
+  line-height: 1.25;
+  text-align: center;
+  padding: 0 4px;
+  border-radius: 3px;
+  max-width: 84px;
+}
+
+.gnome-deskicon .gnome-label {
+  color: #fff;
+  text-shadow: 0 1px 1px #000, 0 0 2px #000;
+}
+
+.gnome-ficon .gnome-label {
+  color: #1c1c1c;
+  text-shadow: none;
+  font-size: 11px;
+}
+
+.gnome-deskicon.selected,
+.gnome-ficon.selected,
+.gnome-tree-item.selected {
+  background: rgba(32, 56, 96, 0.55);
+  border-radius: 4px;
+}
+
+.gnome-deskicon.selected .gnome-label {
+  background: #3d5d8a;
+  text-shadow: none;
+}
+
+.gnome-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 28px;
+  z-index: 20;
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  padding: 0 2px;
+  background: linear-gradient(#f3f2ee, #d4d2cd 55%, #c8c6c1);
+  border-color: #6e6c68;
+  border-style: solid;
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.gnome-panel-top {
+  top: 0;
+  border-width: 0 0 1px;
+}
+
+.gnome-panel-bottom {
+  bottom: 0;
+  border-width: 1px 0 0;
+  background: linear-gradient(#e4e2dd, #cfcdd0);
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.gnome-panel button {
+  border: 0;
+  background: transparent;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #1c1c1c;
+}
+
+.gnome-panel button.pressed,
+.gnome-panel button.lit,
+.gnome-tb.pressed,
+.gnome-btn.pressed {
+  background: #c8c6c1;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.gnome-foot,
+.gnome-launch,
+.gnome-winlist,
+.gnome-volume,
+.gnome-showdesk {
+  padding: 0 6px;
+}
+
+.gnome-foot svg,
+.gnome-launch svg,
+.gnome-winlist svg,
+.gnome-volume svg,
+.gnome-showdesk svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.gnome-spacer {
+  flex: 1;
+}
+
+.gnome-clock {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.gnome-tasks {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  min-width: 0;
+  margin: 2px;
+  padding: 1px 2px;
+  background: #c9c7c2;
+  border: 1px solid #8a8884;
+  box-shadow: inset 1px 1px 0 #9a9894, inset -1px -1px 0 #f4f3f0;
+}
+
+.gnome-task {
+  max-width: 180px;
+  min-width: 0;
+  height: 16px;
+  padding: 0 8px;
+  border: 1px solid;
+  border-color: #fff #6e6c68 #5c5a56 #fff;
+  background: linear-gradient(#f7f6f3, #d7d5d0);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gnome-task.on {
+  border-color: #5c5a56 #fff #fff #5c5a56;
+  background: #c5c3be;
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.28);
+}
+
+.gnome-task.min {
+  font-style: italic;
+  color: #444;
+}
+
+.gnome-pager {
+  display: grid;
+  grid-template-columns: 12px 12px;
+  grid-auto-rows: 9px;
+  gap: 1px;
+  align-self: center;
+  margin: 0 6px 0 2px;
+  padding: 2px;
+  background: #c2c0bb;
+  border: 1px solid #7a7874;
+  box-shadow: inset 1px 1px 0 #8e8c88, inset -1px -1px 0 #f7f6f3;
+}
+
+.gnome-ws {
+  width: 12px;
+  height: 9px;
+  padding: 0;
+  border: 1px solid #6e6c68;
+  background: #aeb6be;
+  position: relative;
+}
+
+.gnome-ws.on {
+  background: #6d8eae;
+  border-color: #2e4a64;
+}
+
+.gnome-ws.busy::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 6px;
+  height: 4px;
+  background: #f4f4f2;
+  border: 1px solid #333;
+}
+
+.gnome-win {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background: #dcdad5;
+  border: 1px solid #8a8884;
+  box-shadow: inset 1px 1px 0 #fff, 2px 3px 6px rgba(0, 0, 0, 0.32);
+  min-width: 0;
+}
+
+.gnome-win.dragging {
+  box-shadow: inset 1px 1px 0 #fff, 3px 10px 22px rgba(0, 0, 0, 0.42);
+}
+
+.gnome-title {
+  height: 20px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 3px 0 3px;
+  background: linear-gradient(#e4e2dd, #c4c2bd);
+  color: #666;
+  border-bottom: 1px solid #9a9894;
+  box-shadow: inset 0 1px 0 #f7f6f3;
+}
+
+.gnome-win.active .gnome-title {
+  background: linear-gradient(#f7f6f3, #d4d2cd 72%, #c8c6c1);
+  color: #1c1c1c;
+}
+
+.gnome-title-icon {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: 1px solid;
+  border-color: #fff #6e6c68 #5c5a56 #fff;
+  background: linear-gradient(#f7f6f3, #d0cec9);
+}
+
+.gnome-title-icon svg {
+  width: 11px;
+  height: 11px;
+  display: block;
+  filter: none;
+}
+
+.gnome-title-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  font-size: 12px;
+}
+
+.gnome-box {
+  width: 15px;
+  height: 14px;
+  padding: 0;
+  position: relative;
+  flex: none;
+  border: 1px solid;
+  border-color: #fff #6e6c68 #5c5a56 #fff;
+  background: linear-gradient(#f7f6f3, #cfcdd0);
+  color: transparent;
+  font-size: 0;
+}
+
+.gnome-box::before,
+.gnome-box.close::after {
+  content: "";
+  position: absolute;
+  background: #222;
+}
+
+.gnome-box.min::before {
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  height: 2px;
+}
+
+.gnome-box.max::before {
+  left: 3px;
+  right: 3px;
+  top: 3px;
+  bottom: 3px;
+  background: transparent;
+  border: 1px solid #222;
+}
+
+.gnome-box.close::before,
+.gnome-box.close::after {
+  left: 6px;
+  top: 2px;
+  width: 1px;
+  height: 8px;
+}
+
+.gnome-box.close::before {
+  transform: rotate(45deg);
+}
+
+.gnome-box.close::after {
+  transform: rotate(-45deg);
+}
+
+.gnome-box.pressed {
+  border-color: #5c5a56 #fff #fff #5c5a56;
+  background: #c8c6c1;
+}
+
+.gnome-frame {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #dcdad5;
+}
+
+.gnome-menubar {
+  flex: none;
+  display: flex;
+  gap: 0;
+  height: 22px;
+  background: #dcdad5;
+  border-bottom: 1px solid #b0aea8;
+  box-shadow: inset 0 1px 0 #f4f3f0;
+  padding: 0 2px;
+}
+
+.gnome-menu {
+  border: 0;
+  background: transparent;
+  padding: 0 8px;
+  height: 22px;
+}
+
+.gnome-menu.lit {
+  background: #4b6983;
+  color: #fff;
+}
+
+.gnome-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #dcdad5;
+}
+
+.gnome-app {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.gnome-toolbar {
+  flex: none;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 2px 4px 3px;
+  background: linear-gradient(#e6e4df, #d4d2cd);
+  border-bottom: 1px solid #b0aea8;
+  box-shadow: inset 0 1px 0 #f7f6f3;
+}
+
+.gnome-handle {
+  width: 8px;
+  align-self: stretch;
+  margin: 2px 4px 2px 0;
+  background:
+    radial-gradient(circle, #6e6c68 0.7px, transparent 0.8px) 0 0 / 4px 4px;
+}
+
+.gnome-tb {
+  border: 0;
+  background: transparent;
+  min-width: 46px;
+  padding: 2px 4px 1px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  color: #1c1c1c;
+  font-size: 10px;
+}
+
+.gnome-tb svg {
+  width: 20px;
+  height: 20px;
+}
+
+.gnome-locrow,
+.gnome-field {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+}
+
+.gnome-entry {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid;
+  border-color: #6e6c68 #fff #fff #6e6c68;
+  background: #fff;
+  color: #111;
+  padding: 3px 6px;
+  border-radius: 0;
+  box-shadow: inset 1px 1px 0 #b0aea8;
+}
+
+.gnome-split {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.gnome-tree {
+  width: 148px;
+  flex: none;
+  background: #f4f3f0;
+  border-right: 1px solid #b0aea8;
+  padding: 4px 0;
+  overflow: auto;
+}
+
+.gnome-tree-item {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  text-align: left;
+  color: #1c1c1c;
+}
+
+.gnome-tree-item svg,
+.gnome-tree-item .gnome-glyph {
+  width: 16px;
+  height: 16px;
+}
+
+.gnome-tree-item.selected {
+  background: #4b6983;
+  color: #fff;
+  border-radius: 0;
+}
+
+.gnome-view,
+.gnome-igrid {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 6px;
+  padding: 8px;
+  overflow: auto;
+  box-shadow: inset 1px 1px 0 #c8c6c1;
+}
+
+.gnome-status {
+  flex: none;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  background: #dcdad5;
+  border-top: 1px solid #b0aea8;
+  color: #333;
+  font-size: 11px;
+}
+
+.gnome-doc,
+.gnome-term,
+.gnome-page {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  overflow: auto;
+  background: #fff;
+  color: #111;
+}
+
+.gnome-doc,
+.gnome-term {
+  padding: 8px 10px;
+  white-space: pre-wrap;
+  font-family: "DejaVu Sans Mono", "Liberation Mono", ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.gnome-page {
+  padding: 16px 18px 28px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.gnome-page h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.gnome-page p {
+  margin: 0 0 10px;
+}
+
+.gnome-caret {
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  background: #111;
+  vertical-align: text-bottom;
+  animation: gnome-blink 1.05s steps(1) infinite;
+}
+
+@keyframes gnome-blink {
+  50% { opacity: 0; }
+}
+
+.gnome-throb {
+  width: 18px;
+  height: 18px;
+  margin-left: 6px;
+  display: grid;
+  place-items: center;
+}
+
+.gnome-throb svg {
+  width: 18px;
+  height: 18px;
+}
+
+.gnome-throb.spin svg {
+  animation: gnome-spin 0.8s linear infinite;
+}
+
+@keyframes gnome-spin {
+  to { transform: rotate(360deg); }
+}
+
+.gnome-dialog,
+.gnome-about {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  padding: 16px 18px;
+  background: #dcdad5;
+}
+
+.gnome-about {
+  align-items: center;
+  text-align: center;
+}
+
+.gnome-about-mark,
+.gnome-about-mark svg {
+  width: 54px;
+  height: 54px;
+}
+
+.gnome-about h2,
+.gnome-dialog h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.gnome-about p,
+.gnome-dialog p {
+  margin: 0;
+}
+
+.gnome-dialog-buttons,
+.gnome-about-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.gnome-about-row {
+  justify-content: center;
+}
+
+.gnome-btn {
+  min-width: 72px;
+  padding: 4px 12px;
+  border: 1px solid;
+  border-color: #fff #6e6c68 #5c5a56 #fff;
+  background: linear-gradient(#f7f6f3, #d0cec9);
+  box-shadow: none;
+}
+
+.gnome-calc {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  background: #d4d2cd;
+}
+
+.gnome-calc-display {
+  height: 36px;
+  background: #dfece3;
+  border: 1px solid;
+  border-color: #6e6c68 #fff #fff #6e6c68;
+  box-shadow: inset 1px 1px 0 #b7c4bc;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 8px;
+  font-family: "DejaVu Sans Mono", ui-monospace, monospace;
+  font-size: 18px;
+}
+
+.gnome-calc-mode {
+  font-size: 11px;
+  color: #333;
+}
+
+.gnome-keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.gnome-key {
+  height: 28px;
+  border: 1px solid;
+  border-color: #fff #6e6c68 #5c5a56 #fff;
+  background: linear-gradient(#f7f6f3, #d0cec9);
+}
+
+.gnome-results {
+  flex: 1;
+  margin: 0 12px 8px;
+  background: #fff;
+  border: 1px solid #8a8a86;
+  overflow: auto;
+}
+
+.gnome-hit {
+  padding: 6px 8px;
+  border-bottom: 1px solid #eceae6;
+}
+
+.gnome-hit b {
+  font-weight: 700;
+}
+
+.gnome-menus {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.gnome-pop {
+  position: absolute;
+  pointer-events: auto;
+  min-width: 196px;
+  padding: 3px 0;
+  background: #eceae6;
+  border: 1px solid #6e6c68;
+  box-shadow: inset 1px 1px 0 #fff, 2px 3px 5px rgba(0, 0, 0, 0.32);
+}
+
+.gnome-mi {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #1c1c1c;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 16px 4px 8px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.gnome-mi .mi-ico,
+.gnome-mi .mi-ico svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.gnome-mi .mi-label {
+  flex: 1;
+}
+
+.gnome-mi.sub::after {
+  content: "▸";
+  font-size: 10px;
+}
+
+.gnome-mi.lit {
+  background: #4b6983;
+  color: #fff;
+}
+
+.gnome-sep {
+  height: 2px;
+  margin: 3px 6px;
+  border-top: 1px solid #9a9894;
+  border-bottom: 1px solid #fff;
+  background: transparent;
+}
+
+.gnome-calendar {
+  display: none;
+  position: absolute;
+  z-index: 45;
+  width: 196px;
+  padding: 8px;
+  background: #eceae6;
+  border: 1px solid #6e6c68;
+  box-shadow: inset 1px 1px 0 #fff, 2px 3px 6px rgba(0, 0, 0, 0.32);
+}
+
+.gnome-calendar.on {
+  display: block;
+}
+
+.gnome-cal-title {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.gnome-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  text-align: center;
+}
+
+.gnome-cal-grid span,
+.gnome-cal-grid button {
+  height: 20px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-size: 11px;
+}
+
+.gnome-cal-grid span {
+  color: #666;
+}
+
+.gnome-cal-grid button.is-today {
+  background: #4b6983;
+  color: #fff;
+}
+
+.gnome-lock,
+.gnome-boot {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+}
+
+.gnome-lock.on,
+.gnome-boot.on {
+  display: flex;
+}
+
+.gnome-lock {
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 18, 32, 0.72);
+}
+
+.gnome-lock-card {
+  width: 280px;
+  padding: 22px 20px;
+  background: #dcdad5;
+  border: 1px solid #8a8884;
+  box-shadow: inset 1px 1px 0 #fff, 0 8px 24px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gnome-lock-card h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 16px;
+}
+
+.gnome-lock-card .gnome-entry {
+  flex: none;
+  width: 100%;
+}
+
+.gnome-boot {
+  z-index: 70;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: #241f33;
+  color: #f4f1ea;
+}
+
+.gnome-boot-mark,
+.gnome-boot-mark svg {
+  width: 72px;
+  height: 72px;
+}
+
+.gnome-boot-word {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+}
+
+.gnome-boot-row {
+  display: flex;
+  gap: 10px;
+}
+
+.gnome-boot-icon {
+  width: 28px;
+  height: 28px;
+  opacity: 0.28;
+  filter: grayscale(1);
+}
+
+.gnome-boot-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.gnome-boot-icon.lit {
+  opacity: 1;
+  filter: none;
+}
+
+.gnome-boot-track {
+  width: 220px;
+  height: 8px;
+  background: #3a3450;
+  border: 1px solid #6a6480;
+}
+
+.gnome-boot-track i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #c8c6d4;
+}
+
+.gnome-boot-hint {
+  margin: 0;
+  font-size: 12px;
+  color: #d5d0e0;
+}
+
+.gnome-cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 80;
+  width: 15px;
+  height: 20px;
+  pointer-events: none;
+  opacity: 0;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.35));
+}
+
+.gnome-cursor.on {
+  opacity: 1;
+}
+
+.gnome-ring {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 76;
+  animation: gnome-ring 0.36s ease-out forwards;
+}
+
+@keyframes gnome-ring {
+  to { transform: scale(1.8); opacity: 0; }
+}

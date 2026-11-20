@@ -70,6 +70,19 @@ export class WbSounds {
     osc.stop(now + 0.22);
   }
 
+  /** Narrator-style phrase for the Shell `say` command. */
+  say() {
+    [262, 330, 392, 330, 294].forEach((freq, index) => {
+      setTimeout(() => this._tone(freq, 0.11, 'triangle', 0.045), index * 130);
+    });
+  }
+
+  /** Red alert that accompanies a Guru Meditation. */
+  guru() {
+    this._tone(110, 0.14, 'square', 0.05);
+    setTimeout(() => this._tone(82, 0.18, 'square', 0.05), 150);
+  }
+
   /** Disk-slot click. Not a sampled Kickstart sound. */
   insert() {
     const ctx = this._ctx();

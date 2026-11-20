@@ -1,0 +1,122 @@
+/* Modern compiler terminal. Full bleed, not a phosphor tube. */
+
+.cmp-root {
+  --cmp-bg: #0e1214;
+  --cmp-text: #d5dde6;
+  --cmp-prompt: #8eb6ff;
+  --cmp-err: #ff8d7a;
+  --cmp-tool: #9fd0ff;
+  --cmp-out: #e7eef6;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--cmp-bg);
+  color: var(--cmp-text);
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+  font-size: min(18px, calc((100vw - 64px) / 42));
+  line-height: 1.35;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+  user-select: none;
+}
+
+.cmp-chrome {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cmp-top {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 36px;
+  padding: 0 16px;
+  background: #161b1f;
+  border-bottom: 1px solid #242b31;
+  color: #8b98a5;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.cmp-lamp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cmp-led {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #2c3136;
+  box-shadow: inset 0 0 0 1px #3a4148;
+}
+
+.cmp-led.on {
+  background: #ffb020;
+  box-shadow: 0 0 8px #ffb020;
+}
+
+.cmp-lamp-label {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+}
+
+.cmp-screen {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  padding: 16px 28px 20px;
+}
+
+.cmp-text {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.cmp-line {
+  white-space: pre;
+  min-height: 1.35em;
+}
+
+.cmp-prompt {
+  color: var(--cmp-prompt);
+}
+
+.cmp-line.err {
+  color: var(--cmp-err);
+}
+
+.cmp-line.tool {
+  color: var(--cmp-tool);
+}
+
+.cmp-line.out {
+  color: var(--cmp-out);
+}
+
+.cmp-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 1px;
+  background: var(--cmp-text);
+  vertical-align: text-bottom;
+  animation: cmp-blink 1.05s steps(1) infinite;
+}
+
+.cmp-root.is-paused .cmp-cursor {
+  animation-play-state: paused;
+  opacity: 1;
+}
+
+@keyframes cmp-blink {
+  50% { opacity: 0; }
+}

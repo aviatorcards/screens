@@ -155,8 +155,7 @@ export const SYS7_ICONS = {
 
   // Menu Bar Balloon Help (?)
   balloonHelp: `<svg viewBox="0 0 18 18" width="15" height="15">
-    <path d="M9 2 C4.8 2 2 4.6 2 8 C2 10.1 3.3 11.9 5.3 12.9 L4.3 16 L8 13.9 C8.3 14 8.7 14 9 14 C13.2 14 16 11.4 16 8 C16 4.6 13.2 2 9 2 Z" fill="#fff" stroke="#000" stroke-width="1.4"/>
-    <text x="9" y="11.2" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="9.5" fill="#000">?</text>
+    <text x="9" y="14" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="16" fill="#000">?</text>
   </svg>`,
 
   // Menu Bar Compact Mac Application Switcher icon

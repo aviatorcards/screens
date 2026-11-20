@@ -72,6 +72,13 @@ export class Win95Engine {
     this.safeLayer = document.createElement('div');
     this.safeLayer.className = 'w95-safe';
     this.safeLayer.textContent = "It's now safe to turn off your computer.";
+    this.scanLayer = document.createElement('div');
+    this.scanLayer.className = 'w95-scandisk';
+    const scanA = document.createElement('p');
+    scanA.textContent = 'Windows was not properly shut down. One or more of your disk drives may have errors on it.';
+    const scanB = document.createElement('p');
+    scanB.textContent = 'ScanDisk is now checking drive C for errors.';
+    this.scanLayer.append(scanA, scanB);
 
     this.boot = document.createElement('div');
     this.boot.className = 'w95-boot on';
@@ -145,6 +152,7 @@ export class Win95Engine {
       this.menuLayer,
       this.flyLayer,
       this.safeLayer,
+      this.scanLayer,
       this.boot,
       this.cursorEl,
     );
@@ -185,7 +193,7 @@ export class Win95Engine {
 
   _loadCss() {
     const id = 'w95-css';
-    const href = new URL('./win95.css?v=6', import.meta.url).href;
+    const href = new URL('./win95.css?v=7', import.meta.url).href;
     let link = document.getElementById(id);
     const ready = (node, wait) => new Promise((resolve) => {
       if (!wait && node.sheet) {
@@ -720,6 +728,7 @@ export class Win95Engine {
   showBoot() {
     this.hideFlying();
     this.hideSafe();
+    this.hideScanDisk();
     this.boot.classList.add('on');
     this.setCursorVisible(false);
   }
@@ -735,6 +744,15 @@ export class Win95Engine {
 
   hideSafe() {
     this.safeLayer.classList.remove('on');
+  }
+
+  showScanDisk() {
+    this.scanLayer.classList.add('on');
+    this.setCursorVisible(false);
+  }
+
+  hideScanDisk() {
+    this.scanLayer.classList.remove('on');
   }
 
   showFlying() {

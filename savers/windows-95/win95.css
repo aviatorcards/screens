@@ -35,6 +35,7 @@
 .w95-menus,
 .w95-fly,
 .w95-safe,
+.w95-scandisk,
 .w95-boot {
   position: absolute;
   inset: 0;
@@ -58,6 +59,8 @@
 .w95-fly.on { display: block; }
 .w95-safe { z-index: 50; display: none; }
 .w95-safe.on { display: flex; }
+.w95-scandisk { z-index: 55; display: none; }
+.w95-scandisk.on { display: block; }
 .w95-boot { z-index: 60; display: none; }
 .w95-boot.on { display: flex; }
 
@@ -931,6 +934,57 @@
   text-align: center;
   padding: 24px;
   font: 22px/1.35 "Noto Sans", "Nimbus Sans", sans-serif;
+}
+
+.w95-scandisk {
+  background: #0000aa;
+  color: #fff;
+  padding: 36px 42px;
+  text-align: left;
+  font: 18px/1.45 "Liberation Mono", "Courier New", ui-monospace, monospace;
+}
+
+.w95-scandisk p { margin: 0 0 18px; max-width: 42em; }
+
+.w95-welcome-h {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.w95-welcome-tip {
+  margin: 0;
+  min-height: 48px;
+  line-height: 1.35;
+}
+
+.w95-welcome-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.w95-welcome-check i {
+  width: 13px;
+  height: 13px;
+  flex: none;
+  margin-top: 1px;
+  background: #fff;
+  border: 1px solid #808080;
+  box-shadow: inset 1px 1px 0 #000, inset -1px -1px 0 #dfdfdf;
+  position: relative;
+}
+
+.w95-welcome-check i::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 1px;
+  width: 4px;
+  height: 7px;
+  border: solid #000;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
 
 .w95-boot {

@@ -45,16 +45,17 @@ export async function sys7Boot(engine) {
       <div class="sys7-welcome-box">
         <div style="width:58px;height:58px;">${SYS7_ICONS.macOsFace}</div>
         <h1 class="sys7-welcome-title">Welcome to Macintosh.</h1>
-        <div class="sys7-welcome-sub">Mac OS 7.5.3 · Starting Up…</div>
+        <div class="sys7-welcome-sub">System 7.5 · Starting Up…</div>
       </div>
     `;
 
     const extRow = boot.querySelector('[data-ext-row]');
+    const initIcon = (mark) => `<svg viewBox="0 0 36 36" width="100%" height="100%"><rect x="4" y="4" width="28" height="28" fill="#fff" stroke="#000" stroke-width="2"/>${mark}</svg>`;
     const exts = [
-      SYS7_ICONS.systemFolder,
-      SYS7_ICONS.hyperCard,
-      SYS7_ICONS.desktopPatterns,
-      SYS7_ICONS.notePad,
+      initIcon('<rect x="10" y="12" width="16" height="12" fill="none" stroke="#000"/><polygon points="15,15 15,21 22,18" fill="#000"/>'),
+      initIcon('<circle cx="13" cy="18" r="3" fill="none" stroke="#000"/><circle cx="23" cy="18" r="3" fill="none" stroke="#000"/><path d="M16 18 H20" stroke="#000"/>'),
+      initIcon('<rect x="9" y="14" width="8" height="6" fill="none" stroke="#000"/><rect x="19" y="14" width="8" height="6" fill="none" stroke="#000"/>'),
+      initIcon('<path d="M12 22 C12 14 24 14 24 22" fill="none" stroke="#000"/><path d="M15 22 V25 H21 V22" fill="none" stroke="#000"/>'),
       SYS7_ICONS.afterDark,
     ];
     for (const ic of exts) {
@@ -191,7 +192,7 @@ end mouseUp</div>
     </div>
     <div style="font-size:12.5px;line-height:1.6;margin:14px 0;">
       <em>"The power to be your best."</em><br/><br/>
-      Before the Web had JavaScript, HyperCard cards linked text, crisp 1-bit art, sound effects, and interactive buttons right on the Macintosh desktop.
+      HyperCard cards linked text, crisp 1-bit art, sound effects, and buttons on the Macintosh desktop.
     </div>
     <div class="sys7-hc-nav">
       <span style="font-size:11px;">Stack: Field Guide (48 K)</span>
@@ -209,7 +210,7 @@ end mouseUp</div>
  * 2. Finder 7.5 — Balloon Help (?), Disclosure Triangles & Emptying Trash
  */
 export async function finderAndBalloonHelp(engine) {
-  engine.setStatus('Finder 7.5 — Balloon Help & List View');
+  engine.setStatus('Finder 7.5 — Guide & List View');
   engine.closeAllWindows();
   engine.setAppMenus('Finder', ['File', 'Edit', 'View', 'Label', 'Special']);
 
@@ -218,9 +219,10 @@ export async function finderAndBalloonHelp(engine) {
     'help',
     [
       { label: 'About Balloon Help…' },
-      { sep: true },
       { label: 'Show Balloons' },
+      { sep: true },
       { label: 'Macintosh Guide', shortcut: '⌘?' },
+      { label: 'Shortcuts' },
     ],
     'Show Balloons',
   );
@@ -250,7 +252,7 @@ export async function finderAndBalloonHelp(engine) {
   const hdWin = engine.createWindow({
     id: 'mac-hd',
     title: 'Macintosh HD',
-    width: 470,
+    width: 560,
     height: 270,
     x: 110,
     y: 52,
@@ -263,37 +265,37 @@ export async function finderAndBalloonHelp(engine) {
       <div class="sys7-finder-content">
         <div class="sys7-finder-main" data-list>
           <div class="sys7-list-row" style="font-weight:700;border-bottom:1px solid #000;">
-            <span></span><span></span><span>Name</span><span>Size</span><span>Kind</span>
+            <span></span><span></span><span>Name</span><span>Size</span><span>Kind</span><span>Label</span><span>Date</span>
           </div>
           <div class="sys7-list-row" data-row="sys">
             <span data-tri>▸</span>
             <span style="width:15px;height:15px;">${SYS7_ICONS.systemFolder}</span>
-            <span>System Folder</span><span>24.6 MB</span><span>folder</span>
+            <span>System Folder</span><span>24.6 MB</span><span>folder</span><span></span><span>9/12/94</span>
           </div>
           <div data-sys-children hidden>
             <div class="sys7-list-row sub">
               <span></span><span style="width:14px;height:14px;">${SYS7_ICONS.folder}</span>
-              <span>Control Panels</span><span>2.1 MB</span><span>folder</span>
+              <span>Control Panels</span><span>2.1 MB</span><span>folder</span><span></span><span>9/12/94</span>
             </div>
             <div class="sys7-list-row sub">
               <span></span><span style="width:14px;height:14px;">${SYS7_ICONS.folder}</span>
-              <span>Extensions</span><span>4.8 MB</span><span>folder</span>
+              <span>Extensions</span><span>4.8 MB</span><span>folder</span><span></span><span>9/12/94</span>
             </div>
           </div>
           <div class="sys7-list-row">
             <span>▸</span>
             <span style="width:15px;height:15px;">${SYS7_ICONS.folder}</span>
-            <span>Applications</span><span>38.4 MB</span><span>folder</span>
+            <span>Applications</span><span>38.4 MB</span><span>folder</span><span></span><span>9/12/94</span>
           </div>
           <div class="sys7-list-row">
             <span></span>
             <span style="width:15px;height:15px;">${SYS7_ICONS.teachText}</span>
-            <span>Read Me First</span><span>14 K</span><span>TeachText doc</span>
+            <span>Read Me First</span><span>14 K</span><span>SimpleText document</span><span></span><span>9/12/94</span>
           </div>
           <div class="sys7-list-row" data-row="temp">
             <span></span>
             <span style="width:15px;height:15px;">${SYS7_ICONS.teachText}</span>
-            <span>Old_Cache_94</span><span>128 K</span><span>document</span>
+            <span>Old_Cache_94</span><span>128 K</span><span>document</span><span></span><span>9/12/94</span>
           </div>
         </div>
         <div class="sys7-vscroll">
@@ -411,6 +413,34 @@ export async function notePadFlip(engine) {
 }
 
 /**
+ * Stickies — a yellow note left on the desktop.
+ */
+export async function stickiesNote(engine) {
+  engine.setStatus('Stickies');
+  engine.closeAllWindows();
+  engine.setAppMenus('Stickies', ['File', 'Edit', 'Note']);
+
+  const win = engine.createWindow({
+    id: 'stickies',
+    title: '',
+    width: 230,
+    height: 170,
+    x: 196,
+    y: 86,
+    zoom: false,
+    bodyHtml: `<div class="sys7-sticky" data-sticky></div>`,
+  });
+  win.el.classList.add('sys7-stickies');
+  const note = win.body.querySelector('[data-sticky]');
+  engine.setCursorKind('ibeam');
+  await engine.typeText(note, 'Launcher is in the Apple menu.\nThis note stays on the desktop.', { charMs: 36 });
+  engine.setCursorKind('arrow');
+  await engine.wait(1100);
+  await engine.clickCloseWindow('stickies');
+  engine.setAppMenus('Finder', ['File', 'Edit', 'View', 'Label', 'Special']);
+}
+
+/**
  * 4. TeachText / SimpleText + PlainTalk Speech Manager
  */
 export async function teachTextSpeech(engine) {
@@ -444,14 +474,13 @@ export async function teachTextSpeech(engine) {
   await engine.pickMenu(
     'sound',
     [
-      { label: 'Speak All', shortcut: '⌘H' },
+      { label: 'Speak All' },
       { label: 'Stop Speaking', shortcut: '⌘.' },
       { sep: true },
       { label: 'Voices  ▸  Fred' },
     ],
     'Speak All',
   );
-  engine.sounds.sosumi();
 
   const badge = document.createElement('div');
   badge.className = 'sys7-speak-badge';
@@ -616,7 +645,7 @@ export async function puzzleDeskAccessory(engine) {
  * 7. About This Macintosh… (System Software 7.5.3 Memory Bars)
  */
 export async function aboutThisMacintosh(engine) {
-  engine.setStatus('About This Macintosh — System Software 7.5.3');
+  engine.setStatus('About This Macintosh — System Software 7.5');
   engine.closeAllWindows();
 
   await engine.pickMenu(
@@ -644,13 +673,13 @@ export async function aboutThisMacintosh(engine) {
             <div style="width:36px;height:36px;">${SYS7_ICONS.macOsFace}</div>
             <div>
               <div style="font-family:'New York',Georgia,serif;font-size:17px;font-weight:700;">Macintosh Quadra 650</div>
-              <div style="font-size:11px;">System Software 7.5.3  © Apple Computer, Inc. 1983–1995</div>
+              <div style="font-size:11px;">System Software 7.5  © Apple Computer, Inc. 1983–1994</div>
             </div>
           </div>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:11px;">
           <span><strong>Built-in Memory:</strong> 16,384 K</span>
-          <span><strong>Largest Unused Block:</strong> 9,420 K</span>
+          <span><strong>Largest Unused Block:</strong> 11,592 K</span>
         </div>
         <div style="display:flex;flex-direction:column;gap:7px;margin-top:4px;">
           <div class="sys7-ram-row">
@@ -658,12 +687,8 @@ export async function aboutThisMacintosh(engine) {
             <div class="sys7-ram-bar"><div class="sys7-ram-fill" data-bar="0" style="width:0%"></div></div>
           </div>
           <div class="sys7-ram-row">
-            <span>HyperCard 2.2</span><span>2,048 K</span>
+            <span>Finder</span><span>612 K</span>
             <div class="sys7-ram-bar"><div class="sys7-ram-fill" data-bar="1" style="width:0%"></div></div>
-          </div>
-          <div class="sys7-ram-row">
-            <span>SimpleText</span><span>512 K</span>
-            <div class="sys7-ram-bar"><div class="sys7-ram-fill" data-bar="2" style="width:0%"></div></div>
           </div>
         </div>
       </div>
@@ -671,9 +696,8 @@ export async function aboutThisMacintosh(engine) {
   });
 
   await engine.wait(220);
-  win.body.querySelector('[data-bar="0"]').style.width = '76%';
-  win.body.querySelector('[data-bar="1"]').style.width = '48%';
-  win.body.querySelector('[data-bar="2"]').style.width = '18%';
+  win.body.querySelector('[data-bar="0"]').style.width = '26%';
+  win.body.querySelector('[data-bar="1"]').style.width = '8%';
 
   await engine.wait(1900);
   await engine.clickCloseWindow('about-mac');
@@ -791,6 +815,7 @@ export const REGULAR_VIGNETTES = [
   hyperCardStack,
   finderAndBalloonHelp,
   notePadFlip,
+  stickiesNote,
   teachTextSpeech,
   desktopPatternsPanel,
   puzzleDeskAccessory,

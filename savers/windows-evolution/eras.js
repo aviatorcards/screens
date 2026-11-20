@@ -7,6 +7,38 @@ const WIN_FLAG_SVG = `
   </svg>
 `;
 
+function ico(body) {
+  return `<svg viewBox="0 0 32 32" aria-hidden="true">${body}</svg>`;
+}
+
+/* Original geometric stand-ins. Not Microsoft trademarks. */
+const GLY = {
+  pc: ico(`<rect x="7" y="2" width="18" height="14" fill="#d8d4cc" stroke="#000"/><rect x="9" y="4" width="14" height="9" fill="#000080"/><rect x="9" y="4" width="5" height="3" fill="#9ec2ff"/><rect x="13" y="16" width="6" height="3" fill="#808080"/><rect x="6" y="19" width="20" height="6" fill="#c0c0c0" stroke="#000"/><rect x="8" y="21" width="8" height="2" fill="#808080"/>`),
+  network: ico(`<rect x="2" y="4" width="12" height="9" fill="#d8d4cc" stroke="#000"/><rect x="4" y="6" width="8" height="5" fill="#000080"/><rect x="4" y="13" width="8" height="3" fill="#c0c0c0" stroke="#000"/><rect x="18" y="12" width="12" height="9" fill="#d8d4cc" stroke="#000"/><rect x="20" y="14" width="8" height="5" fill="#000080"/><rect x="20" y="21" width="8" height="3" fill="#c0c0c0" stroke="#000"/><rect x="8" y="17" width="2" height="8" fill="#404040"/><rect x="8" y="23" width="16" height="2" fill="#404040"/><rect x="22" y="24" width="2" height="4" fill="#404040"/>`),
+  bin: ico(`<rect x="8" y="5" width="16" height="3" fill="#808080" stroke="#000"/><rect x="12" y="3" width="8" height="3" fill="none" stroke="#000"/><polygon points="9,10 12,28 20,28 23,10" fill="#c8c8c8" stroke="#000"/><rect x="13" y="13" width="2" height="11" fill="#808080"/><rect x="17" y="13" width="2" height="11" fill="#808080"/>`),
+  case: ico(`<rect x="11" y="5" width="10" height="5" fill="none" stroke="#000" stroke-width="2"/><rect x="4" y="10" width="24" height="16" fill="#8a6232" stroke="#000"/><rect x="4" y="16" width="24" height="3" fill="#c4964a"/><rect x="14" y="15" width="4" height="5" fill="#f0d78c" stroke="#000"/>`),
+  folder: ico(`<path d="M4 11 H13 L15 8 H28 V26 H4 Z" fill="#f0c84a" stroke="#000"/><rect x="4" y="13" width="24" height="13" fill="#ffe07a" stroke="#000"/>`),
+  page: ico(`<rect x="7" y="3" width="16" height="24" fill="#fff" stroke="#000"/><rect x="7" y="3" width="3" height="24" fill="#c62828"/><rect x="13" y="8" width="7" height="2" fill="#222"/><rect x="13" y="13" width="7" height="2" fill="#222"/><rect x="13" y="18" width="5" height="2" fill="#222"/>`),
+  notepad: ico(`<rect x="7" y="3" width="18" height="24" fill="#fff" stroke="#000"/><rect x="7" y="3" width="18" height="4" fill="#1d4e9c"/><rect x="10" y="11" width="12" height="2" fill="#2458b5"/><rect x="10" y="15" width="12" height="2" fill="#2458b5"/><rect x="10" y="19" width="8" height="2" fill="#2458b5"/>`),
+  paint: ico(`<rect x="3" y="6" width="18" height="16" fill="#fff" stroke="#000"/><circle cx="8" cy="12" r="2" fill="#e53935"/><circle cx="13" cy="12" r="2" fill="#fdd835"/><circle cx="18" cy="16" r="2" fill="#1e88e5"/><rect x="20" y="8" width="4" height="14" rx="1" fill="#8d6e63" stroke="#000" transform="rotate(28 22 15)"/>`),
+  card: ico(`<rect x="8" y="3" width="16" height="26" fill="#fff" stroke="#000"/><polygon points="16,8 20,14 16,20 12,14" fill="#c62828"/>`),
+  mine: ico(`<rect x="5" y="5" width="22" height="22" fill="#c0c0c0" stroke="#000"/><rect x="6" y="6" width="20" height="3" fill="#fff"/><rect x="15" y="9" width="2" height="12" fill="#222"/><polygon points="17,9 25,13 17,17" fill="#d32f2f"/>`),
+  disc: ico(`<circle cx="16" cy="16" r="12" fill="#d5d8e0" stroke="#000"/><circle cx="16" cy="16" r="4" fill="#f7f7f7" stroke="#000"/><circle cx="16" cy="16" r="1.6" fill="#222"/><path d="M10 10 A8 8 0 0 1 20 8" fill="none" stroke="#fff" stroke-width="2"/>`),
+  globe: ico(`<circle cx="16" cy="16" r="12" fill="#1e88e5" stroke="#0d3f73"/><ellipse cx="16" cy="16" rx="5" ry="12" fill="none" stroke="#fff" stroke-width="1.3"/><path d="M5 16 H27 M7 11 H25 M7 21 H25" fill="none" stroke="#fff" stroke-width="1.2"/>`),
+  mail: ico(`<rect x="3" y="8" width="26" height="16" fill="#fff" stroke="#000"/><path d="M3 8 L16 19 L29 8" fill="none" stroke="#000" stroke-width="1.4"/>`),
+  monitor: ico(`<rect x="4" y="5" width="24" height="16" fill="#d8d4cc" stroke="#000"/><rect x="7" y="8" width="18" height="10" fill="#000080"/><rect x="12" y="21" width="8" height="3" fill="#808080"/><rect x="8" y="24" width="16" height="3" fill="#c0c0c0" stroke="#000"/>`),
+  speaker: ico(`<polygon points="6,12 12,12 20,6 20,26 12,20 6,20" fill="#d0d0d0" stroke="#000"/><path d="M23 12 Q27 16 23 20" fill="none" stroke="#222" stroke-width="1.6"/>`),
+  shield: ico(`<polygon points="16,3 28,8 26,18 16,29 6,18 4,8" fill="#2458b5" stroke="#0c2f66"/><polygon points="16,8 23,11 22,17 16,24 10,17 9,11" fill="#8eb6ef"/>`),
+  find: ico(`<circle cx="13" cy="13" r="7" fill="#fff" stroke="#000080" stroke-width="3"/><rect x="18" y="17" width="3" height="10" rx="1" fill="#333" transform="rotate(-40 19 18)"/>`),
+  help: ico(`<circle cx="16" cy="16" r="12" fill="#000080"/><path d="M12 13c.4-2.4 2.2-3.8 4.4-3.8 2.6 0 4.2 1.5 4.2 3.6 0 1.8-1.1 2.7-2.6 3.6-1 .6-1.5 1.1-1.5 2.3v.6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="16.4" cy="23" r="1.4" fill="#fff"/>`),
+  sliders: ico(`<rect x="4" y="7" width="24" height="3" fill="#808080"/><rect x="4" y="15" width="24" height="3" fill="#808080"/><rect x="4" y="23" width="24" height="3" fill="#808080"/><rect x="8" y="4" width="6" height="9" fill="#c0c0c0" stroke="#000"/><rect x="18" y="12" width="6" height="9" fill="#c0c0c0" stroke="#000"/><rect x="11" y="20" width="6" height="9" fill="#c0c0c0" stroke="#000"/>`),
+  programs: ico(`<rect x="4" y="4" width="24" height="24" fill="#c0c0c0" stroke="#000"/><rect x="4" y="4" width="24" height="6" fill="#000080"/><rect x="8" y="14" width="16" height="2" fill="#222"/><rect x="8" y="18" width="12" height="2" fill="#222"/><rect x="8" y="22" width="14" height="2" fill="#222"/>`),
+  run: ico(`<rect x="4" y="6" width="18" height="16" fill="#fff" stroke="#000"/><rect x="4" y="6" width="18" height="4" fill="#000080"/><polygon points="18,14 28,19 18,24" fill="#2e7d32"/>`),
+  calc: ico(`<rect x="6" y="3" width="20" height="26" fill="#d0d0d0" stroke="#000"/><rect x="9" y="6" width="14" height="6" fill="#c5e17a" stroke="#000"/><rect x="9" y="15" width="4" height="4" fill="#fff" stroke="#000"/><rect x="15" y="15" width="4" height="4" fill="#fff" stroke="#000"/><rect x="21" y="15" width="4" height="4" fill="#fff" stroke="#000"/><rect x="9" y="21" width="4" height="4" fill="#fff" stroke="#000"/><rect x="15" y="21" width="4" height="4" fill="#fff" stroke="#000"/>`),
+  hdd: ico(`<rect x="5" y="8" width="22" height="16" fill="#e4e4e4" stroke="#000"/><rect x="5" y="8" width="22" height="5" fill="#000080"/><circle cx="22" cy="19" r="2.2" fill="#43a047" stroke="#000"/>`),
+  media: ico(`<rect x="4" y="6" width="24" height="20" rx="2" fill="#1a1a1a" stroke="#000"/><polygon points="13,11 22,16 13,21" fill="#f5f5f5"/>`),
+};
+
 /* =====================================================================
    ERA 1: MS-DOS 3.1 (1985) → Upgrade to Windows 1.01
    ===================================================================== */
@@ -95,7 +127,7 @@ export async function eraWin1(engine, signal) {
     <div class="wev-win1">
       <div class="wev-win1-tiles">
         <div class="wev-win1-pane">
-          <div class="wev-win1-title"><span>≡</span><span>MS-DOS Executive</span><span>▲</span></div>
+          <div class="wev-win1-title"><i class="w1-sys"></i><span>MS-DOS Executive</span><i class="w1-zoom"></i></div>
           <div class="wev-win1-menu"><span>File</span><span>View</span><span>Special</span></div>
           <div class="wev-win1-body">
             <div style="margin-bottom:10px;font-weight:700;">A:  [C:]   C:\\WINDOWS</div>
@@ -113,22 +145,22 @@ export async function eraWin1(engine, signal) {
         </div>
         <div class="wev-win1-right">
           <div class="wev-win1-pane">
-            <div class="wev-win1-title inactive"><span>≡</span><span>Clock</span><span>▲</span></div>
+            <div class="wev-win1-title inactive"><i class="w1-sys"></i><span>Clock</span><i class="w1-zoom"></i></div>
             <div class="wev-win1-body" style="display:grid;place-items:center;">
               <canvas id="w1-clock" width="150" height="150"></canvas>
             </div>
           </div>
           <div class="wev-win1-pane">
-            <div class="wev-win1-title"><span>≡</span><span>Notepad - NOTES.TXT</span><span>▲</span></div>
+            <div class="wev-win1-title"><i class="w1-sys"></i><span>Notepad - NOTES.TXT</span><i class="w1-zoom"></i></div>
             <div class="wev-win1-menu"><span>File</span><span>Edit</span><span>Search</span></div>
             <div class="wev-win1-body" id="w1-notepad"></div>
           </div>
         </div>
       </div>
       <div class="wev-win1-tray">
-        <div class="wev-win1-icon">REVERSI</div>
-        <div class="wev-win1-icon">PAINT</div>
-        <div class="wev-win1-icon">CALC</div>
+        <div class="wev-win1-icon"><span class="wev-ico">${GLY.card}</span>REVERSI</div>
+        <div class="wev-win1-icon"><span class="wev-ico">${GLY.paint}</span>PAINT</div>
+        <div class="wev-win1-icon"><span class="wev-ico">${GLY.calc}</span>CALC</div>
       </div>
     </div>
   `);
@@ -228,18 +260,18 @@ export async function eraWin31(engine, signal) {
   const stage = engine.setStageHtml(`
     <div class="wev-win31">
       <div class="w31-win" style="left:40px;top:34px;width:min(540px,82vw);height:320px;">
-        <div class="w31-bar"><div class="w31-ctrl">—</div><span>Program Manager</span><div class="w31-ctrl">▲</div></div>
+        <div class="w31-bar"><i class="w31-ctrl sys"></i><span>Program Manager</span><span class="w31-caps"><i class="w31-ctrl min"></i><i class="w31-ctrl max"></i></span></div>
         <div class="w31-menu"><span data-w31-file><u>F</u>ile</span><span><u>O</u>ptions</span><span><u>W</u>indow</span><span><u>H</u>elp</span></div>
-        <div class="w31-body" style="background:#c0c0c0;">
+        <div class="w31-body">
           <div class="w31-win" style="left:16px;top:14px;width:calc(100% - 34px);height:210px;">
-            <div class="w31-bar"><div class="w31-ctrl">—</div><span>Accessories &amp; Games</span><div class="w31-ctrl">▼</div></div>
+            <div class="w31-bar"><i class="w31-ctrl sys"></i><span>Accessories &amp; Games</span><span class="w31-caps"><i class="w31-ctrl min"></i><i class="w31-ctrl max"></i></span></div>
             <div class="w31-body">
               <div class="w31-icons">
-                <div class="w31-app-icon" data-w31-app="write"><div class="w31-glyph">📝</div><span>Write</span></div>
-                <div class="w31-app-icon" data-w31-app="paint"><div class="w31-glyph">🎨</div><span>Paintbrush</span></div>
-                <div class="w31-app-icon" data-w31-app="sol"><div class="w31-glyph">🃏</div><span>Solitaire</span></div>
-                <div class="w31-app-icon" data-w31-app="mines"><div class="w31-glyph">💣</div><span>Minesweeper</span></div>
-                <div class="w31-app-icon" data-w31-app="win95"><div class="w31-glyph">💿</div><span>Win95 Setup</span></div>
+                <div class="w31-app-icon" data-w31-app="write"><div class="w31-glyph">${GLY.page}</div><span>Write</span></div>
+                <div class="w31-app-icon" data-w31-app="paint"><div class="w31-glyph">${GLY.paint}</div><span>Paintbrush</span></div>
+                <div class="w31-app-icon" data-w31-app="sol"><div class="w31-glyph">${GLY.card}</div><span>Solitaire</span></div>
+                <div class="w31-app-icon" data-w31-app="mines"><div class="w31-glyph">${GLY.mine}</div><span>Minesweeper</span></div>
+                <div class="w31-app-icon" data-w31-app="win95"><div class="w31-glyph">${GLY.disc}</div><span>Win95 Setup</span></div>
               </div>
             </div>
           </div>
@@ -261,16 +293,16 @@ export async function eraWin31(engine, signal) {
 
   overlay.innerHTML = `
     <div class="w31-win" style="left:140px;top:92px;width:min(460px,82vw);height:250px;z-index:20;">
-      <div class="w31-bar"><div class="w31-ctrl" data-w31-close>—</div><span>Write - NOTES.TXT</span><div class="w31-ctrl">▲</div></div>
+      <div class="w31-bar"><i class="w31-ctrl sys" data-w31-close></i><span>Write - NOTES.TXT</span><span class="w31-caps"><i class="w31-ctrl min"></i><i class="w31-ctrl max"></i></span></div>
       <div class="w31-menu"><span>File</span><span>Edit</span><span>Character</span><span>Paragraph</span></div>
-      <div class="w31-body" id="w31-doc" style="font-family:Georgia,serif;font-size:13px;white-space:pre-wrap;"></div>
+      <div class="w31-body w31-doc" id="w31-doc" style="font-family:Georgia,serif;font-size:13px;white-space:pre-wrap;"></div>
     </div>
   `;
   const docEl = overlay.querySelector('#w31-doc');
   const existing = engine.journalLines.join('\n');
   docEl.textContent = existing;
   await engine.click(docEl, { rx: 0.3, ry: 0.5 }, signal);
-  const addition = `\n[1992 · Windows 3.1] Overlapping windows, TrueType fonts & Solitaire!`;
+  const addition = `\n[1992 · Windows 3.1] TrueType fonts and Minesweeper.`;
   engine.journalLines.push(addition.trim());
   await engine.typeInto(docEl, addition, { prefix: existing, delay: 40, removeCaretAtEnd: true }, signal);
   await engine.wait(1000, signal);
@@ -330,19 +362,19 @@ export async function eraWin95(engine, signal) {
     <div class="wev-w9x">
       <div class="w9x-desk" id="w95-desk">
         <div class="w9x-icons">
-          <div class="w9x-icon"><div class="w9x-icon-box">💻</div><span>My Computer</span></div>
-          <div class="w9x-icon"><div class="w9x-icon-box">🌐</div><span>Network Neighborhood</span></div>
-          <div class="w9x-icon"><div class="w9x-icon-box">🗑</div><span>Recycle Bin</span></div>
-          <div class="w9x-icon"><div class="w9x-icon-box">💼</div><span>My Briefcase</span></div>
+          <div class="w9x-icon"><div class="w9x-icon-box">${GLY.pc}</div><span>My Computer</span></div>
+          <div class="w9x-icon"><div class="w9x-icon-box">${GLY.network}</div><span>Network Neighborhood</span></div>
+          <div class="w9x-icon"><div class="w9x-icon-box">${GLY.bin}</div><span>Recycle Bin</span></div>
+          <div class="w9x-icon"><div class="w9x-icon-box">${GLY.case}</div><span>My Briefcase</span></div>
         </div>
         <div id="w95-layer"></div>
       </div>
       <div class="w9x-taskbar">
         <div class="w9x-tb-left">
           <div class="w9x-start" id="w95-start">${WIN_FLAG_SVG}<span>Start</span></div>
-          <div class="w9x-tb-task" id="w95-task" style="display:none;">📝 My Journal.rtf</div>
+          <div class="w9x-tb-task" id="w95-task" style="display:none;"><span class="wev-ico">${GLY.page}</span>My Journal.rtf</div>
         </div>
-        <div class="w9x-tray"><span>🔊</span><span id="w95-clock">${clk.timeStr}</span></div>
+        <div class="w9x-tray"><span class="wev-ico">${GLY.speaker}</span><span id="w95-clock">${clk.timeStr}</span></div>
       </div>
     </div>
   `);
@@ -360,12 +392,12 @@ export async function eraWin95(engine, signal) {
     <div class="w9x-start-menu" id="w95-sm">
       <div class="w9x-start-rail">Windows 95</div>
       <div class="w9x-start-items">
-        <div class="w9x-start-item">📂 Programs ▸</div>
-        <div class="w9x-start-item active" data-sm="wordpad">📝 Documents — My Journal</div>
-        <div class="w9x-start-item">⚙ Settings ▸</div>
-        <div class="w9x-start-item">🔍 Find ▸</div>
-        <div class="w9x-start-item">❓ Help</div>
-        <div class="w9x-start-item">▶ Run…</div>
+        <div class="w9x-start-item"><span class="wev-ico">${GLY.programs}</span>Programs ▸</div>
+        <div class="w9x-start-item active" data-sm="wordpad"><span class="wev-ico">${GLY.page}</span>Documents — My Journal</div>
+        <div class="w9x-start-item"><span class="wev-ico">${GLY.sliders}</span>Settings ▸</div>
+        <div class="w9x-start-item"><span class="wev-ico">${GLY.find}</span>Find ▸</div>
+        <div class="w9x-start-item"><span class="wev-ico">${GLY.help}</span>Help</div>
+        <div class="w9x-start-item"><span class="wev-ico">${GLY.run}</span>Run…</div>
       </div>
     </div>
   `;
@@ -375,7 +407,7 @@ export async function eraWin95(engine, signal) {
 
   layer.innerHTML = `
     <div class="w9x-win" style="left:130px;top:48px;width:min(510px,82vw);height:285px;">
-      <div class="w9x-bar"><span>My Journal.rtf - WordPad</span><div class="w9x-bar-btns"><div class="w9x-b">_</div><div class="w9x-b">□</div><div class="w9x-b" data-w95-x>✕</div></div></div>
+      <div class="w9x-bar"><span class="wev-ico">${GLY.page}</span><span class="w9x-title-text">My Journal.rtf - WordPad</span><div class="w9x-bar-btns"><i class="w9x-b min"></i><i class="w9x-b max"></i><i class="w9x-b close" data-w95-x></i></div></div>
       <div class="w9x-body" id="w95-doc" style="font-family:Georgia,serif;"></div>
     </div>
   `;
@@ -393,10 +425,10 @@ export async function eraWin95(engine, signal) {
   cdDlg.className = 'w9x-win';
   cdDlg.style.cssText = 'left:50%;top:50%;transform:translate(-50%,-50%);width:400px;z-index:260;';
   cdDlg.innerHTML = `
-    <div class="w9x-bar"><span>Windows 98 CD-ROM</span><div class="w9x-bar-btns"><div class="w9x-b">✕</div></div></div>
+    <div class="w9x-bar"><span class="wev-ico">${GLY.disc}</span><span class="w9x-title-text">Windows 98 CD-ROM</span><div class="w9x-bar-btns"><i class="w9x-b close"></i></div></div>
     <div style="padding:14px 16px;display:flex;flex-direction:column;gap:14px;font-size:12px;">
       <div style="display:flex;gap:12px;align-items:flex-start;">
-        <span style="font-size:28px;">💿</span>
+        <span class="w9x-dlg-ico">${GLY.disc}</span>
         <div>This CD-ROM contains a newer version of Windows than the one you are presently using. Would you like to upgrade to <strong>Windows 98 Second Edition</strong>?</div>
       </div>
       <div style="display:flex;justify-content:flex-end;gap:10px;">
@@ -409,7 +441,7 @@ export async function eraWin95(engine, signal) {
   await engine.wait(850, signal);
   await engine.click(cdDlg.querySelector('[data-cd-yes]'), { pressClass: 'pressed' }, signal);
 
-  engine.onStatus('Upgrading Windows 95 → Windows 98 SE (1998)');
+  engine.onStatus('Upgrading Windows 95 → Windows 98 SE (1999)');
   await engine.runGraphicalWizard(
     {
       title: 'Windows 98 Second Edition Setup',
@@ -421,7 +453,7 @@ export async function eraWin95(engine, signal) {
         '5. Setting up hardware and finalizing settings',
       ],
       billboards: [
-        ['Faster, Easier, More Reliable', 'Windows 98 SE adds USB support, FAT32, Quick Launch, and Internet Explorer 5.'],
+        ['Internet Explorer 5', 'Windows 98 Second Edition, from 1999, includes Internet Explorer 5 and Internet Connection Sharing.'],
         ['Your Files Stay Right Where They Are', 'Preserving My Journal.rtf and Windows 95 settings during upgrade.'],
       ],
     },
@@ -432,7 +464,7 @@ export async function eraWin95(engine, signal) {
     <div class="wev-splash cloud">
       <div style="transform:scale(2.8);margin-bottom:14px;">${WIN_FLAG_SVG}</div>
       <div style="font-size:38px;font-weight:900;letter-spacing:-0.03em;">Microsoft <span style="font-weight:400;">Windows</span> 98</div>
-      <div style="font-size:13px;font-weight:700;color:#1e3f7a;">Second Edition · USB &amp; Active Desktop</div>
+      <div style="font-size:13px;font-weight:700;color:#1e3f7a;">Second Edition · 1999</div>
     </div>
   `);
   engine.sounds.win98Startup();
@@ -440,11 +472,11 @@ export async function eraWin95(engine, signal) {
 }
 
 /* =====================================================================
-   ERA 5: Windows 98 SE (1998 · Quick Launch & IE5) → Upgrade to Windows XP
+   ERA 5: Windows 98 SE (1999 · IE5) → Upgrade to Windows XP
    ===================================================================== */
 export async function eraWin98(engine, signal) {
-  engine.onStatus('1998 · Windows 98 SE — Active Desktop & IE 5');
-  engine.setEraBadge('1998 · Windows 98 SE · Pentium II 350 · 64 MB RAM');
+  engine.onStatus('1999 · Windows 98 SE — Internet Explorer 5');
+  engine.setEraBadge('1999 · Windows 98 SE · Pentium II 350 · 64 MB RAM');
 
   if (engine.journalLines.length === 0) {
     engine.journalLines = ['[1985 · MS-DOS 3.1] Started NOTES.TXT on a 286 with 640K RAM.'];
@@ -455,9 +487,9 @@ export async function eraWin98(engine, signal) {
     <div class="wev-w9x win98">
       <div class="w9x-desk">
         <div class="w9x-icons">
-          <div class="w9x-icon"><div class="w9x-icon-box">💻</div><span>My Computer</span></div>
-          <div class="w9x-icon"><div class="w9x-icon-box">🌐</div><span>Internet Explorer</span></div>
-          <div class="w9x-icon"><div class="w9x-icon-box">🗑</div><span>Recycle Bin</span></div>
+          <div class="w9x-icon"><div class="w9x-icon-box">${GLY.pc}</div><span>My Computer</span></div>
+          <div class="w9x-icon"><div class="w9x-icon-box">${GLY.globe}</div><span>Internet Explorer</span></div>
+          <div class="w9x-icon"><div class="w9x-icon-box">${GLY.bin}</div><span>Recycle Bin</span></div>
         </div>
         <div id="w98-layer"></div>
       </div>
@@ -465,10 +497,10 @@ export async function eraWin98(engine, signal) {
         <div class="w9x-tb-left">
           <div class="w9x-start">${WIN_FLAG_SVG}<span>Start</span></div>
           <div style="border-left:1px solid #808080;border-right:1px solid #fff;height:18px;margin:0 2px;"></div>
-          <span title="Quick Launch" style="font-size:13px;display:inline-flex;gap:7px;padding:0 4px;"><span>🌐</span><span>✉</span><span>🖥</span></span>
-          <div class="w9x-tb-task">📝 My Journal — Notepad</div>
+          <span class="w9x-ql" title="Quick Launch"><span class="wev-ico">${GLY.globe}</span><span class="wev-ico">${GLY.mail}</span><span class="wev-ico">${GLY.monitor}</span></span>
+          <div class="w9x-tb-task"><span class="wev-ico">${GLY.notepad}</span>My Journal — Notepad</div>
         </div>
-        <div class="w9x-tray"><span>🔊</span><span>${clk.timeStr}</span></div>
+        <div class="w9x-tray"><span class="wev-ico">${GLY.speaker}</span><span>${clk.timeStr}</span></div>
       </div>
     </div>
   `);
@@ -477,7 +509,7 @@ export async function eraWin98(engine, signal) {
   const layer = stage.querySelector('#w98-layer');
   layer.innerHTML = `
     <div class="w9x-win" style="left:128px;top:40px;width:min(520px,82vw);height:290px;">
-      <div class="w9x-bar"><span>My Journal.txt - Notepad</span><div class="w9x-bar-btns"><div class="w9x-b">_</div><div class="w9x-b">□</div><div class="w9x-b">✕</div></div></div>
+      <div class="w9x-bar"><span class="wev-ico">${GLY.notepad}</span><span class="w9x-title-text">My Journal.txt - Notepad</span><div class="w9x-bar-btns"><i class="w9x-b min"></i><i class="w9x-b max"></i><i class="w9x-b close"></i></div></div>
       <div class="w9x-body" id="w98-doc" style="font-family:'Courier New',monospace;font-size:12.5px;"></div>
     </div>
   `;
@@ -487,7 +519,7 @@ export async function eraWin98(engine, signal) {
 
   await engine.wait(650, signal);
   await engine.click(docEl, { rx: 0.3, ry: 0.68 }, signal);
-  const addition = `\n[1998 · Windows 98 SE] Gradient title bars, Quick Launch & USB!`;
+  const addition = `\n[1999 · Windows 98 SE] Internet Explorer 5 and Internet Connection Sharing.`;
   engine.journalLines.push(addition.trim());
   await engine.typeInto(docEl, addition, { prefix: existing, delay: 40, removeCaretAtEnd: true }, signal);
   await engine.wait(950, signal);
@@ -524,7 +556,7 @@ export async function eraWin98(engine, signal) {
       ],
       billboards: [
         ['An exciting new look — Luna & Bliss', 'Windows XP brings a crisp, modern desktop built on rock-solid Windows NT technology.'],
-        ['Your 1985–1998 files come with you', 'Migrating My Journal.txt seamlessly from FAT32 to NTFS.'],
+        ['Your 1985–1999 files come with you', 'Migrating My Journal.txt onto the Windows XP disk.'],
         ['Faster, smarter, more reliable', 'Completing installation on Pentium 4 1.8 GHz with 256 MB RAM.'],
       ],
     },
@@ -557,9 +589,9 @@ export async function eraWinXp(engine, signal) {
   if (engine.journalLines.length === 0) {
     engine.journalLines = [
       '[1985 · MS-DOS 3.1] Started NOTES.TXT on a 286 with 640K RAM.',
-      '[1992 · Windows 3.1] Overlapping windows, TrueType fonts & Solitaire!',
+      '[1992 · Windows 3.1] TrueType fonts and Minesweeper.',
       '[1995 · Windows 95] Long filenames, the Start button, and 32-bit speed!',
-      '[1998 · Windows 98 SE] Gradient title bars, Quick Launch & USB!',
+      '[1999 · Windows 98 SE] Internet Explorer 5 and Internet Connection Sharing.',
     ];
   }
 
@@ -568,15 +600,15 @@ export async function eraWinXp(engine, signal) {
     <div class="wev-xp">
       <div class="xp-desk" id="xp-desk">
         <div class="w9x-icons">
-          <div class="w9x-icon"><div class="w9x-icon-box">💻</div><span>My Computer</span></div>
-          <div class="w9x-icon"><div class="w9x-icon-box">📁</div><span>My Documents</span></div>
-          <div class="w9x-icon"><div class="w9x-icon-box">🗑</div><span>Recycle Bin</span></div>
+          <div class="w9x-icon"><div class="w9x-icon-box">${GLY.pc}</div><span>My Computer</span></div>
+          <div class="w9x-icon"><div class="w9x-icon-box">${GLY.folder}</div><span>My Documents</span></div>
+          <div class="w9x-icon"><div class="w9x-icon-box">${GLY.bin}</div><span>Recycle Bin</span></div>
         </div>
         <div id="xp-layer"></div>
       </div>
       <div class="xp-taskbar">
         <div class="xp-start" id="xp-start">${WIN_FLAG_SVG}<span>start</span></div>
-        <div class="xp-tray"><span>🔊</span><span>🛡</span><span>${clk.timeStr}</span></div>
+        <div class="xp-tray"><span class="wev-ico">${GLY.speaker}</span><span class="wev-ico">${GLY.shield}</span><span>${clk.timeStr}</span></div>
       </div>
     </div>
   `);
@@ -590,7 +622,7 @@ export async function eraWinXp(engine, signal) {
   engine.sounds.balloonPop();
   const balloon = document.createElement('div');
   balloon.className = 'xp-balloon';
-  balloon.innerHTML = `<strong>ⓘ Take a tour of Windows XP</strong><br/>Upgrade complete! Your files from MS-DOS through Windows 98 are ready in My Documents.`;
+  balloon.innerHTML = `<strong><i class="xp-bang"></i>Take a tour of Windows XP</strong><br/>Upgrade complete! Your files from MS-DOS through Windows 98 are ready in My Documents.`;
   layer.appendChild(balloon);
   await engine.wait(1500, signal);
 
@@ -599,14 +631,14 @@ export async function eraWinXp(engine, signal) {
   balloon.remove();
   layer.innerHTML = `
     <div class="xp-start-menu">
-      <div class="xp-sm-head"><span style="background:#fff;color:#1d56c4;border-radius:4px;padding:3px 6px;">☺</span><span>Tristan</span></div>
+      <div class="xp-sm-head"><span class="xp-user"></span><span>Tristan</span></div>
       <div class="xp-sm-cols">
         <div class="xp-sm-left">
-          <div class="xp-sm-item">🌐 Internet Explorer</div>
-          <div class="xp-sm-item">✉ Outlook Express</div>
-          <div class="xp-sm-item active" data-xp-np>📝 Notepad — My Journal</div>
-          <div class="xp-sm-item">🎨 Paint</div>
-          <div class="xp-sm-item">🎵 Windows Media Player</div>
+          <div class="xp-sm-item"><span class="wev-ico">${GLY.globe}</span>Internet Explorer</div>
+          <div class="xp-sm-item"><span class="wev-ico">${GLY.mail}</span>Outlook Express</div>
+          <div class="xp-sm-item active" data-xp-np><span class="wev-ico">${GLY.notepad}</span>Notepad — My Journal</div>
+          <div class="xp-sm-item"><span class="wev-ico">${GLY.paint}</span>Paint</div>
+          <div class="xp-sm-item"><span class="wev-ico">${GLY.media}</span>Windows Media Player</div>
         </div>
         <div class="xp-sm-right">
           <div class="xp-sm-item">My Documents</div>
@@ -623,7 +655,7 @@ export async function eraWinXp(engine, signal) {
   // Open My Computer + Notepad side-by-side showing the full 16-year journey!
   layer.innerHTML = `
     <div class="xp-win" style="left:110px;top:36px;width:min(540px,82vw);height:310px;">
-      <div class="xp-bar"><span>My Journal.txt - Notepad</span><div class="xp-close" data-xp-x>✕</div></div>
+      <div class="xp-bar"><span class="wev-ico">${GLY.notepad}</span><span class="xp-title-text">My Journal.txt - Notepad</span><div class="xp-caps"><i class="xp-cap min"></i><i class="xp-cap max"></i><i class="xp-close" data-xp-x></i></div></div>
       <div class="xp-body" id="xp-doc" style="font-family:'Courier New',monospace;font-size:12.5px;"></div>
     </div>
   `;
@@ -640,7 +672,7 @@ export async function eraWinXp(engine, signal) {
   await engine.click(layer.querySelector('[data-xp-x]'), {}, signal);
   layer.innerHTML = `
     <div class="xp-win" style="left:130px;top:46px;width:min(540px,82vw);height:286px;">
-      <div class="xp-bar"><span>My Computer</span><div class="xp-close" data-xp-mcx>✕</div></div>
+      <div class="xp-bar"><span class="wev-ico">${GLY.pc}</span><span class="xp-title-text">My Computer</span><div class="xp-caps"><i class="xp-cap min"></i><i class="xp-cap max"></i><i class="xp-close" data-xp-mcx></i></div></div>
       <div class="xp-explorer">
         <div class="xp-sidebar">
           <div class="xp-sidecard">
@@ -653,9 +685,9 @@ export async function eraWinXp(engine, signal) {
           </div>
         </div>
         <div style="padding:14px;display:flex;flex-wrap:wrap;gap:18px;align-content:flex-start;font-size:12px;">
-          <div style="text-align:center;width:96px;"><div style="font-size:28px;">💾</div><div>Local Disk (C:)</div></div>
-          <div style="text-align:center;width:96px;"><div style="font-size:28px;">💿</div><div>CD-RW Drive (D:)</div></div>
-          <div style="text-align:center;width:96px;"><div style="font-size:28px;">📁</div><div>Shared Documents</div></div>
+          <div class="xp-drive"><div class="w9x-icon-box">${GLY.hdd}</div><div>Local Disk (C:)</div></div>
+          <div class="xp-drive"><div class="w9x-icon-box">${GLY.disc}</div><div>CD-RW Drive (D:)</div></div>
+          <div class="xp-drive"><div class="w9x-icon-box">${GLY.folder}</div><div>Shared Documents</div></div>
         </div>
       </div>
     </div>
@@ -667,7 +699,7 @@ export async function eraWinXp(engine, signal) {
   engine.sounds.balloonPop();
   const endBalloon = document.createElement('div');
   endBalloon.className = 'xp-balloon';
-  endBalloon.innerHTML = `<strong>ⓘ 1985 → 2001 Evolution Complete</strong><br/>Rewinding back to MS-DOS 3.1 to replay the upgrade timeline…`;
+  endBalloon.innerHTML = `<strong><i class="xp-bang"></i>1985 → 2001 Evolution Complete</strong><br/>Rewinding back to MS-DOS 3.1 to replay the upgrade timeline…`;
   layer.appendChild(endBalloon);
   await engine.wait(2600, signal);
 }

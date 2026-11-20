@@ -61,7 +61,7 @@ async function finderCleanup(engine, signal) {
       { id: 'docs', name: 'Documents', icon: ICONS.folder, date: d.fmtOffset(64), size: '--', kind: 'folder' },
       { id: 'util', name: 'Utilities', icon: ICONS.folder, date: d.fmtOffset(2880), size: '--', kind: 'folder' },
       { id: 'tmp1', name: 'Temp_Cache.tmp', icon: ICONS.simpleTextDoc, date: d.fmtOffset(42), size: '184 K', kind: 'document' },
-      { id: 'tmp2', name: 'Old_Installer.hqx', icon: ICONS.simpleTextDoc, date: d.fmtOffset(510), size: '2.4 MB', kind: 'StuffIt archive' },
+      { id: 'tmp2', name: 'Old_Installer.hqx', icon: ICONS.simpleTextDoc, date: d.fmtOffset(510), size: '2.4 MB', kind: 'BinHex document' },
     ],
   });
 
@@ -127,7 +127,7 @@ async function simpleTextJournal(engine, signal) {
   const box = engine.getSafeDesktopBox();
   const entries = [
     `Mac OS 9.2 Studio Notes — ${d.headerDate}\n----------------------------------------\n\n• Cleaned up Macintosh HD and freed 184 KB.\n• Burned latest project archive to Backup Zip 100.\n• Remember to test the new site in Netscape 4.7 at 1024x768.\n• Still amazed how snappy this PowerPC G4 feels at ${d.timeStr}.`,
-    `Ideas for ${d.weekday} — ${d.shortDate}\n==============================\n\n1. Download SoundJam MP skins from VersionTracker.\n2. Sort desktop patterns in Appearance Manager.\n3. Render QuickTime 4 preview before dinner.\n4. Don't forget to check AIM & Outlook Express later!`,
+    `Ideas for ${d.weekday} — ${d.shortDate}\n==============================\n\n1. Play the studio playlist in iTunes.\n2. Sort desktop patterns in Appearance Manager.\n3. Render a QuickTime 5 preview before dinner.\n4. Don't forget to check AIM & Outlook Express later!`,
     `Quick ReadMe — ${d.headerDate}\n------------------------------\n\nEverything is backed up on the blue Zip 100 disk.\nIf Sherlock 2 finishes indexing Macintosh HD, we'll have instant file search across all folders.\n\nSigned at ${d.timeStr} on Mac OS 9.2.2.`,
   ];
 
@@ -281,8 +281,8 @@ async function sherlockSearch(engine, signal) {
       results: [
         { title: 'Mac OS 9.2.2 Update — Apple Support', score: 98, site: 'support.apple.com', summary: '<strong>Mac OS 9.2.2</strong> improves Classic environment compatibility, Finder responsiveness, and USB/FireWire audio stability.' },
         { title: 'Sherlock 2 Channel Plug-ins Guide', score: 86, site: 'apple.com/sherlock', summary: 'Add custom search plug-ins to Sherlock 2 to query Apple TIL, VersionTracker, and reference sites right from your desktop.' },
-        { title: 'QuickTime 4.1.2 for Macintosh', score: 74, site: 'apple.com/quicktime', summary: 'Stream live media, interactive VR panoramas, and Sorenson Video movies directly in QuickTime Player.' },
-        { title: 'CarbonLib 1.6 System Extension', score: 65, site: 'info.apple.com', summary: 'Required runtime library enabling modern Carbon applications on Mac OS 8.6 and Mac OS 9.' },
+        { title: 'QuickTime 5 for Macintosh', score: 74, site: 'apple.com/quicktime', summary: 'Stream live media, interactive VR panoramas, and Sorenson Video movies directly in QuickTime Player.' },
+        { title: 'CarbonLib for Mac OS 9', score: 65, site: 'info.apple.com', summary: 'Runtime library for Carbon applications on Mac OS 9.' },
       ],
     },
     {
@@ -291,7 +291,7 @@ async function sherlockSearch(engine, signal) {
       results: [
         { title: 'Say Hello to iMac DV Special Edition', score: 96, site: 'www.apple.com', summary: '<strong>400MHz PowerPC G3</strong>, Graphite translucent enclosure, dual 400Mbps FireWire ports, and iMovie included.' },
         { title: 'MacNN Review: iMac DV & iMovie', score: 89, site: 'www.macnn.com', summary: 'Desktop video editing has never been easier — plug in a DV camcorder and edit clips right out of the box.' },
-        { title: 'RAM Upgrade Guide (PC100 SDRAM)', score: 72, site: 'www.everymac.com', summary: 'Supports up to 512 MB or 1 GB of PC100 168-pin SDRAM via the convenient bottom access door.' },
+        { title: 'RAM Upgrade Guide (PC100 SDRAM)', score: 72, site: 'www.everymac.com', summary: 'The iMac takes 144-pin PC100 SO-DIMMs through the bottom access door.' },
         { title: 'AirPort 802.11b Wireless Card Setup', score: 61, site: 'til.info.apple.com', summary: 'Snap in an AirPort card for 11 Mbps wireless networking across your home or studio.' },
       ],
     },
@@ -578,7 +578,7 @@ async function zipBackup(engine, signal) {
   const box = engine.getSafeDesktopBox();
   const projWin = createFinderWindow(engine, {
     id: 'win-projects',
-    title: "Projects '99",
+    title: 'Projects',
     titleIcon: ICONS.folder,
     x: box.left + 64,
     y: box.top + 52,
@@ -599,6 +599,7 @@ async function zipBackup(engine, signal) {
   const siteEl = projWin.getItemEl('site');
   await engine.drag(siteEl, zipIcon, `${ICONS.folder}<span>Website_Final_v2</span>`, signal);
 
+  engine.setCursorMode('watch');
   const cp = createCopyDialog(engine, {
     title: 'Copy',
     heading: 'Copying "Website_Final_v2" to "Backup Zip 100"',
@@ -615,6 +616,7 @@ async function zipBackup(engine, signal) {
 
   engine.sounds.menuTick();
   await engine.wait(420, signal);
+  engine.setCursorMode('arrow');
   engine.closeWindow(cp.win);
   await engine.click(projWin.win.closeBtn, { afterMs: 120 }, signal);
   engine.closeWindow(projWin.win);
@@ -963,10 +965,9 @@ export async function playBootSequence(engine, signal) {
     const fillEl = boot.querySelector('#os9-boot-fill');
     const capEl = boot.querySelector('#os9-boot-cap');
     const extensions = [
-      { icon: '🎬', name: 'QT 4' },
+      { icon: '🎬', name: 'QT 5' },
       { icon: '🌐', name: 'OpenTr' },
       { icon: '🖨', name: 'ApTalk' },
-      { icon: '🔍', name: 'Sherlk' },
       { icon: '🎛', name: 'CStrip' },
       { icon: '🎨', name: 'Appear' },
       { icon: '🔊', name: 'Sound' },
@@ -982,7 +983,7 @@ export async function playBootSequence(engine, signal) {
       badge.innerHTML = `${ext.icon}<span>${ext.name}</span>`;
       extRow.appendChild(badge);
       fillEl.style.width = `${Math.round(((i + 1) / extensions.length) * 100)}%`;
-      capEl.textContent = `Loading extension: ${ext.name}…`;
+      capEl.textContent = 'Welcome to Mac OS';
       await engine.wait(240, signal);
     }
 
@@ -1006,7 +1007,7 @@ export async function systemBombReboot(engine, signal) {
     title: 'System Error',
     icon: ICONS.bomb,
     heading: 'Sorry, a system error occurred.',
-    body: '"Finder" — unimplemented trap (error type 11).\nTo temporarily turn off extensions, restart and hold down the shift key.',
+    body: 'ID = 11',
     primaryLabel: 'Restart',
     width: 420,
   });
@@ -1163,7 +1164,7 @@ async function quickTimeMovie(engine, signal) {
 }
 
 async function soundJamListen(engine, signal) {
-  engine.onStatus('SoundJam MP — Studio playlist');
+  engine.onStatus('iTunes — Studio playlist');
   engine.closeNonPersistentWindows(1);
 
   const tracks = [

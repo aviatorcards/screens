@@ -238,16 +238,33 @@ export class WinEvoEngine {
 
   async runGraphicalWizard({ xp = false, title, steps, billboards }, signal) {
     this.setCursorVisible(false);
-    const stage = this.setStageHtml(`
-      <div class="wev-wizard-bg${xp ? ' xp' : ''}">
+    const card = `
+            <div style="font-size:19px;font-weight:800;" id="wz-bb-title">${billboards[0][0]}</div>
+            <div style="font-size:13.5px;line-height:1.5;opacity:0.92;" id="wz-bb-body">${billboards[0][1]}</div>`;
+    const progress = `
+            <div class="wev-wizard-bar"><div id="wz-fill"></div></div>
+            <div style="font-size:12px;opacity:0.85;" id="wz-sub">Copying system files…</div>`;
+    const stage = this.setStageHtml(xp ? `
+      <div class="wev-wizard-bg xp">
         <div class="wev-wizard-head">${title}</div>
         <div class="wev-wizard-grid">
           <div class="wev-wizard-steps" id="wz-steps"></div>
           <div class="wev-wizard-card">
-            <div style="font-size:19px;font-weight:800;" id="wz-bb-title">${billboards[0][0]}</div>
-            <div style="font-size:13.5px;line-height:1.5;opacity:0.92;" id="wz-bb-body">${billboards[0][1]}</div>
-            <div class="wev-wizard-bar"><div id="wz-fill"></div></div>
-            <div style="font-size:12px;opacity:0.85;" id="wz-sub">Copying system files…</div>
+            ${card}
+            ${progress}
+          </div>
+        </div>
+      </div>
+    ` : `
+      <div class="wev-wizard-bg">
+        <div class="wev-wizard-head">${title}</div>
+        <div class="wev-wizard-grid classic">
+          <div class="wev-wizard-card">
+            ${card}
+          </div>
+          <div class="wev-wizard-now">
+            <div class="wev-wizard-steps" id="wz-steps"></div>
+            ${progress}
           </div>
         </div>
       </div>
@@ -259,13 +276,15 @@ export class WinEvoEngine {
     const sub = stage.querySelector('#wz-sub');
 
     for (let i = 0; i < steps.length; i++) {
-      stepsEl.innerHTML = steps
-        .map((s, idx) => {
-          const cls = idx < i ? 'done' : idx === i ? 'active' : '';
-          const mark = idx < i ? '✓' : idx === i ? '▸' : '○';
-          return `<div class="wev-wstep ${cls}"><span>${mark}</span><span>${s}</span></div>`;
-        })
-        .join('');
+      stepsEl.innerHTML = xp
+        ? steps
+          .map((s, idx) => {
+            const cls = idx < i ? 'done' : idx === i ? 'active' : '';
+            const mark = idx < i ? '✓' : idx === i ? '▸' : '○';
+            return `<div class="wev-wstep ${cls}"><span>${mark}</span><span>${s}</span></div>`;
+          })
+          .join('')
+        : `<div class="wev-wstep active"><span>${steps[i]}</span></div>`;
       const bb = billboards[i % billboards.length];
       bbTitle.textContent = bb[0];
       bbBody.textContent = bb[1];

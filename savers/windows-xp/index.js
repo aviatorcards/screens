@@ -1,5 +1,5 @@
-import { XpEngine, XpAbortError } from './engine.js?v=12';
-import { xpBootAndWelcome, REGULAR_VIGNETTES, SPECIAL_VIGNETTES } from './vignettes.js?v=12';
+import { XpEngine, XpAbortError } from './engine.js?v=13';
+import { xpBootAndWelcome, REGULAR_VIGNETTES, SPECIAL_VIGNETTES } from './vignettes.js?v=13';
 
 export function createScreensaver() {
   let engine = null;

@@ -1,6 +1,8 @@
-import { SCREENSAVERS, getSaverById } from './registry.js?v=15';
+import { SCREENSAVERS, getSaverById } from './registry.js?v=24';
 
 const SPEEDS = [0.75, 1, 1.5, 2];
+
+const CYCLE_MS = 90_000;
 
 const state = {
   activeId: null,
@@ -11,6 +13,7 @@ const state = {
   hudVisible: false,
   hudPinned: false,
   galleryOpen: false,
+  cycling: false,
 };
 
 const els = {
@@ -22,6 +25,7 @@ const els = {
   btnPause: document.getElementById('btn-pause'),
   iconPause: document.getElementById('icon-pause'),
   btnNext: document.getElementById('btn-next'),
+  btnCycle: document.getElementById('btn-cycle'),
   btnSpeed: document.getElementById('btn-speed'),
   labelSpeed: document.getElementById('label-speed'),
   btnSpecial: document.getElementById('btn-special'),
@@ -34,6 +38,7 @@ const els = {
   galleryBackdrop: document.getElementById('gallery-backdrop'),
   galleryGrid: document.getElementById('gallery-grid'),
   btnCloseGallery: document.getElementById('btn-close-gallery'),
+  btnPlayAll: document.getElementById('btn-play-all'),
 };
 
 let hudHideTimer = null;
@@ -41,6 +46,67 @@ let cursorHideTimer = null;
 let hintFallbackTimer = null;
 let hintShown = false;
 let hoverInHud = false;
+let loadToken = 0;
+let cycleTimer = null;
+let cycleDue = 0;
+
+function availableSavers() {
+  return SCREENSAVERS.filter((saver) => saver.status === 'available');
+}
+
+function writeUrl() {
+  const url = new URL(window.location.href);
+  if (state.activeId) url.searchParams.set('saver', state.activeId);
+  if (state.cycling) url.searchParams.set('cycle', '1');
+  else url.searchParams.delete('cycle');
+  window.history.replaceState({}, '', url);
+}
+
+function clearCycleTimer() {
+  clearTimeout(cycleTimer);
+  cycleTimer = null;
+}
+
+function armCycle() {
+  clearCycleTimer();
+  if (!state.cycling || availableSavers().length < 2) return;
+  if (!cycleDue) cycleDue = performance.now() + CYCLE_MS;
+  if (state.paused) return;
+  const delay = Math.max(0, cycleDue - performance.now());
+  cycleTimer = setTimeout(() => {
+    cycleDue = 0;
+    advanceCycle();
+  }, delay);
+}
+
+function setCycling(on) {
+  state.cycling = Boolean(on);
+  cycleDue = state.cycling ? performance.now() + CYCLE_MS : 0;
+  writeUrl();
+  updateControlsUI();
+  armCycle();
+}
+
+function toggleCycle() {
+  setCycling(!state.cycling);
+  showHud(2200);
+}
+
+async function advanceCycle() {
+  if (!state.cycling || state.paused) {
+    if (state.cycling) armCycle();
+    return;
+  }
+  const list = availableSavers();
+  if (list.length < 2) return;
+  const index = list.findIndex((saver) => saver.id === state.activeId);
+  const next = list[(index + 1) % list.length];
+  await loadScreensaver(next.id);
+  if (!state.cycling) return;
+  cycleDue = 0;
+  showHud(2400);
+  armCycle();
+}
 
 function showHint() {
   if (hintShown || state.galleryOpen) return;
@@ -90,6 +156,10 @@ function updateControlsUI() {
   const isFs = Boolean(document.fullscreenElement);
   els.btnFullscreen.classList.toggle('active', isFs);
   els.iconFullscreen.textContent = isFs ? '🗗' : '⛶';
+
+  els.btnCycle.classList.toggle('active', state.cycling);
+  els.btnCycle.setAttribute('aria-pressed', state.cycling ? 'true' : 'false');
+  els.btnPlayAll.setAttribute('aria-pressed', state.cycling ? 'true' : 'false');
 }
 
 function renderGallery() {
@@ -122,9 +192,8 @@ function renderGallery() {
     if (saver.status === 'available') {
       card.addEventListener('click', async () => {
         closeGallery();
-        if (saver.id !== state.activeId) {
-          await loadScreensaver(saver.id);
-        }
+        setCycling(false);
+        if (saver.id !== state.activeId) await loadScreensaver(saver.id);
       });
     } else {
       card.disabled = true;
@@ -157,6 +226,7 @@ function renderSpecialMenu(saverMeta) {
 }
 
 async function loadScreensaver(id) {
+  const token = ++loadToken;
   const saverMeta = getSaverById(id);
   if (state.activeInstance) {
     try {
@@ -174,8 +244,10 @@ async function loadScreensaver(id) {
   document.title = `Living OS Screensavers — ${saverMeta.name}`;
   els.specialMenu.hidden = true;
   renderSpecialMenu(saverMeta);
+  writeUrl();
 
   const mod = await saverMeta.load();
+  if (token !== loadToken) return;
   const instance = mod.createScreensaver();
   state.activeInstance = instance;
 
@@ -189,14 +261,13 @@ async function loadScreensaver(id) {
     onReady: showHint,
   });
 
-  const url = new URL(window.location.href);
-  url.searchParams.set('saver', saverMeta.id);
-  window.history.replaceState({}, '', url);
+  writeUrl();
   renderGallery();
 }
 
 function togglePause() {
   state.paused = !state.paused;
+  armCycle();
   state.activeInstance?.setPaused?.(state.paused);
   updateControlsUI();
 }
@@ -273,6 +344,12 @@ function bindEvents() {
 
   els.btnPause.addEventListener('click', togglePause);
   els.btnNext.addEventListener('click', () => state.activeInstance?.nextScene?.());
+  els.btnCycle.addEventListener('click', toggleCycle);
+  els.btnPlayAll.addEventListener('click', () => {
+    closeGallery();
+    if (!state.cycling) toggleCycle();
+    else showHud(2200);
+  });
   els.btnSpeed.addEventListener('click', () => cycleSpeed(1));
   els.btnSound.addEventListener('click', toggleSound);
   els.btnFullscreen.addEventListener('click', toggleFullscreen);
@@ -317,6 +394,11 @@ function bindEvents() {
 
     if (state.galleryOpen) {
       if (key === 'g') closeGallery();
+      else if (key === 'c') {
+        e.preventDefault();
+        closeGallery();
+        toggleCycle();
+      }
       return;
     }
 
@@ -331,6 +413,9 @@ function bindEvents() {
       e.preventDefault();
       state.activeInstance?.nextScene?.();
       showHud(2200);
+    } else if (key === 'c') {
+      e.preventDefault();
+      toggleCycle();
     } else if (key === 'm') {
       e.preventDefault();
       toggleSound();
@@ -368,8 +453,10 @@ async function init() {
     if (idx >= 0) state.speedIndex = idx;
   }
 
+  state.cycling = params.get('cycle') === '1';
   updateControlsUI();
-  await loadScreensaver(params.get('saver') || 'mac-os-9');
+  await loadScreensaver(params.get('saver') || availableSavers()[0]?.id || 'mac-os-9');
+  if (state.cycling) armCycle();
 
   if (params.get('gallery') === '1') {
     openGallery();

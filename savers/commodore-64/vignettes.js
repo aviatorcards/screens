@@ -55,7 +55,14 @@ export async function c64PowerOnAndBasicDir(engine, signal) {
     engine.printLine(line);
     await engine.wait(95, signal);
   }
-  await engine.wait(1200, signal);
+  await engine.wait(500, signal);
+
+  await engine.typeBasicCommand('PRONT "HI"', signal);
+  engine.printLine('?SYNTAX  ERROR');
+  engine.printLine('READY.');
+  await engine.wait(420, signal);
+  await engine.run1541Load('NOPE', ',8', signal, true);
+  await engine.wait(500, signal);
 }
 
 /* =====================================================================
@@ -68,7 +75,7 @@ export async function basicTenPrint(engine, signal) {
   engine.printLine('READY.');
   await engine.wait(320, signal);
 
-  await engine.typeBasicCommand('10 PRINT CHR$(205.5+RND(1)); : GOTO 10', signal, 52);
+  await engine.typeBasicCommand('10 PRINT CHR$(205.5+RND(1));:GOTO 10', signal, 52);
   await engine.wait(280, signal);
   await engine.typeBasicCommand('RUN', signal, 64);
   await engine.wait(220, signal);
@@ -693,7 +700,7 @@ async function basicPokePlayground(engine, signal) {
   await engine.wait(300, signal);
 
   await engine.typeBasicCommand('POKE 53280,0 : POKE 53281,0', signal);
-  engine.setColors(0, 0, 13);
+  engine.setColors(0, 0, 14);
   engine.printLine('READY.');
   await engine.wait(550, signal);
 
@@ -705,7 +712,7 @@ async function basicPokePlayground(engine, signal) {
 
   await engine.typeBasicCommand('FOR I=0 TO 15 : POKE 53280,I : NEXT', signal);
   for (let i = 0; i < 16; i++) {
-    engine.setColors(i, 0, 13);
+    engine.setColors(i, 0, 14);
     engine.sounds.sidNote(220 + i * 32, 0.08, 'square', 0.02);
     await engine.wait(110, signal);
   }

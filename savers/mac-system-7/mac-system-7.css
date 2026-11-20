@@ -215,7 +215,7 @@
 }
 
 .sys7-win.active .sys7-titlebar {
-  background: #e6e8fa;
+  background: #d0d0d0;
 }
 
 .sys7-stripes {
@@ -227,7 +227,7 @@
 .sys7-win.active .sys7-stripes {
   background: repeating-linear-gradient(
     to bottom,
-    #7882b8 0 1px,
+    #222 0 1px,
     transparent 1px 2px
   );
 }
@@ -243,7 +243,30 @@
 
 .sys7-win.active .sys7-title-text {
   color: #000000;
-  background: #e6e8fa;
+  background: #d0d0d0;
+}
+
+.sys7-win.sys7-stickies .sys7-titlebar,
+.sys7-win.sys7-stickies.active .sys7-titlebar {
+  background: #f0c040;
+}
+
+.sys7-win.sys7-stickies .sys7-stripes { display: none; }
+
+.sys7-win.sys7-stickies .sys7-title-text,
+.sys7-win.sys7-stickies.active .sys7-title-text {
+  background: transparent;
+}
+
+.sys7-win.sys7-stickies .sys7-win-body { background: #ffe56a; }
+
+.sys7-sticky {
+  flex: 1;
+  padding: 10px 12px;
+  white-space: pre-wrap;
+  font-family: "Geneva", "Nimbus Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.35;
 }
 
 .sys7-box-btn {
@@ -340,7 +363,7 @@
 
 .sys7-list-row {
   display: grid;
-  grid-template-columns: 18px 18px 1fr 68px 92px;
+  grid-template-columns: 16px 16px 1fr 58px 118px 40px 52px;
   align-items: center;
   gap: 5px;
   padding: 3px 6px;

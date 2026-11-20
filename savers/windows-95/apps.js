@@ -1,7 +1,7 @@
 import { iconSvg, SMILE } from './icons.js';
 
 export const NOTES = `[1985 · MS-DOS 3.1] Started NOTES.TXT on a 286 with 640K RAM.
-[1992 · Windows 3.1] Overlapping windows, TrueType fonts & Solitaire!
+[1992 · Windows 3.1] TrueType fonts and Minesweeper.
 [1995 · Windows 95] Long filenames, the Start button, and 32-bit speed!`;
 
 const LETTER = `August 24, 1995
@@ -113,20 +113,29 @@ export function startTree(era) {
     { label: 'WordPad', icon: 'wordpad' },
     { label: 'Paint', icon: 'paint' },
     { label: 'Calculator', icon: 'calculator' },
-    { label: 'Solitaire', icon: 'solitaire' },
-    { label: 'Minesweeper', icon: 'mine' },
+    {
+      label: 'Games',
+      icon: 'folder',
+      children: [
+        { label: 'Solitaire', icon: 'solitaire' },
+        { label: 'Minesweeper', icon: 'mine' },
+      ],
+    },
   ];
-  if (era === '98') accessories.push({ label: 'Internet Explorer', icon: 'ie' });
+  const programs = [
+    { label: 'Accessories', icon: 'folder', children: accessories },
+    { label: 'StartUp', icon: 'folder' },
+    { label: 'MS-DOS Prompt', icon: 'dos' },
+    { label: 'Windows Explorer', icon: 'explorer' },
+  ];
+  if (era === '98') {
+    programs.splice(1, 0, { label: 'Internet Explorer', icon: 'ie' });
+  }
   return [
     {
       label: 'Programs',
       icon: 'programs',
-      children: [
-        { label: 'Accessories', icon: 'folder', children: accessories },
-        { label: 'StartUp', icon: 'folder' },
-        { label: 'MS-DOS Prompt', icon: 'dos' },
-        { label: 'Windows Explorer', icon: 'explorer' },
-      ],
+      children: programs,
     },
     { label: 'Documents', icon: 'documents' },
     {
@@ -706,21 +715,72 @@ export function openInternet(engine) {
   });
 }
 
+export function openWelcome(engine) {
+  const tips = [
+    "If you don't know how to do something, you can look it up in Help. Just click the Start button, and then click Help.",
+    'Every open window keeps a button on the taskbar.',
+    'Right-click the desktop when you want a new wallpaper or screen saver.',
+  ];
+  const root = document.createElement('div');
+  root.className = 'w95-dialog';
+  const heading = document.createElement('h2');
+  heading.className = 'w95-welcome-h';
+  heading.textContent = 'Did you know…';
+  const tip = document.createElement('p');
+  tip.className = 'w95-welcome-tip';
+  tip.textContent = tips[0];
+  const check = document.createElement('label');
+  check.className = 'w95-welcome-check';
+  const mark = document.createElement('i');
+  const caption = document.createElement('span');
+  caption.textContent = 'Show this Welcome screen the next time you start Windows';
+  check.append(mark, caption);
+  const buttons = document.createElement('div');
+  buttons.className = 'w95-dlg-btns';
+  for (const [label, on] of [['What\'s New', false], ['Online Registration', false], ['Next Tip', false], ['Close', true]]) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `w95-btn${on ? ' default' : ''}`;
+    btn.dataset.label = label;
+    btn.textContent = label;
+    buttons.appendChild(btn);
+  }
+  root.append(heading, tip, check, buttons);
+  const win = engine.createWindow({
+    title: 'Welcome',
+    icon: 'computer',
+    width: 460,
+    height: 248,
+    scale: false,
+    center: true,
+    node: root,
+  });
+  win.tips = tips;
+  win.tipEl = tip;
+  win.tipIndex = 0;
+  win.nextBtn = buttons.querySelector('[data-label="Next Tip"]');
+  win.closeBtn = buttons.querySelector('[data-label="Close"]');
+  return win;
+}
+
 export function openShutdown(engine) {
+  const win98 = engine.era === '98';
   const root = document.createElement('div');
   root.className = 'w95-dialog';
   const head = document.createElement('div');
   head.className = 'w95-shut-head';
   head.appendChild(glyph('computer'));
   const question = document.createElement('p');
-  question.textContent = 'What do you want the computer to do?';
+  question.textContent = win98 ? 'What do you want the computer to do?' : 'Are you sure you want to:';
   head.appendChild(question);
   const choices = document.createElement('div');
-  const options = [
-    ['Shut down the computer?', true],
-    ['Restart the computer?', false],
-    ['Restart in MS-DOS mode?', false],
-  ];
+  const options = win98
+    ? [['Shut down', true], ['Restart', false], ['Restart in MS-DOS mode', false]]
+    : [
+      ['Shut down the computer?', true],
+      ['Restart the computer?', false],
+      ['Restart the computer in MS-DOS mode?', false],
+    ];
   for (const [label, on] of options) {
     const btn = document.createElement('button');
     btn.type = 'button';
@@ -737,17 +797,21 @@ export function openShutdown(engine) {
   const ok = document.createElement('button');
   ok.type = 'button';
   ok.className = 'w95-btn default';
-  ok.dataset.label = 'OK';
-  ok.textContent = 'OK';
+  ok.dataset.label = win98 ? 'OK' : 'Yes';
+  ok.textContent = win98 ? 'OK' : 'Yes';
   const cancel = document.createElement('button');
   cancel.type = 'button';
   cancel.className = 'w95-btn';
-  cancel.textContent = 'Cancel';
-  const help = document.createElement('button');
-  help.type = 'button';
-  help.className = 'w95-btn';
-  help.textContent = 'Help';
-  buttons.append(ok, cancel, help);
+  cancel.dataset.label = win98 ? 'Cancel' : 'No';
+  cancel.textContent = win98 ? 'Cancel' : 'No';
+  buttons.append(ok, cancel);
+  if (win98) {
+    const help = document.createElement('button');
+    help.type = 'button';
+    help.className = 'w95-btn';
+    help.textContent = 'Help';
+    buttons.appendChild(help);
+  }
   root.append(head, choices, buttons);
   const win = engine.createWindow({
     title: 'Shut Down Windows',

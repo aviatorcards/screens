@@ -6,11 +6,11 @@
   <title>Living OS Screensavers</title>
   <meta name="description" content="Fullscreen browser screensavers that look like classic operating systems are still being used." />
   <meta name="theme-color" content="#101114" />
-  <link rel="stylesheet" href="css/landing.css?v=7" />
+  <link rel="stylesheet" href="css/landing.css?v=13" />
   <script>
     (function () {
       var q = new URLSearchParams(location.search);
-      if (q.get('saver') || q.get('gallery') === '1') {
+      if (q.get('saver') || q.get('gallery') === '1' || q.get('cycle') === '1') {
         location.replace('watch.html' + location.search);
       }
     })();
@@ -28,13 +28,14 @@
         <p class="eyebrow" id="hero-era">1999 · Platinum</p>
         <h1 id="hero-name">Classic Mac OS 9.2</h1>
         <p class="lede" id="hero-desc">
-          A Platinum desktop that uses itself. Finder, SimpleText, QuickTime, SoundJam, Netscape, and Sherlock take turns at the machine, and sometimes the toasters fly.
+          A Platinum desktop that uses itself. Finder, SimpleText, QuickTime, iTunes, Netscape, and Sherlock take turns at the machine, and sometimes the toasters fly.
         </p>
         <div class="hero-actions">
           <a class="play-btn" id="hero-play" href="watch.html?saver=mac-os-9">
             <span class="play-glyph" aria-hidden="true">▶</span>
             Play screensaver
           </a>
+          <a class="play-btn play-all" href="watch.html?cycle=1">Play all</a>
         </div>
         <ul class="hero-notes">
           <li>Fullscreen in the browser</li>
@@ -105,7 +106,7 @@
                   </div>
                   <div class="dio-dicon">
                     <div class="dio-glyph" data-dio-icon="folder"></div>
-                    <div class="dio-label">Projects '99</div>
+                    <div class="dio-label">Projects</div>
                   </div>
                 </div>
                 <div class="dio-trash">
@@ -131,7 +132,7 @@
     <section class="shelf-wrap" aria-labelledby="shelf-heading">
       <div class="shelf-head">
         <h2 id="shelf-heading">All screensavers</h2>
-        <p>Classic Mac OS 9, Windows Upgrade Path, Commodore 64, Amiga Workbench, Windows 3.1, NeXTSTEP 3.3, MS-DOS 6.22, Macintosh System 7.5, Windows 95/98, OS/2 Warp 4, BeOS, and Windows XP Luna are ready. CP/M-80 is planned.</p>
+        <p>Classic Mac OS 9, Windows Upgrade Path, Apple II, CP/M-80, Commodore 64, Apple Lisa, Amiga Workbench, Windows 3.1, NeXTSTEP 3.3, MS-DOS 6.22, Macintosh System 7.5, Windows 95/98, OS/2 Warp 4, BeOS, Windows XP Luna, Solaris 9, GNOME 2.4, KDE 3.1, and Compilers are ready.</p>
       </div>
       <div class="shelf" id="shelf">
         <a class="shelf-card ready" href="watch.html?saver=mac-os-9">
@@ -139,7 +140,7 @@
           <div class="shelf-body">
             <div class="shelf-era">1999 · Platinum</div>
             <div class="shelf-name">Classic Mac OS 9.2</div>
-            <div class="shelf-desc">A Platinum desktop that uses itself. Finder, SimpleText, QuickTime, SoundJam, Netscape, and Sherlock take turns at the machine.</div>
+            <div class="shelf-desc">A Platinum desktop that uses itself. Finder, SimpleText, QuickTime, iTunes, Netscape, and Sherlock take turns at the machine.</div>
           </div>
         </a>
         <a class="shelf-card ready" href="watch.html?saver=windows-evolution">
@@ -150,14 +151,22 @@
             <div class="shelf-desc">Watch one PC upgrade through 16 years of history: MS-DOS 3.1 → Windows 1.01 → Windows 3.1 → Windows 95 → Windows 98 SE → Windows XP Luna, carrying the same journal file through every Setup wizard.</div>
           </div>
         </a>
-        <article class="shelf-card soon">
-          <div class="shelf-thumb thumb-cpm"><span class="shelf-badge">Planned</span></div>
+        <a class="shelf-card ready" href="watch.html?saver=apple-ii">
+          <div class="shelf-thumb thumb-apple2"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">1979 · 8-bit</div>
+            <div class="shelf-name">Apple II+ / //e</div>
+            <div class="shelf-desc">Monitor II green phosphor &amp; NTSC color composite: DOS 3.3 Disk II boot, Lo-Res kaleidoscopes, Hi-Res vector art, VisiCalc, The Oregon Trail, AppleWorks 2.0, The Print Shop, and Woz’s CALL -151 6502 Monitor.</div>
+          </div>
+        </a>
+        <a class="shelf-card ready" href="watch.html?saver=cpm">
+          <div class="shelf-thumb thumb-cpm"><span class="shelf-badge">Play</span></div>
           <div class="shelf-body">
             <div class="shelf-era">1979 · CP/M</div>
             <div class="shelf-name">CP/M-80</div>
             <div class="shelf-desc">CP/M-80 2.2 on a green phosphor screen. The A&gt; prompt runs DIR, PIP, and a little MBASIC.</div>
           </div>
-        </article>
+        </a>
         <a class="shelf-card ready" href="watch.html?saver=commodore-64">
           <div class="shelf-thumb thumb-c64"><span class="shelf-badge">Play</span></div>
           <div class="shelf-body">
@@ -166,10 +175,18 @@
             <div class="shelf-desc">Commodore 64 blue, from the BASIC V2 READY prompt and 10 PRINT into GEOS 2.0 deskTop with geoWrite, geoPaint, VIC-II sprites, and 6581 SID demos.</div>
           </div>
         </a>
+        <a class="shelf-card ready" href="watch.html?saver=apple-lisa">
+          <div class="shelf-thumb thumb-lisa"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">1983 · Lisa OS</div>
+            <div class="shelf-name">Apple Lisa OS 7/7</div>
+            <div class="shelf-desc">Crisp 1-bit Lisa Office System 7/7 with ROM self-test, ProFile 5 MB hard disk, Stationery Pads, split-pane scrollbars, LisaWrite, LisaDraw, LisaCalc, LisaGraph, LisaProject PERT charts, and the Wastebasket.</div>
+          </div>
+        </a>
         <a class="shelf-card ready" href="watch.html?saver=amiga-workbench">
           <div class="shelf-thumb thumb-amiga"><span class="shelf-badge">Play</span></div>
           <div class="shelf-body">
-            <div class="shelf-era">1987 · Amiga</div>
+            <div class="shelf-era">1988 · Amiga</div>
             <div class="shelf-name">Amiga Workbench</div>
             <div class="shelf-desc">Workbench 1.3 on the bright blue screen. Drawers open, the Shell types, Deluxe Paint draws, and the Boing Ball takes a bounce.</div>
           </div>
@@ -185,7 +202,7 @@
         <a class="shelf-card ready" href="watch.html?saver=nextstep">
           <div class="shelf-thumb thumb-next"><span class="shelf-badge">Play</span></div>
           <div class="shelf-body">
-            <div class="shelf-era">1993 · NeXTSTEP</div>
+            <div class="shelf-era">1994 · NeXTSTEP</div>
             <div class="shelf-name">NeXTSTEP 3.3</div>
             <div class="shelf-desc">NeXTSTEP 3.3 Workspace on a matte dark gray desk. Miller Columns File Viewer, Tim Berners-Lee’s WorldWideWeb.app, Interface Builder, Terminal, Edit, NeXTmail, Display PostScript, floating left menus, and the right-edge Dock.</div>
           </div>
@@ -195,7 +212,7 @@
           <div class="shelf-body">
             <div class="shelf-era">1994 · MS-DOS</div>
             <div class="shelf-name">MS-DOS 6.22</div>
-            <div class="shelf-desc">486DX2 BIOS POST into MS-DOS 6.22 — DIR, MEM, hypnotic DEFRAG cluster maps, MS-DOS Edit, Norton Commander, ScanDisk, QBasic Mode 13h, 14.4K ANSI BBS, and DOOM startup.</div>
+            <div class="shelf-desc">486DX2 BIOS POST into MS-DOS 6.22 — DIR, MEM, hypnotic DEFRAG cluster maps, MS-DOS Edit, Norton Commander, ScanDisk, QBasic GORILLA.BAS, 14.4K ANSI BBS, and DOOM startup.</div>
           </div>
         </a>
         <a class="shelf-card ready" href="watch.html?saver=mac-system-7">
@@ -203,7 +220,7 @@
           <div class="shelf-body">
             <div class="shelf-era">1994 · Classic</div>
             <div class="shelf-name">Macintosh System 7.5</div>
-            <div class="shelf-desc">Crisp 1-bit &amp; 256-color Classic Mac desktop with HyperCard 2.2, Balloon Help, Finder disclosure triangles, SimpleText PlainTalk speech, yellow Note Pad, Desktop Patterns, 15-tile Puzzle, and After Dark: Starry Night.</div>
+            <div class="shelf-desc">Crisp 1-bit Classic Mac desktop with HyperCard 2.2, the Guide menu, Finder list view, SimpleText, Stickies, Desktop Patterns, and After Dark: Starry Night.</div>
           </div>
         </a>
         <a class="shelf-card ready" href="watch.html?saver=windows-95">
@@ -211,7 +228,7 @@
           <div class="shelf-body">
             <div class="shelf-era">1995 · Windows 95</div>
             <div class="shelf-name">Windows 95 / 98</div>
-            <div class="shelf-desc">Windows 95 on the teal desk, then Windows 98 SE when the title bars go gradient. My Computer, WordPad, and Internet Explorer take a turn, and the taskbar keeps whatever is running.</div>
+            <div class="shelf-desc">Windows 95 on the teal desk, then Windows 98 SE in 1999 when the title bars go gradient. My Computer, WordPad, and Internet Explorer take a turn, and the taskbar keeps whatever is running.</div>
           </div>
         </a>
         <a class="shelf-card ready" href="watch.html?saver=os2-warp">
@@ -227,7 +244,7 @@
           <div class="shelf-body">
             <div class="shelf-era">2000 · BeOS</div>
             <div class="shelf-name">Haiku / BeOS</div>
-            <div class="shelf-desc">A BeOS Release 5 desk that uses itself. Yellow tabs, Tracker, Deskbar, Terminal, and NetPositive take turns, and the workspaces still switch.</div>
+            <div class="shelf-desc">A BeOS Release 5 desk that uses itself. Yellow tabs, Tracker, Deskbar, Pulse, Terminal, and NetPositive take turns, and the workspaces still switch.</div>
           </div>
         </a>
         <a class="shelf-card ready" href="watch.html?saver=windows-xp">
@@ -236,6 +253,38 @@
             <div class="shelf-era">2001 · Bliss</div>
             <div class="shelf-name">Windows XP Luna</div>
             <div class="shelf-desc">Autonomous Windows XP Professional on Bliss hills with the glossy Luna taskbar &amp; two-column Start menu, AOL Instant Messenger, Winamp 2.91, 3D Pinball: Space Cadet, Paint, IE6, live Blue/Olive/Silver Luna themes, tray balloons, and 3D Pipes.</div>
+          </div>
+        </a>
+        <a class="shelf-card ready" href="watch.html?saver=solaris">
+          <div class="shelf-thumb thumb-solaris"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">2002 · CDE</div>
+            <div class="shelf-name">Solaris 9</div>
+            <div class="shelf-desc">Solaris 9 Common Desktop Environment. A centered Front Panel, four workspaces named One through Four, and Motif windows. File Manager, Text Editor, the terminal, Calendar, and Style Manager take turns on the desk.</div>
+          </div>
+        </a>
+        <a class="shelf-card ready" href="watch.html?saver=gnome-2">
+          <div class="shelf-thumb thumb-gnome"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">2003 · GNOME 2.4</div>
+            <div class="shelf-name">GNOME 2.4</div>
+            <div class="shelf-desc">GNOME 2.4 on the Simple theme. A gray menu panel, Nautilus, gedit, Epiphany 1.0, and the bottom workspace switcher take turns on the blue-gray desk. The user drags windows by the title bar.</div>
+          </div>
+        </a>
+        <a class="shelf-card ready" href="watch.html?saver=kde-3">
+          <div class="shelf-thumb thumb-kde"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">2003 · KDE 3.1</div>
+            <div class="shelf-name">KDE 3.1</div>
+            <div class="shelf-desc">KDE 3.1 with Keramik windows and the bottom kicker. Konqueror browses in tabs, and KWrite, KCalc, and Konsole take a turn. The user drags windows by the title bar.</div>
+          </div>
+        </a>
+        <a class="shelf-card ready" href="watch.html?saver=compilers">
+          <div class="shelf-thumb thumb-compilers"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">C · Rust · Zig · Swift</div>
+            <div class="shelf-name">Compilers</div>
+            <div class="shelf-desc">C, C++, Rust, Zig, Swift, Go, and Haskell take turns in a terminal. Each program is typed, then the compiler prints a verbose log, then the program runs. Rust stops on a type error, then the fix is compiled.</div>
           </div>
         </a>
       </div>
@@ -250,6 +299,6 @@
       <span><kbd>G</kbd> switcher</span>
     </footer>
   </div>
-  <script type="module" src="js/landing.js?v=15"></script>
+  <script type="module" src="js/landing.js?v=24"></script>
 </body>
 </html>

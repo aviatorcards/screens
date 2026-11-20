@@ -73,7 +73,6 @@ const APP_MENUS = {
       items: [
         { label: 'Mac Help', shortcut: '⌘?' },
         { label: 'Show Balloons' },
-        { label: 'About Mac OS 9.2' },
       ],
     },
   ],
@@ -265,7 +264,7 @@ const APP_MENUS = {
       items: [{ label: 'Play' }, { label: 'Loop' }, { label: 'Normal Size' }, { label: 'Double Size' }],
     },
   ],
-  'SoundJam MP': [
+  iTunes: [
     {
       key: 'file',
       label: 'File',
@@ -450,7 +449,7 @@ export class MacOS9Engine {
     const defs = [
       { id: 'mac-hd', label: 'Macintosh HD', icon: ICONS.macHd, slot: 'top', order: 0 },
       { id: 'zip-100', label: 'Backup Zip 100', icon: ICONS.zipDisk, slot: 'top', order: 1 },
-      { id: 'projects', label: "Projects '99", icon: ICONS.folder, slot: 'top', order: 2 },
+      { id: 'projects', label: 'Projects', icon: ICONS.folder, slot: 'top', order: 2 },
       { id: 'readme', label: 'Read Me First', icon: ICONS.simpleTextDoc, slot: 'top', order: 3 },
       { id: 'trash', label: 'Trash', icon: ICONS.trashEmpty, slot: 'bottom', order: 0 },
     ];

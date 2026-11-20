@@ -1,4 +1,4 @@
-import { SCREENSAVERS } from './registry.js?v=15';
+import { SCREENSAVERS } from './registry.js?v=24';
 import { ICONS } from '../savers/mac-os-9/icons.js?v=3';
 import { DESKTOP_PATTERNS } from '../savers/mac-os-9/wallpapers.js?v=3';
 

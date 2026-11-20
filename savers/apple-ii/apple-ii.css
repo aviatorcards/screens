@@ -1,0 +1,551 @@
+/* =========================================================
+   Apple II+ / Apple //e (1979–1986) Screensaver Styles
+   Authentic Monitor II P31 Green Phosphor, Amber P3, & NTSC Color CRT
+   ========================================================= */
+
+.a2-root {
+  --a2-phosphor: #46ff78;
+  --a2-phosphor-dim: #1ea845;
+  --a2-phosphor-glow: rgba(70, 255, 120, 0.34);
+  --a2-bg: #040d06;
+  --a2-bezel: #020603;
+  --a2-inv-bg: #46ff78;
+  --a2-inv-fg: #040d06;
+  --a2-border: rgba(70, 255, 120, 0.42);
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 48%, #09150b 0%, var(--a2-bezel) 78%, #000 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(14px, 2.8vw, 34px);
+  font-family: "Courier New", Courier, "Lucida Console", ui-monospace, monospace;
+  user-select: none;
+  color: var(--a2-phosphor);
+}
+
+.a2-root.phosphor-amber {
+  --a2-phosphor: #ffba42;
+  --a2-phosphor-dim: #b57718;
+  --a2-phosphor-glow: rgba(255, 186, 66, 0.32);
+  --a2-bg: #0e0902;
+  --a2-bezel: #060401;
+  --a2-inv-bg: #ffba42;
+  --a2-inv-fg: #0e0902;
+  --a2-border: rgba(255, 186, 66, 0.42);
+  background: radial-gradient(circle at 50% 48%, #181004 0%, #050301 78%, #000 100%);
+}
+
+.a2-root.phosphor-color {
+  --a2-phosphor: #e8f4e8;
+  --a2-phosphor-dim: #92b098;
+  --a2-phosphor-glow: rgba(220, 245, 255, 0.2);
+  --a2-bg: #06070a;
+  --a2-bezel: #030305;
+  --a2-inv-bg: #e8f4e8;
+  --a2-inv-fg: #06070a;
+  --a2-border: rgba(210, 230, 220, 0.36);
+  background: radial-gradient(circle at 50% 48%, #10131a 0%, #040507 78%, #000 100%);
+}
+
+/* 4:3 CRT tube frame */
+.a2-crt {
+  position: relative;
+  width: min(100%, calc((100vh - clamp(28px, 5.6vw, 68px)) * 1.3333));
+  aspect-ratio: 4 / 3;
+  max-height: 100%;
+  background: var(--a2-bg);
+  border-radius: 18px / 14px;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.05),
+    inset 0 0 46px rgba(0, 0, 0, 0.72),
+    0 0 48px rgba(0, 0, 0, 0.85),
+    0 0 26px var(--a2-phosphor-glow);
+}
+
+/* Subtle CRT scanlines + glass vignette */
+.a2-crt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 2px,
+      rgba(0, 0, 0, 0.18) 2px,
+      rgba(0, 0, 0, 0.18) 4px
+    ),
+    radial-gradient(ellipse at 50% 50%, transparent 62%, rgba(0, 0, 0, 0.42) 100%);
+}
+
+/* =========================================================
+   40-Column & 80-Column Text Layer
+   ========================================================= */
+.a2-text-layer {
+  position: absolute;
+  inset: 0;
+  padding: clamp(14px, 2.5vw, 28px) clamp(16px, 2.8vw, 32px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  color: var(--a2-phosphor);
+  text-shadow: 0 0 7px var(--a2-phosphor-glow);
+  font-size: clamp(13px, 2.15vw, 22px);
+  font-weight: 700;
+  line-height: 1.28;
+  letter-spacing: 0.04em;
+  white-space: pre;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.a2-text-layer.cols-80 {
+  font-size: clamp(10px, 1.32vw, 15px);
+  line-height: 1.32;
+  letter-spacing: 0.01em;
+}
+
+.a2-text-line {
+  min-height: 1.28em;
+  white-space: pre;
+}
+
+.a2-inv {
+  background: var(--a2-inv-bg);
+  color: var(--a2-inv-fg);
+  text-shadow: none;
+  padding: 0 2px;
+}
+
+.a2-cursor {
+  display: inline-block;
+  width: 0.62em;
+  height: 0.96em;
+  background: var(--a2-phosphor);
+  vertical-align: -0.1em;
+  box-shadow: 0 0 8px var(--a2-phosphor-glow);
+  animation: a2-blink 0.56s steps(1) infinite;
+}
+
+.a2-cursor.checker {
+  background: repeating-conic-gradient(var(--a2-phosphor) 0% 25%, transparent 0% 50%) 0 0 / 4px 4px;
+}
+
+@keyframes a2-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* =========================================================
+   Graphics Layer (Lo-Res 40x48 & Hi-Res 280x192 + Split Text)
+   ========================================================= */
+.a2-gfx-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  display: none;
+  flex-direction: column;
+  background: #000;
+}
+
+.a2-gfx-layer.visible {
+  display: flex;
+}
+
+.a2-canvas-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+
+.a2-gfx-canvas {
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  display: block;
+}
+
+.a2-split-text {
+  display: none;
+  flex: none;
+  height: 20%;
+  padding: 6px clamp(14px, 2.4vw, 28px);
+  border-top: 1px solid var(--a2-border);
+  background: var(--a2-bg);
+  color: var(--a2-phosphor);
+  text-shadow: 0 0 6px var(--a2-phosphor-glow);
+  font-size: clamp(11px, 1.55vw, 17px);
+  font-weight: 700;
+  line-height: 1.24;
+  white-space: pre;
+  overflow: hidden;
+}
+
+.a2-gfx-layer.split .a2-split-text {
+  display: block;
+}
+
+/* =========================================================
+   App Overlay Layer (VisiCalc, AppleWorks, Print Shop, Oregon Trail)
+   ========================================================= */
+.a2-app-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: none;
+  flex-direction: column;
+  background: var(--a2-bg);
+  color: var(--a2-phosphor);
+  text-shadow: 0 0 6px var(--a2-phosphor-glow);
+  padding: clamp(10px, 1.8vw, 20px) clamp(12px, 2.2vw, 24px);
+  overflow: hidden;
+}
+
+.a2-app-layer.visible {
+  display: flex;
+}
+
+/* ---------- VisiCalc (1979) ---------- */
+.vc-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-size: clamp(10px, 1.45vw, 16px);
+  font-weight: 700;
+}
+
+.vc-top {
+  flex: none;
+  border-bottom: 1px solid var(--a2-border);
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vc-status-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.vc-entry-row {
+  min-height: 1.3em;
+  white-space: pre;
+}
+
+.vc-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 3.2em repeat(5, 1fr);
+  grid-auto-rows: 1fr;
+  border: 1px solid var(--a2-border);
+  overflow: hidden;
+}
+
+.vc-cell {
+  padding: 2px 6px;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid rgba(70, 255, 120, 0.14);
+  border-bottom: 1px solid rgba(70, 255, 120, 0.1);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.vc-cell.hdr {
+  justify-content: center;
+  background: var(--a2-inv-bg);
+  color: var(--a2-inv-fg);
+  text-shadow: none;
+  border-right: 1px solid var(--a2-bg);
+}
+
+.vc-cell.rownum {
+  justify-content: center;
+  background: var(--a2-inv-bg);
+  color: var(--a2-inv-fg);
+  text-shadow: none;
+  border-bottom: 1px solid var(--a2-bg);
+}
+
+.vc-cell.num {
+  justify-content: flex-end;
+}
+
+.vc-cell.active {
+  background: var(--a2-inv-bg);
+  color: var(--a2-inv-fg);
+  text-shadow: none;
+}
+
+/* ---------- AppleWorks 2.0 (ProDOS 80-col) ---------- */
+.aw-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-size: clamp(10px, 1.32vw, 15px);
+  font-weight: 700;
+}
+
+.aw-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--a2-phosphor);
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+}
+
+.aw-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.aw-cards {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aw-card {
+  position: relative;
+  width: min(76%, 540px);
+  border: 2px solid var(--a2-phosphor);
+  background: var(--a2-bg);
+  padding: 10px 16px 14px;
+  box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.85), 10px 10px 0 1px var(--a2-phosphor-dim);
+}
+
+.aw-card-tab {
+  display: inline-block;
+  padding: 1px 10px;
+  background: var(--a2-inv-bg);
+  color: var(--a2-inv-fg);
+  text-shadow: none;
+  margin-bottom: 10px;
+}
+
+.aw-menu-item {
+  padding: 3px 8px;
+  margin: 2px 0;
+}
+
+.aw-menu-item.sel {
+  background: var(--a2-inv-bg);
+  color: var(--a2-inv-fg);
+  text-shadow: none;
+}
+
+.aw-editor {
+  flex: 1;
+  white-space: pre-wrap;
+  line-height: 1.42;
+  padding: 6px 4px;
+  overflow: hidden;
+}
+
+.aw-footer {
+  flex: none;
+  border-top: 2px solid var(--a2-phosphor);
+  padding-top: 4px;
+  margin-top: 6px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.92em;
+}
+
+/* ---------- Oregon Trail (MECC) ---------- */
+.ot-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 8px;
+}
+
+.ot-scene {
+  position: relative;
+  flex: 1.35;
+  min-height: 0;
+  border: 2px solid var(--a2-phosphor);
+  background: #000;
+  overflow: hidden;
+}
+
+.ot-canvas {
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  display: block;
+}
+
+.ot-banner {
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  transform: translateX(-50%);
+  background: #000;
+  border: 2px solid var(--a2-phosphor);
+  padding: 6px 14px;
+  text-align: center;
+  font-size: clamp(11px, 1.45vw, 16px);
+  font-weight: 700;
+  max-width: 86%;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.8);
+}
+
+.ot-stats {
+  flex: none;
+  border: 2px solid var(--a2-phosphor);
+  padding: 8px 14px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 20px;
+  font-size: clamp(11px, 1.45vw, 16px);
+  font-weight: 700;
+}
+
+.ot-stat-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ot-prompt {
+  text-align: center;
+  font-size: clamp(10px, 1.3vw, 15px);
+  font-weight: 700;
+  padding: 2px 0;
+}
+
+/* ---------- The Print Shop (Brøderbund) ---------- */
+.ps-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 8px;
+  font-size: clamp(11px, 1.45vw, 16px);
+  font-weight: 700;
+}
+
+.ps-titlebar {
+  text-align: center;
+  background: var(--a2-inv-bg);
+  color: var(--a2-inv-fg);
+  text-shadow: none;
+  padding: 4px 8px;
+  letter-spacing: 0.14em;
+}
+
+.ps-split {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 12px;
+}
+
+.ps-menu-box,
+.ps-preview-box {
+  border: 2px solid var(--a2-phosphor);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.ps-opt {
+  padding: 3px 6px;
+}
+
+.ps-opt.sel {
+  background: var(--a2-inv-bg);
+  color: var(--a2-inv-fg);
+  text-shadow: none;
+}
+
+.ps-paper-frame {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.ps-canvas {
+  width: 100%;
+  height: 100%;
+  max-width: 280px;
+  max-height: 220px;
+  image-rendering: pixelated;
+  border: 1px dashed var(--a2-border);
+}
+
+/* =========================================================
+   Disk II S6,D1 Hardware LED HUD + Phosphor Badge
+   ========================================================= */
+.a2-hw-hud {
+  position: fixed;
+  right: 18px;
+  bottom: 16px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.a2-disk-hud {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 11px;
+  border-radius: 6px;
+  background: rgba(18, 17, 14, 0.88);
+  border: 1px solid rgba(220, 212, 188, 0.22);
+  color: #ddd5be;
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.a2-disk-hud.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.a2-disk-led {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #421210;
+  border: 1px solid #220908;
+  transition: background 0.08s ease, box-shadow 0.08s ease;
+}
+
+.a2-disk-hud.active .a2-disk-led {
+  background: #ff2c24;
+  box-shadow: 0 0 10px #ff3322, 0 0 18px rgba(255, 44, 36, 0.7);
+}

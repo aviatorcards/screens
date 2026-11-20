@@ -5,14 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Living OS Screensavers</title>
   <meta name="description" content="Fullscreen browser-based retro operating system screensavers that look like the OS is genuinely being used." />
-  <link rel="stylesheet" href="css/shell.css?v=9" />
+  <link rel="stylesheet" href="css/shell.css?v=15" />
   <link rel="stylesheet" href="savers/mac-os-9/mac-os-9.css?v=4" />
-  <link rel="stylesheet" href="savers/commodore-64/commodore-64.css?v=4" />
+  <link rel="stylesheet" href="savers/apple-ii/apple-ii.css?v=1" />
+  <link rel="stylesheet" href="savers/cpm/cpm.css?v=5" />
+  <link rel="stylesheet" href="savers/compilers/compilers.css?v=2" />
+  <link rel="stylesheet" href="savers/solaris/solaris.css?v=2" />
+  <link rel="stylesheet" href="savers/apple-lisa/apple-lisa.css?v=1" />
+  <link rel="stylesheet" href="savers/commodore-64/commodore-64.css?v=5" />
   <link rel="stylesheet" href="savers/ms-dos/ms-dos.css?v=4" />
-  <link rel="stylesheet" href="savers/windows-evolution/windows-evolution.css?v=4" />
-  <link rel="stylesheet" href="savers/nextstep/nextstep.css?v=5" />
+  <link rel="stylesheet" href="savers/windows-evolution/windows-evolution.css?v=6" />
+  <link rel="stylesheet" href="savers/nextstep/nextstep.css?v=6" />
   <link rel="stylesheet" href="savers/os2-warp/os2-warp.css?v=6" />
-  <link rel="stylesheet" href="savers/mac-system-7/mac-system-7.css?v=7" />
+  <link rel="stylesheet" href="savers/mac-system-7/mac-system-7.css?v=8" />
   <link rel="stylesheet" href="savers/windows-xp/windows-xp.css?v=13" />
 </head>
 <body class="saver-active">
@@ -38,6 +43,10 @@
       <button id="btn-next" class="hud-btn" title="Next Activity (N)">
         <span class="hud-icon">⏭</span>
         <span class="hud-label">Next</span>
+      </button>
+      <button id="btn-cycle" class="hud-btn" title="Cycle all screensavers (C)" aria-pressed="false">
+        <span class="hud-icon" aria-hidden="true">↻</span>
+        <span class="hud-label">All</span>
       </button>
       <button id="btn-speed" class="hud-btn" title="Cycle Speed ([ / ])">
         <span id="label-speed">1×</span>
@@ -81,15 +90,19 @@
           <span><kbd>F</kbd> Fullscreen</span>
           <span><kbd>Space</kbd> Pause</span>
           <span><kbd>N</kbd> Next Scene</span>
+          <span><kbd>C</kbd> Cycle all</span>
           <span><kbd>[</kbd> <kbd>]</kbd> Speed</span>
           <span><kbd>M</kbd> Sound</span>
           <span><kbd>G</kbd> Switcher</span>
         </div>
-        <a class="gallery-lobby" href="index.html">All screensavers</a>
+        <div class="gallery-actions">
+          <button id="btn-play-all" class="gallery-play-all" type="button" aria-pressed="false">Play all</button>
+          <a class="gallery-lobby" href="index.html">Lobby</a>
+        </div>
       </footer>
     </section>
   </div>
 
-  <script type="module" src="js/shell.js?v=15"></script>
+  <script type="module" src="js/shell.js?v=27"></script>
 </body>
 </html>

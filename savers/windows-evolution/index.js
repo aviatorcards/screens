@@ -1,5 +1,5 @@
 import { WinEvoEngine, WinEvoAbortError } from './engine.js';
-import { TIMELINE_ERAS } from './eras.js';
+import { TIMELINE_ERAS } from './eras.js?v=6';
 
 export function createScreensaver() {
   let engine = null;

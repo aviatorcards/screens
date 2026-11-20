@@ -91,7 +91,7 @@ export class Sys7Engine {
         <div class="sys7-menu-left" data-menu-left></div>
         <div class="sys7-menu-right">
           <span class="sys7-clock" data-clock>9:41 AM</span>
-          <span class="sys7-mitem" data-menu="help" title="Balloon Help">${SYS7_ICONS.balloonHelp}</span>
+          <span class="sys7-mitem" data-menu="help" title="Guide">${SYS7_ICONS.balloonHelp}</span>
           <span class="sys7-mitem" data-menu="app" title="Application Switcher">${SYS7_ICONS.appFinder}</span>
         </div>
       </header>

@@ -399,6 +399,7 @@ export class XpEngine {
           <div class="xp-sm-sep"></div>
           <div class="xp-sm-item"><span class="xp-sm-item-icon">${XP_ICONS.displayProps}</span><span>Control Panel</span></div>
           <div class="xp-sm-item"><span class="xp-sm-item-icon">${XP_ICONS.infoBalloon}</span><span>Help and Support</span></div>
+          <div class="xp-sm-item"><span class="xp-sm-item-icon">${XP_ICONS.infoBalloon}</span><span>Search</span></div>
           <div class="xp-sm-item"><span class="xp-sm-item-icon">${XP_ICONS.notepad}</span><span>Run…</span></div>
         </div>
       </div>

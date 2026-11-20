@@ -164,13 +164,14 @@
 }
 
 .beos-workspaces {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 2px;
 }
 
 .beos-ws {
   width: 14px;
-  height: 11px;
+  height: 10px;
   padding: 0;
   border: 1px solid #222;
   background: #f7f7f7;
@@ -178,6 +179,23 @@
 
 .beos-ws.on {
   background: #ffe14a;
+}
+
+.beos-pulse {
+  width: 8px;
+  height: 16px;
+  border: 1px solid #222;
+  background: #1a1a1a;
+  display: flex;
+  align-items: flex-end;
+  flex: none;
+}
+
+.beos-pulse i {
+  display: block;
+  width: 100%;
+  height: 22%;
+  background: #3cab3a;
 }
 
 .beos-clock {

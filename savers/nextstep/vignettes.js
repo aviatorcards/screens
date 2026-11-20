@@ -21,7 +21,7 @@ export async function nextBootAndLogin(engine, signal) {
         ${NEXT_ICONS.nextCube}
         <div>
           <div style="font-size:18px;font-weight:800;letter-spacing:-0.01em;">NeXTSTEP 3.3</div>
-          <div style="font-size:11px;color:#333;">Mach 2.5 Kernel · Motorola 68040 33MHz · Display PostScript</div>
+          <div style="font-size:11px;color:#333;">NeXTcube Turbo · Motorola 68040 33MHz · Display PostScript</div>
         </div>
       </div>
       <div id="nx-boot-phase" style="font-family:var(--nx-mono);font-size:11.5px;line-height:1.5;background:#111;color:#e8e8e8;padding:10px 12px;border:1px solid #000;"></div>
@@ -34,7 +34,7 @@ export async function nextBootAndLogin(engine, signal) {
     engine.sounds.bootChord();
     const lines = [
       'NeXT ROM Monitor v2.5 (68040 Turbo)',
-      'Testing 32 MB RAM & 256 KB DSP56001… OK',
+      'Testing 32 MB RAM & 24 KB DSP56001 (8K×24)… OK',
       'Loading /mach — NeXTSTEP Release 3.3',
       'Starting Display PostScript Window Server…',
       'Mounting /NextApps and /LocalApps…',
@@ -295,19 +295,22 @@ async function terminalMach(engine, signal) {
   await engine.wait(450, signal);
 
   await runCmd('hostinfo', [
-    'Mach kernel version: NeXT Mach 2.5: Release 3.3 (MC68040)',
+    'Mach kernel version:',
+    '     NeXT Mach 3.3: Wed Nov 16 17:10:37 PST 1994; root:RELEASE_M68K',
     'Kernel configured for a single processor only.',
     '1 processor is physically available.',
-    'Processor type: MC680x0 (MC68040) · Primary memory: 32.00 MB',
+    'Processor type: MC680x0 (68040)',
+    'Primary memory available: 32.00 megabytes.',
   ]);
 
   await runCmd('ls /NextApps', [
     'Edit.app            Mail.app            Preferences.app',
-    'InterfaceBuilder.app Preview.app        Terminal.app',
-    'Librarian.app       ProjectBuilder.app  Webster.app',
+    'InterfaceBuilder.app Preview.app        PrintManager.app',
+    'Librarian.app       ProjectBuilder.app  Terminal.app',
+    'Webster.app',
   ]);
 
-  await runCmd('cc -ObjC hello.m -lNeXT_s -o hello && ./hello', [
+  await runCmd('cc hello.m -o hello -lNeXT_s && ./hello', [
     `Hello from Objective-C on NeXTSTEP 3.3 (${d.shortDate}, ${d.timeStr})!`,
   ]);
 
@@ -449,7 +452,7 @@ export async function interfaceBuilder(engine, signal) {
 }
 
 /* =====================================================================
-   7. NeXTMail — Rich Multimedia 1993 Mail
+   7. NeXTMail — Rich Multimedia Mail
    ===================================================================== */
 async function nextMail(engine, signal) {
   engine.onStatus('Mail.app — Reading NeXTMail');
