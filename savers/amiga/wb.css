@@ -1,0 +1,616 @@
+/* Workbench 1.3 — four colors, screen bar, drawers. Scoped under .wb. */
+
+.wb {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #0055aa;
+  color: #000;
+  font-family: "Nimbus Mono PS", "Liberation Mono", "Noto Sans Mono", ui-monospace, monospace;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+  -webkit-font-smoothing: none;
+  text-rendering: optimizeSpeed;
+  user-select: none;
+  cursor: none;
+}
+
+.wb *,
+.wb *::before,
+.wb *::after {
+  box-sizing: border-box;
+}
+
+.wb button {
+  font-family: inherit;
+  font-size: inherit;
+  font-style: normal;
+  font-weight: 400;
+  color: inherit;
+  cursor: none;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+
+.wb-deskicons,
+.wb-windows,
+.wb-menus,
+.wb-boing,
+.wb-boot {
+  position: absolute;
+  inset: 0;
+}
+
+.wb-deskicons { z-index: 1; }
+.wb-windows { z-index: 2; pointer-events: none; }
+.wb-bar { z-index: 5; }
+.wb-menus { z-index: 30; pointer-events: none; }
+.wb-boing { z-index: 40; display: none; }
+.wb-boot { z-index: 60; display: none; }
+.wb-cursor { z-index: 70; }
+
+.wb-dicon {
+  position: absolute;
+  width: 132px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #000;
+}
+
+.wb-glyph {
+  width: 48px;
+  height: 48px;
+  display: block;
+  flex: none;
+}
+
+.wb-glyph svg {
+  width: 48px;
+  height: 48px;
+  display: block;
+  image-rendering: pixelated;
+  shape-rendering: crispEdges;
+}
+
+.wb-label {
+  display: block;
+  max-width: 132px;
+  padding: 0 2px;
+  text-align: center;
+  line-height: 1.15;
+  color: #000;
+  background: transparent;
+}
+
+.wb-dicon.selected .wb-label,
+.wb-iicon.selected .wb-label {
+  background: #ff8800;
+  color: #000;
+}
+
+.wb-dicon.selected .wb-glyph,
+.wb-iicon.selected .wb-glyph {
+  filter: invert(1);
+}
+
+.wb-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 6px;
+  background: #fff;
+  color: #000;
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
+
+.wb-sgadget,
+.wb-close,
+.wb-depth,
+.wb-size,
+.wb-gadget {
+  border: 2px solid #000;
+  background: #fff;
+  padding: 0;
+  flex: none;
+}
+
+.wb-sgadget,
+.wb-close,
+.wb-depth {
+  width: 14px;
+  height: 12px;
+}
+
+.wb-bar-fill {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.wb-bar-title {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.wb-bar-menus {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+}
+
+.wb-bar.menu .wb-bar-title { display: none; }
+.wb-bar.menu .wb-bar-menus { display: flex; }
+
+.wb-bar-menu {
+  display: block;
+  border: 0;
+  background: transparent;
+  padding: 2px 8px;
+  line-height: 1.2;
+}
+
+.wb-bar-menu.lit,
+.wb-mi.lit,
+.wb-gadget.lit {
+  background: #ff8800;
+  color: #000;
+}
+
+.wb-win {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 2px solid #000;
+  padding: 0 4px 4px;
+  outline: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.wb-title {
+  height: 24px;
+  margin: 0 -4px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #fff;
+  color: #000;
+  border-bottom: 2px solid #000;
+  flex: none;
+}
+
+.wb-title-text {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.wb-depths {
+  display: flex;
+  gap: 3px;
+  flex: none;
+}
+
+.wb-size {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 16px;
+  height: 14px;
+  z-index: 3;
+}
+
+.wb-size i {
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: 1px 0 0 3px;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
+
+.wb-client {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border: 2px solid #000;
+  overflow: hidden;
+  background-color: #fff;
+  background-image: repeating-conic-gradient(#000 0% 25%, #fff 0% 50%);
+  background-size: 2px 2px;
+}
+
+.wb-client.solid,
+.wb-client.paper {
+  background: #fff;
+  background-image: none;
+}
+
+.wb-client.term,
+.wb-client.paint {
+  background: #000;
+  background-image: none;
+}
+
+.wb-icons {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 10px 6px;
+  padding: 10px 8px;
+}
+
+.wb-iicon {
+  width: 116px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #000;
+}
+
+.wb-iicon .wb-label { max-width: 116px; }
+
+.wb-pop {
+  position: absolute;
+  min-width: 148px;
+  padding: 2px 0;
+  background: #fff;
+  border: 2px solid #000;
+}
+
+.wb-mi {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 2px 18px 2px 12px;
+  border: 0;
+  background: #fff;
+  color: #000;
+  text-align: left;
+  white-space: nowrap;
+  line-height: 1.25;
+}
+
+.wb-mi.ghost { opacity: 0.4; }
+
+.wb-term {
+  height: 100%;
+  padding: 8px 10px;
+  overflow: auto;
+  background: #000;
+  color: #ff8800;
+  white-space: pre;
+  line-height: 1.35;
+}
+
+.wb-caret {
+  display: inline-block;
+  width: 8px;
+  height: 13px;
+  background: currentColor;
+  vertical-align: text-bottom;
+}
+
+.wb-note {
+  min-height: 100%;
+  padding: 0 10px;
+  color: #000;
+  white-space: pre-wrap;
+  line-height: 21px;
+  background-color: #fff;
+  background-image: repeating-linear-gradient(#fff 0 20px, #0055aa 20px 21px);
+}
+
+.wb-clockface {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: #fff;
+  color: #000;
+}
+
+.wb-time {
+  font-size: 28px;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.wb-req {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #fff;
+  text-align: center;
+}
+
+.wb-req p { margin: 0; }
+
+.wb-gadget {
+  min-width: 72px;
+  padding: 2px 16px;
+}
+
+.wb-dp {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 58px;
+  grid-template-rows: 1fr 18px;
+  background: #000;
+}
+
+.wb-canvas {
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #000;
+}
+
+.wb-tools {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 26px;
+  gap: 3px;
+  padding: 3px;
+  background: #000;
+}
+
+.wb-tool {
+  border: 2px solid #fff;
+  background: #fff;
+  padding: 1px;
+}
+
+.wb-tool.on { background: #ff8800; }
+
+.wb-tool svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.wb-pals {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+}
+
+.wb-swatch {
+  flex: 1;
+  border: 0;
+  padding: 0;
+  box-shadow: inset 0 0 0 1px #000;
+}
+
+.wb-swatch.on { box-shadow: inset 0 0 0 2px #fff; }
+
+.wb-boing.on { display: block; background: #000; }
+
+.wb-floor {
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  bottom: 0;
+  height: 48%;
+  perspective: 520px;
+  overflow: hidden;
+}
+
+.wb-floorgrid {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: -10%;
+  height: 130%;
+  transform-origin: center bottom;
+  transform: rotateX(64deg);
+  background-color: #f2f2f2;
+  background-image:
+    repeating-linear-gradient(#d00000 0 16px, #f4f4f4 0 32px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.45) 0 2px, transparent 0 48px);
+}
+
+.wb-shadow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 140px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+
+.wb-ball {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 150px;
+  height: 150px;
+  pointer-events: none;
+}
+
+.wb-ball-spin {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #fff;
+  background-image:
+    linear-gradient(45deg, #e10600 25%, transparent 25%),
+    linear-gradient(-45deg, #e10600 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e10600 75%),
+    linear-gradient(-45deg, transparent 75%, #e10600 75%);
+  background-size: 30px 30px;
+  background-position: 0 0, 0 15px, 15px -15px, -15px 0;
+  box-shadow: inset -16px -20px 0 rgba(0, 0, 0, 0.28), inset 14px 16px 0 rgba(255, 255, 255, 0.45);
+}
+
+.wb-boot.on { display: block; background: #fff; }
+
+.wb-drive {
+  position: absolute;
+  top: 50%;
+  right: 14%;
+  width: 260px;
+  height: 190px;
+  transform: translateY(-50%);
+  background: #fff;
+  border: 6px solid #000;
+  box-shadow: inset 0 0 0 6px #fff, inset 0 0 0 10px #000;
+}
+
+.wb-slot {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  top: 50%;
+  height: 18px;
+  margin-top: -9px;
+  background: #000;
+}
+
+.wb-led {
+  position: absolute;
+  right: 24px;
+  bottom: 22px;
+  width: 22px;
+  height: 10px;
+  background: #ff8800;
+  border: 2px solid #000;
+}
+
+.wb-hand {
+  position: absolute;
+  top: 50%;
+  width: 520px;
+  height: 280px;
+  margin-top: -140px;
+}
+
+.wb-arm,
+.wb-fingers {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.wb-arm svg {
+  width: 340px;
+  height: 260px;
+  display: block;
+}
+
+.wb-fingers {
+  left: 214px;
+  top: 52px;
+  z-index: 2;
+}
+
+.wb-fingers svg {
+  width: 190px;
+  height: 108px;
+  display: block;
+}
+
+.wb-disk {
+  position: absolute;
+  left: 228px;
+  top: 50%;
+  z-index: 1;
+  width: 120px;
+  height: 120px;
+  margin-top: -60px;
+  background: #fff;
+  border: 4px solid #000;
+}
+
+.wb-disk i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 26px;
+  background: #000;
+}
+
+.wb-disk b {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 8px;
+  height: 8px;
+  background: #fff;
+}
+
+.wb-disk span {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 28px;
+  background: #ff8800;
+  color: #000;
+  font-size: 13px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.wb-cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 30px;
+  pointer-events: none;
+  display: none;
+}
+
+.wb-cursor.on { display: block; }
+
+.wb-cursor svg { display: block; width: 22px; height: 30px; }
+
+.wb-ring {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border: 2px solid #ff8800;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 35;
+}

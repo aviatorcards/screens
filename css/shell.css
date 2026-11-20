@@ -1,0 +1,876 @@
+/* =========================================================
+   Living OS Screensavers — Shell & Switcher UI
+   Zero-clutter fullscreen stage + hidden hover/keyboard HUD
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0d0f14;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+body.cursor-hidden,
+body.cursor-hidden * {
+  cursor: none !important;
+}
+
+/* Fullscreen stage */
+.stage {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Invisible bottom trigger zone */
+.hud-zone {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 76px;
+  z-index: 9000;
+  pointer-events: none;
+}
+
+/* Floating translucent HUD */
+.hud {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translate(-50%, 24px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(16, 18, 24, 0.84);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(255, 255, 255, 0.08) inset;
+  color: #eef1f7;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  max-width: calc(100vw - 24px);
+}
+
+.hud.visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+
+.hud-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hud-title-group {
+  gap: 8px;
+}
+
+.hud-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.14);
+  margin: 0 2px;
+}
+
+.hud-btn {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #eef1f7;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 7px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  white-space: nowrap;
+}
+
+.hud-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.hud-btn:active {
+  transform: scale(0.96);
+}
+
+.hud-btn.active {
+  background: rgba(114, 159, 255, 0.24);
+  border-color: rgba(132, 175, 255, 0.42);
+  color: #fff;
+}
+
+.hud-btn-primary {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.12);
+  font-weight: 600;
+}
+
+.hud-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.hud-activity {
+  font-size: 12px;
+  color: rgba(238, 241, 247, 0.68);
+  max-width: 190px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 4px;
+}
+
+/* Special trigger popover */
+.hud-special-wrap {
+  position: relative;
+}
+
+.special-menu {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  right: 0;
+  min-width: 196px;
+  padding: 6px;
+  border-radius: 12px;
+  background: rgba(18, 21, 28, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.52);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.special-menu[hidden] {
+  display: none;
+}
+
+.special-menu button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #e9edf5;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+.special-menu button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* First-load subtle toast */
+.hint-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translate(-50%, 10px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9400;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(15, 17, 23, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(242, 245, 250, 0.92);
+  font-size: 12.5px;
+  white-space: nowrap;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.hint-toast.visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.hint-toast kbd,
+.gallery-shortcuts kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  color: #fff;
+}
+
+/* Multi-screensaver gallery modal */
+.gallery-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9800;
+  background: rgba(8, 10, 15, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.gallery-backdrop[hidden] {
+  display: none;
+}
+
+.gallery-modal {
+  width: min(860px, 100%);
+  max-height: min(680px, calc(100vh - 48px));
+  background: #141720;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.65);
+  color: #f1f4f9;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.gallery-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 26px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.gallery-header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.gallery-subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: rgba(241, 244, 249, 0.65);
+}
+
+.gallery-close {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  display: grid;
+  place-items: center;
+  transition: background 0.15s ease;
+}
+
+.gallery-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.gallery-grid {
+  padding: 22px 26px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-auto-rows: max-content;
+  align-content: start;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.saver-card {
+  position: relative;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: min-content;
+  text-align: left;
+  color: inherit;
+  font-family: inherit;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.saver-card:not(.coming-soon):hover {
+  transform: translateY(-2px);
+  border-color: rgba(132, 175, 255, 0.55);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.saver-card.active {
+  border-color: rgba(114, 165, 255, 0.85);
+  box-shadow: 0 0 0 1px rgba(114, 165, 255, 0.4);
+}
+
+.saver-card.coming-soon {
+  opacity: 0.58;
+  cursor: default;
+}
+
+.saver-thumb {
+  flex: none;
+  height: 122px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.saver-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(12, 16, 24, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.saver-badge.live {
+  background: rgba(45, 136, 255, 0.88);
+  border-color: rgba(180, 214, 255, 0.5);
+}
+
+.saver-body {
+  padding: 14px 15px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.saver-era {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(154, 189, 255, 0.88);
+}
+
+.saver-name {
+  font-size: 15px;
+  font-weight: 650;
+  color: #fff;
+}
+
+.saver-desc {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: rgba(241, 244, 249, 0.68);
+}
+
+/* Mini preview graphics inside switcher cards */
+.thumb-macos9 {
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.09) 0 4px, transparent 4px 8px),
+    repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.12) 0 4px, transparent 4px 8px),
+    #63639c;
+}
+.thumb-macos9::before {
+  content: "  File  Edit  View  Special";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 18px;
+  background: #dddddd;
+  border-bottom: 1px solid #000;
+  color: #111;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 18px;
+  padding: 0 8px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+.thumb-macos9::after {
+  content: "";
+  position: absolute;
+  left: 24px;
+  top: 32px;
+  width: 128px;
+  height: 70px;
+  background: #fff;
+  border: 1px solid #111;
+  box-shadow: 0 0 0 2px #ddd, 2px 3px 0 rgba(0, 0, 0, 0.35);
+  background-image: linear-gradient(to bottom, #ccc 0 14px, #888 14px 15px, #fff 15px);
+}
+
+.thumb-winxp {
+  background: linear-gradient(to bottom, #3a7bd5 0%, #69a7f3 58%, #4ea038 58%, #2e7d22 100%);
+}
+.thumb-winxp::after {
+  content: "start";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 20px;
+  background: linear-gradient(to bottom, #245edb, #1941a5);
+  color: #fff;
+  font-size: 10px;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 20px;
+  padding-left: 10px;
+}
+
+.thumb-winevo {
+  background:
+    linear-gradient(90deg, #000000 0 33%, #008080 33% 66%, transparent 66%),
+    linear-gradient(to bottom, #2b74d8 0 58%, #4da02a 58% 100%);
+}
+.thumb-winevo::before {
+  content: "C:\\>  ▸  3.1/95  ▸  XP";
+  position: absolute;
+  left: 8px;
+  top: 18px;
+  color: #ffffff;
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 9.5px;
+  font-weight: 800;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+.thumb-winevo::after {
+  content: "start";
+  position: absolute;
+  left: 33%;
+  right: 0;
+  bottom: 0;
+  height: 18px;
+  background: linear-gradient(90deg, #c0c0c0 0 50%, #245edb 50% 100%);
+  color: #ffffff;
+  font-size: 9.5px;
+  font-style: italic;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.thumb-sys7 {
+  background-image:
+    radial-gradient(#999 1px, transparent 1px),
+    radial-gradient(#999 1px, #d8d8d8 1px);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+}
+.thumb-sys7::before {
+  content: "  File  Edit  View";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 16px;
+  background: #fff;
+  border-bottom: 1px solid #000;
+  color: #000;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 16px;
+  padding: 0 8px;
+}
+
+.thumb-haiku {
+  background: linear-gradient(160deg, #3e7ea8 0%, #24577a 100%);
+}
+.thumb-haiku::before {
+  content: "Deskbar";
+  position: absolute;
+  top: 40px;
+  right: 12px;
+  background:
+    linear-gradient(#ffe14a, #f0c020) 4px 50% / 8px 8px no-repeat,
+    #e4e4e4;
+  color: #111;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 14px;
+  padding: 2px 6px 2px 16px;
+  border: 1px solid #111;
+}
+.thumb-haiku::after {
+  content: "Tracker";
+  position: absolute;
+  left: 16px;
+  top: 26px;
+  width: 132px;
+  height: 76px;
+  border: 1px solid #222;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.28);
+  background:
+    linear-gradient(#ffe14a, #ffe14a) 0 0 / 64px 16px no-repeat,
+    #f7f7f7;
+  color: #111;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  padding: 0 6px;
+}
+
+.thumb-amiga {
+  background: #0055aa;
+}
+.thumb-amiga::before {
+  content: "Workbench";
+  position: absolute;
+  left: 16px;
+  top: 26px;
+  width: 150px;
+  height: 16px;
+  box-sizing: border-box;
+  background: #ff8800;
+  border: 2px solid #000;
+  border-bottom: 0;
+  color: #111;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 14px;
+  padding: 0 6px;
+}
+.thumb-amiga::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 42px;
+  width: 150px;
+  height: 62px;
+  box-sizing: border-box;
+  background:
+    linear-gradient(#111, #111) 10px 12px / 18px 14px no-repeat,
+    linear-gradient(#111, #111) 36px 12px / 18px 14px no-repeat,
+    linear-gradient(#111, #111) 62px 12px / 18px 14px no-repeat,
+    #fff;
+  border: 2px solid #000;
+  border-top: 0;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.thumb-c64 {
+  background: #352879;
+  box-shadow: inset 0 0 0 10px #6c5eb5;
+}
+.thumb-c64::after {
+  content: "**** COMMODORE 64 BASIC V2 ****\A\A READY.";
+  position: absolute;
+  left: 18px;
+  right: 14px;
+  top: 22px;
+  color: #70a4b2;
+  font-family: ui-monospace, "Courier New", Courier, monospace;
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1.35;
+  white-space: pre;
+}
+
+.thumb-cpm {
+  background: #031207;
+  box-shadow: inset 0 0 32px rgba(0, 0, 0, 0.55);
+}
+.thumb-cpm::after {
+  content: "CP/M-80 Version 2.2\A\A A>DIR\A A: PIP      COM\A A>_";
+  position: absolute;
+  left: 12px;
+  top: 14px;
+  color: #73ff96;
+  font-family: ui-monospace, "Courier New", Courier, monospace;
+  font-size: 8.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  white-space: pre;
+  text-shadow: 0 0 6px rgba(70, 255, 130, 0.35);
+}
+
+.thumb-dos {
+  background: #000;
+}
+.thumb-dos::after {
+  content: "MS-DOS Version 6.22\A (C)Copyright Microsoft Corp 1981-1994.\A\A C:\\>_";
+  position: absolute;
+  left: 10px;
+  top: 16px;
+  right: 8px;
+  color: #aaaaaa;
+  font-family: ui-monospace, "Courier New", Courier, monospace;
+  font-size: 7.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  white-space: pre;
+}
+
+.thumb-win31 {
+  background: #008080;
+}
+.thumb-win31::before {
+  content: "Program Manager";
+  position: absolute;
+  left: 10px;
+  top: 14px;
+  width: 142px;
+  height: 18px;
+  box-sizing: border-box;
+  padding: 0 4px 0 18px;
+  background:
+    linear-gradient(#c0c0c0, #c0c0c0) 3px 3px / 11px 11px no-repeat,
+    #000080;
+  border: 2px solid #000;
+  border-bottom: 0;
+  color: #fff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 14px;
+  white-space: nowrap;
+}
+.thumb-win31::after {
+  content: "File   Options   Window   Help";
+  position: absolute;
+  left: 10px;
+  top: 32px;
+  width: 142px;
+  height: 70px;
+  box-sizing: border-box;
+  padding: 0 5px;
+  background:
+    linear-gradient(#000080, #000080) 8px 28px / 14px 12px no-repeat,
+    linear-gradient(#000080, #000080) 36px 28px / 14px 12px no-repeat,
+    linear-gradient(#800000, #800000) 64px 28px / 14px 12px no-repeat,
+    linear-gradient(#008000, #008000) 92px 28px / 14px 12px no-repeat,
+    #c0c0c0;
+  border: 2px solid #000;
+  border-top: 0;
+  color: #000;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 7.5px;
+  font-weight: 700;
+  line-height: 15px;
+  white-space: nowrap;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.28);
+}
+
+.thumb-win95 {
+  background:
+    linear-gradient(#fff, #fff) 0 calc(100% - 20px) / 100% 1px no-repeat,
+    linear-gradient(#c0c0c0, #c0c0c0) 0 100% / 100% 20px no-repeat,
+    #008080;
+}
+.thumb-win95::before {
+  content: "Start";
+  position: absolute;
+  left: 3px;
+  bottom: 2px;
+  height: 16px;
+  box-sizing: border-box;
+  padding: 0 6px 0 16px;
+  background:
+    linear-gradient(#e23b2a, #e23b2a) 3px 2px / 5px 5px no-repeat,
+    linear-gradient(#19a34a, #19a34a) 8px 2px / 5px 5px no-repeat,
+    linear-gradient(#1d4ed8, #1d4ed8) 3px 7px / 5px 5px no-repeat,
+    linear-gradient(#f5c400, #f5c400) 8px 7px / 5px 5px no-repeat,
+    #c0c0c0;
+  border: 2px solid #fff;
+  border-color: #fff #404040 #404040 #fff;
+  color: #000;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 12px;
+}
+.thumb-win95::after {
+  content: "My Computer";
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  width: 136px;
+  height: 70px;
+  box-sizing: border-box;
+  padding: 0 6px;
+  background:
+    linear-gradient(#c0c0c0, #c0c0c0) right 3px top 2px / 12px 11px no-repeat,
+    linear-gradient(#c0c0c0, #c0c0c0) right 17px top 2px / 12px 11px no-repeat,
+    linear-gradient(#c0c0c0, #c0c0c0) right 31px top 2px / 12px 11px no-repeat,
+    linear-gradient(90deg, #000080 0%, #1084d0 100%) 0 0 / 100% 15px no-repeat,
+    #c0c0c0;
+  color: #fff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 15px;
+  white-space: nowrap;
+  border: 2px solid #fff;
+  border-color: #fff #404040 #404040 #fff;
+  box-shadow: 1px 1px 0 #000;
+}
+
+.thumb-warp {
+  background: #9db7c4;
+}
+.thumb-warp::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 16px;
+  background:
+    linear-gradient(#2f6fad, #2f6fad) 4px 2px / 12px 12px no-repeat,
+    linear-gradient(#fff, #fff) 0 0 / 100% 1px no-repeat,
+    #c3c3c3;
+  border-bottom: 1px solid #808080;
+}
+.thumb-warp::after {
+  content: "OS/2 System";
+  position: absolute;
+  left: 14px;
+  top: 28px;
+  width: 148px;
+  height: 74px;
+  box-sizing: border-box;
+  padding: 0 6px;
+  background:
+    linear-gradient(#000080, #000080) 0 0 / 100% 15px no-repeat,
+    linear-gradient(#1a3c8c, #1a3c8c) 8px 28px / 16px 13px no-repeat,
+    linear-gradient(#1a3c8c, #1a3c8c) 32px 28px / 16px 13px no-repeat,
+    linear-gradient(#1a3c8c, #1a3c8c) 56px 28px / 16px 13px no-repeat,
+    #d8d8d8;
+  color: #fff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 15px;
+  white-space: nowrap;
+  border: 2px solid #c0c0c0;
+  box-shadow:
+    inset 1px 1px 0 #fff,
+    inset -1px -1px 0 #606060,
+    2px 2px 0 rgba(0, 0, 0, 0.22);
+}
+
+.thumb-next {
+  background:
+    linear-gradient(#f4f4f4, #f4f4f4) right 10px top 40px / 14px 14px no-repeat,
+    linear-gradient(#d5d5d5, #d5d5d5) right 10px top 60px / 14px 14px no-repeat,
+    linear-gradient(#d5d5d5, #d5d5d5) right 10px top 80px / 14px 14px no-repeat,
+    linear-gradient(#111, #111) right 6px top 34px / 22px 76px no-repeat,
+    #555;
+}
+.thumb-next::before {
+  content: "Workspace\A File\A Windows\A Hide\A Quit";
+  position: absolute;
+  left: 8px;
+  top: 12px;
+  padding: 3px 6px;
+  background: #c4c4c4;
+  color: #111;
+  border: 1px solid #000;
+  box-shadow: 2px 2px 0 #000;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 7.5px;
+  font-weight: 700;
+  line-height: 1.4;
+  white-space: pre;
+}
+.thumb-next::after {
+  content: "File Viewer";
+  position: absolute;
+  left: 84px;
+  top: 36px;
+  width: 96px;
+  height: 64px;
+  box-sizing: border-box;
+  background:
+    linear-gradient(#dedede, #dedede) 3px 3px / 9px 9px no-repeat,
+    linear-gradient(#000, #000) 0 0 / 100% 14px no-repeat,
+    #c8c8c8;
+  color: #fff;
+  border: 1px solid #000;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.45);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 7.5px;
+  font-weight: 700;
+  line-height: 14px;
+  text-align: center;
+}
+
+.gallery-footer {
+  padding: 14px 26px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.gallery-lobby {
+  color: #f4f7ff;
+  font-size: 12.5px;
+  font-weight: 650;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.gallery-lobby:hover {
+  text-decoration: underline;
+}
+
+.gallery-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  font-size: 12px;
+  color: rgba(241, 244, 249, 0.7);
+}
+
+@media (max-width: 680px) {
+  .hud-activity,
+  .hud-label {
+    display: none;
+  }
+}

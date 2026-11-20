@@ -1,0 +1,6 @@
+# Prevent Cloudflare & browser stale caching of HTML/CSS/ES modules during active development
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|css|js)$">
+    Header set Cache-Control "no-cache, must-revalidate, max-age=0"
+  </FilesMatch>
+</IfModule>

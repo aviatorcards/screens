@@ -1,0 +1,955 @@
+/* =====================================================================
+   Windows Evolution (1985 → 2001)
+   MS-DOS 3.1 → Windows 1.01 → Windows 3.1 → Windows 95 → 98 SE → XP Luna
+   ===================================================================== */
+
+.wev-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: "Tahoma", "MS Sans Serif", "Segoe UI", Arial, sans-serif;
+  user-select: none;
+}
+
+.wev-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* Subtle timeline badge in top-right (non-intrusive hardware/era readout) */
+.wev-era-pill {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  z-index: 860;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(10, 12, 18, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(245, 247, 252, 0.92);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  pointer-events: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* Ghost Cursor */
+.wev-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 850;
+  pointer-events: none;
+  will-change: transform;
+  transform: translate3d(200px, 160px, 0);
+  display: none;
+}
+
+.wev-cursor.visible {
+  display: block;
+}
+
+/* =====================================================================
+   ERA 1: MS-DOS 3.1 & Blue Text-Mode Setup (1985)
+   ===================================================================== */
+.wev-dos {
+  position: absolute;
+  inset: 0;
+  background: #000000;
+  color: #bbbbbb;
+  padding: 28px 36px;
+  font-family: "Courier New", ui-monospace, Menlo, Consolas, monospace;
+  font-size: clamp(14px, 1.9vw, 22px);
+  line-height: 1.32;
+  white-space: pre-wrap;
+  overflow: hidden;
+}
+
+.wev-dos-cursor {
+  display: inline-block;
+  width: 0.62em;
+  height: 0.18em;
+  background: #cccccc;
+  vertical-align: -0.05em;
+  animation: wev-blink 0.65s steps(2, start) infinite;
+}
+
+@keyframes wev-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.wev-blue-setup {
+  position: absolute;
+  inset: 0;
+  background: #0000aa;
+  color: #ffffff;
+  font-family: "Courier New", ui-monospace, Menlo, Consolas, monospace;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 26px 38px;
+  font-size: clamp(13px, 1.6vw, 19px);
+}
+
+.wev-blue-setup-head {
+  border-bottom: 2px double #aaaaaa;
+  padding-bottom: 10px;
+  font-weight: 700;
+  color: #ffff55;
+}
+
+.wev-blue-box {
+  border: 2px solid #ffffff;
+  padding: 18px 24px;
+  background: #000088;
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wev-setup-bar {
+  height: 18px;
+  border: 2px solid #ffffff;
+  background: #000055;
+  padding: 2px;
+}
+
+.wev-setup-bar > div {
+  height: 100%;
+  width: 0%;
+  background: #ffff55;
+  transition: width 0.2s linear;
+}
+
+/* =====================================================================
+   ERA 2: Windows 1.01 (1985 · Strict EGA Tiled Layout)
+   ===================================================================== */
+.wev-win1 {
+  position: absolute;
+  inset: 0;
+  background: #00aaaa;
+  display: flex;
+  flex-direction: column;
+  font-family: "Courier New", monospace;
+  color: #000;
+}
+
+.wev-win1-tiles {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 3px;
+  background: #000;
+  padding: 3px;
+  min-height: 0;
+}
+
+.wev-win1-right {
+  display: grid;
+  grid-template-rows: 0.9fr 1.1fr;
+  gap: 3px;
+  min-height: 0;
+}
+
+.wev-win1-pane {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.wev-win1-title {
+  height: 24px;
+  background: #0000aa;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  border-bottom: 2px solid #000;
+}
+
+.wev-win1-title.inactive {
+  background: #ffffff;
+  color: #000000;
+}
+
+.wev-win1-menu {
+  height: 22px;
+  background: #ffffff;
+  border-bottom: 2px solid #000;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.wev-win1-body {
+  flex: 1;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.45;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
+.wev-win1-files {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 18px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.wev-win1-file.selected {
+  background: #0000aa;
+  color: #ffffff;
+  padding: 0 4px;
+}
+
+.wev-win1-tray {
+  height: 46px;
+  background: #00aaaa;
+  border-top: 2px solid #000;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 16px;
+}
+
+.wev-win1-icon {
+  padding: 4px 10px;
+  background: #ffffff;
+  border: 2px solid #000;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* =====================================================================
+   ERA 3: Windows 3.1 (1992 · Teal Desk + Program Manager)
+   ===================================================================== */
+.wev-win31 {
+  position: absolute;
+  inset: 0;
+  background: #008080;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+.w31-win {
+  position: absolute;
+  background: #c0c0c0;
+  border: 3px solid #c0c0c0;
+  outline: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #808080, 3px 3px 0 rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+}
+
+.w31-bar {
+  height: 22px;
+  background: #000080;
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3px;
+  border-bottom: 1px solid #000;
+}
+
+.w31-bar.inactive {
+  background: #ffffff;
+  color: #000;
+}
+
+.w31-ctrl {
+  width: 18px;
+  height: 18px;
+  background: #c0c0c0;
+  color: #000;
+  border: 1px solid #000;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.w31-menu {
+  height: 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+
+.w31-body {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #000;
+  padding: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.w31-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 24px;
+  padding: 6px;
+}
+
+.w31-app-icon {
+  width: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
+  font-size: 11px;
+}
+
+.w31-glyph {
+  width: 34px;
+  height: 34px;
+  border: 2px solid #000;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  background: #e8e8e8;
+}
+
+.w31-app-icon.selected span {
+  background: #000080;
+  color: #fff;
+  padding: 1px 4px;
+}
+
+/* =====================================================================
+   ERA 4 & 5: Windows 95 & Windows 98 SE (1995–1998)
+   ===================================================================== */
+.wev-w9x {
+  position: absolute;
+  inset: 0;
+  background: #008080;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.wev-w9x.win98 {
+  background: linear-gradient(155deg, #007d85 0%, #005d75 100%);
+}
+
+.w9x-desk {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.w9x-icons {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.w9x-icon {
+  width: 78px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  color: #ffffff;
+  font-size: 11px;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.55);
+}
+
+.w9x-icon-box {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+}
+
+.w9x-icon.selected span {
+  background: #000080;
+  padding: 1px 4px;
+}
+
+.w9x-win {
+  position: absolute;
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-color: #dfdfdf #404040 #404040 #dfdfdf;
+  box-shadow: 1px 1px 0 #000, 3px 4px 12px rgba(0, 0, 0, 0.3);
+  padding: 3px;
+  display: flex;
+  flex-direction: column;
+}
+
+.w9x-bar {
+  height: 22px;
+  background: #000080;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 0 7px;
+  margin-bottom: 2px;
+}
+
+.wev-w9x.win98 .w9x-bar {
+  background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
+}
+
+.w9x-bar-btns {
+  display: flex;
+  gap: 2px;
+}
+
+.w9x-b {
+  width: 16px;
+  height: 15px;
+  background: #c0c0c0;
+  color: #000;
+  border: 1px solid #fff;
+  border-color: #fff #404040 #404040 #fff;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.w9x-body {
+  flex: 1;
+  background: #ffffff;
+  border: 2px inset #c0c0c0;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  line-height: 1.48;
+  color: #111;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
+.w9x-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 74px;
+  height: 24px;
+  padding: 0 12px;
+  background: #c0c0c0;
+  color: #000;
+  border: 2px solid #fff;
+  border-color: #fff #404040 #404040 #fff;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.w9x-btn.pressed {
+  border-color: #404040 #fff #fff #404040;
+}
+
+.w9x-taskbar {
+  height: 30px;
+  background: #c0c0c0;
+  border-top: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 6px 2px 4px;
+  z-index: 300;
+}
+
+.w9x-tb-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.w9x-start {
+  height: 24px;
+  padding: 0 9px;
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-color: #fff #404040 #404040 #fff;
+  font-weight: 800;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #000;
+}
+
+.w9x-start.open {
+  border-color: #404040 #fff #fff #404040;
+}
+
+.w9x-tb-task {
+  height: 23px;
+  padding: 0 10px;
+  background: #d8d8d8;
+  border: 2px inset #c0c0c0;
+  font-size: 11.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+}
+
+.w9x-tray {
+  height: 23px;
+  padding: 0 10px;
+  border: 1px solid #808080;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+}
+
+.w9x-start-menu {
+  position: absolute;
+  left: 3px;
+  bottom: 30px;
+  width: 210px;
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-color: #fff #404040 #404040 #fff;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.35);
+  display: flex;
+  z-index: 400;
+}
+
+.w9x-start-rail {
+  width: 24px;
+  background: linear-gradient(to top, #000080, #6666aa);
+  color: #e4e8f5;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  padding: 8px 3px;
+}
+
+.w9x-start-items {
+  flex: 1;
+  padding: 4px 2px;
+  display: flex;
+  flex-direction: column;
+}
+
+.w9x-start-item {
+  padding: 6px 10px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.w9x-start-item.active {
+  background: #000080;
+  color: #ffffff;
+}
+
+/* =====================================================================
+   Windows 95 / 98 / XP Graphical Setup Wizards & Splash Screens
+   ===================================================================== */
+.wev-wizard-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, #003388 0%, #000c2b 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 26px 34px;
+  color: #ffffff;
+}
+
+.wev-wizard-bg.xp {
+  background: linear-gradient(180deg, #1b4aa6 0%, #5a8de6 48%, #2052b0 100%);
+}
+
+.wev-wizard-head {
+  font-size: clamp(20px, 2.8vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+}
+
+.wev-wizard-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+.wev-wizard-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 13.5px;
+}
+
+.wev-wstep {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.55;
+}
+
+.wev-wstep.done { opacity: 0.92; color: #b9f5c8; }
+.wev-wstep.active { opacity: 1; font-weight: 800; color: #ffe066; }
+
+.wev-wizard-card {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 560px;
+}
+
+.wev-wizard-bar {
+  height: 18px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 2px;
+}
+
+.wev-wizard-bar > div {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #4cd964, #87f59c);
+  transition: width 0.22s linear;
+}
+
+/* Iconic Boot Splash Screens (Win 3.1 / 95 / 98 / XP) */
+.wev-splash {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
+}
+
+.wev-splash.cloud {
+  background:
+    radial-gradient(circle at 26% 32%, rgba(255, 255, 255, 0.85) 0%, transparent 38%),
+    radial-gradient(circle at 72% 28%, rgba(255, 255, 255, 0.78) 0%, transparent 42%),
+    radial-gradient(circle at 52% 65%, rgba(255, 255, 255, 0.65) 0%, transparent 46%),
+    linear-gradient(to bottom, #6aa6e8 0%, #a9cff4 62%, #d6e9fb 100%);
+  color: #0b1c3d;
+}
+
+.wev-splash.xp-boot {
+  background: #000000;
+  color: #ffffff;
+}
+
+.wev-xp-loader {
+  width: 170px;
+  height: 14px;
+  border: 1px solid #8a95ad;
+  border-radius: 4px;
+  padding: 2px;
+  overflow: hidden;
+  position: relative;
+  background: #080a10;
+}
+
+.wev-xp-blocks {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  width: 44px;
+  background: repeating-linear-gradient(to right, #3a7dff 0 11px, transparent 11px 14px);
+  animation: wev-xp-slide 1.15s linear infinite;
+}
+
+@keyframes wev-xp-slide {
+  from { left: -48px; }
+  to { left: 174px; }
+}
+
+.wev-xp-welcome {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #0b3a9b 0 14%, #5a7edc 14% 86%, #0b3a9b 86% 100%);
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  font-size: clamp(32px, 5vw, 56px);
+  font-style: italic;
+  font-weight: 800;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+}
+
+/* =====================================================================
+   ERA 6: Windows XP Luna (2001 · Bliss Hills + Glossy Green Start)
+   ===================================================================== */
+.wev-xp {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Lush Bliss sky + rolling green hills */
+  background:
+    radial-gradient(ellipse 90% 42% at 22% 84%, #6cb937 0%, #4b9a24 55%, transparent 56%),
+    radial-gradient(ellipse 95% 48% at 80% 90%, #58aa2c 0%, #39831a 60%, transparent 61%),
+    radial-gradient(circle at 25% 24%, rgba(255, 255, 255, 0.72) 0%, transparent 24%),
+    radial-gradient(circle at 64% 18%, rgba(255, 255, 255, 0.65) 0%, transparent 28%),
+    linear-gradient(to bottom, #2468cc 0%, #5ea0ee 46%, #a8d4fb 64%, #4f9e28 65%, #2f7518 100%);
+}
+
+.xp-desk {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.xp-win {
+  position: absolute;
+  background: #ece9d8;
+  border: 3px solid #0054e3;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.xp-bar {
+  height: 29px;
+  background: linear-gradient(to bottom, #2b83ff 0%, #0055e5 45%, #0046c7 55%, #005eff 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px 0 10px;
+}
+
+.xp-close {
+  width: 21px;
+  height: 21px;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, #f07b63, #d1381b);
+  border: 1px solid #fff;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.xp-body {
+  flex: 1;
+  background: #ffffff;
+  padding: 12px 14px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #111;
+  white-space: pre-wrap;
+  overflow: hidden;
+}
+
+.xp-explorer {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 164px 1fr;
+  background: #ffffff;
+}
+
+.xp-sidebar {
+  background: linear-gradient(to bottom, #7ba2e7 0%, #6375d6 100%);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.xp-sidecard {
+  background: #d6dff7;
+  border-radius: 4px 4px 0 0;
+  overflow: hidden;
+  font-size: 11px;
+  color: #215dc6;
+}
+
+.xp-sidecard-head {
+  background: linear-gradient(to right, #ffffff, #c6d3f7);
+  padding: 4px 8px;
+  font-weight: 800;
+  color: #215dc6;
+}
+
+.xp-sidecard-body {
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.xp-taskbar {
+  height: 32px;
+  background: linear-gradient(to bottom, #3c8cf0 0%, #245edb 18%, #1e52c8 85%, #1941a5 100%);
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  z-index: 300;
+}
+
+.xp-start {
+  padding: 0 22px 0 14px;
+  background: linear-gradient(to bottom, #61c443 0%, #3ca026 52%, #2c8a1b 100%);
+  border-radius: 0 14px 14px 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 2px 0 4px rgba(0, 0, 0, 0.35);
+  color: #ffffff;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 800;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.65);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.xp-tray {
+  background: linear-gradient(to bottom, #16a8ee 0%, #0e88da 50%, #0b77c8 100%);
+  border-left: 1px solid #0b51a1;
+  padding: 0 14px;
+  color: #ffffff;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.xp-start-menu {
+  position: absolute;
+  left: 0;
+  bottom: 32px;
+  width: 310px;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  border: 2px solid #0046c7;
+  box-shadow: 4px 4px 18px rgba(0, 0, 0, 0.45);
+  z-index: 420;
+}
+
+.xp-sm-head {
+  height: 46px;
+  background: linear-gradient(to bottom, #2b83ff, #145bd4);
+  color: #fff;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 14px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.xp-sm-cols {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+}
+
+.xp-sm-left {
+  background: #ffffff;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.xp-sm-right {
+  background: #d3e5fa;
+  border-left: 1px solid #95bdee;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11.5px;
+  color: #0b2c66;
+  font-weight: 700;
+}
+
+.xp-sm-item {
+  padding: 5px 7px;
+  border-radius: 3px;
+}
+
+.xp-sm-item.active {
+  background: #2f71cd;
+  color: #ffffff;
+}
+
+/* Iconic Windows XP Speech-Bubble Balloon Notification */
+.xp-balloon {
+  position: absolute;
+  right: 16px;
+  bottom: 44px;
+  width: 280px;
+  background: #ffffe1;
+  color: #111;
+  border: 1px solid #000;
+  border-radius: 7px;
+  box-shadow: 3px 4px 10px rgba(0, 0, 0, 0.35);
+  padding: 10px 12px;
+  font-size: 11.5px;
+  line-height: 1.4;
+  z-index: 440;
+}
+
+.xp-balloon::after {
+  content: "";
+  position: absolute;
+  right: 26px;
+  bottom: -10px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-top: 10px solid #000;
+}

@@ -1,0 +1,1204 @@
+/* ==========================================================================
+   Windows XP Luna (2001 · Bliss) — Full Glossy Luna Chrome & Classic Apps
+   ========================================================================== */
+
+.xp-root {
+  /* Luna Default (Blue) variables — live-swappable to Olive Green & Silver! */
+  --xp-bar-top: #3c8cf4;
+  --xp-bar-mid: #245edc;
+  --xp-bar-bot: #1941a5;
+  --xp-bar-border: #0a246a;
+  --xp-tray-top: #1898ef;
+  --xp-tray-bot: #0c72c8;
+  --xp-start-top: #5cc75c;
+  --xp-start-mid: #3a9f3a;
+  --xp-start-bot: #287a28;
+  --xp-win-border: #0a3c9e;
+  --xp-title-top: #3888f4;
+  --xp-title-mid: #0b5be0;
+  --xp-title-bot: #0644b8;
+  --xp-title-inactive: #7a96df;
+  --xp-face: #ece9d8;
+  --xp-pane-bg: linear-gradient(180deg, #7aa1e6 0%, #6375d6 100%);
+  --xp-start-right: #d3e5fa;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Nimbus Sans", "Noto Sans", sans-serif;
+  font-size: 11px;
+  color: #111;
+  user-select: none;
+}
+
+.xp-root.theme-olive {
+  --xp-bar-top: #b6c888;
+  --xp-bar-mid: #8ba05a;
+  --xp-bar-bot: #6c8240;
+  --xp-bar-border: #4d5f2c;
+  --xp-tray-top: #a8be7a;
+  --xp-tray-bot: #7c944c;
+  --xp-start-top: #e89a42;
+  --xp-start-mid: #d67618;
+  --xp-start-bot: #a85408;
+  --xp-win-border: #5e7238;
+  --xp-title-top: #b8ca8a;
+  --xp-title-mid: #8fa45c;
+  --xp-title-bot: #728842;
+  --xp-title-inactive: #b8c2a0;
+  --xp-pane-bg: linear-gradient(180deg, #b8c890 0%, #98ac6c 100%);
+  --xp-start-right: #e6ecd6;
+}
+
+.xp-root.theme-silver {
+  --xp-bar-top: #dfe2ec;
+  --xp-bar-mid: #b4b9cb;
+  --xp-bar-bot: #8a90a6;
+  --xp-bar-border: #5a6072;
+  --xp-tray-top: #cfd4e2;
+  --xp-tray-bot: #9da3b8;
+  --xp-start-top: #63c463;
+  --xp-start-mid: #3f9c3f;
+  --xp-start-bot: #297629;
+  --xp-win-border: #646a7d;
+  --xp-title-top: #e4e6f0;
+  --xp-title-mid: #b8bdd0;
+  --xp-title-bot: #9298ae;
+  --xp-title-inactive: #cfd3df;
+  --xp-pane-bg: linear-gradient(180deg, #c8cede 0%, #9ea5bc 100%);
+  --xp-start-right: #e4e7f0;
+}
+
+/* ---------- Iconic Bliss Wallpaper (Layered Sky, Clouds & Rolling Hills) ---------- */
+.xp-bliss {
+  position: absolute;
+  inset: 0 0 30px 0;
+  background: #2f6fbe;
+  overflow: hidden;
+}
+
+.xp-bliss-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ---------- Desktop Icons ---------- */
+.xp-desktop {
+  position: absolute;
+  inset: 0 0 30px 0;
+  overflow: hidden;
+}
+
+.xp-desk-icons {
+  position: absolute;
+  top: 10px;
+  left: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 10;
+}
+
+.xp-icon {
+  width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 2px;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.xp-icon-glyph {
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.28));
+}
+
+.xp-icon-label {
+  font-size: 11px;
+  line-height: 1.15;
+  color: #ffffff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.9);
+  padding: 0 3px;
+  border-radius: 2px;
+}
+
+.xp-icon.selected .xp-icon-glyph {
+  filter: drop-shadow(0 0 4px rgba(40, 120, 255, 0.9)) brightness(0.92);
+}
+
+.xp-icon.selected .xp-icon-label {
+  background: #316ac5;
+  text-shadow: none;
+}
+
+.xp-icon.drop-target .xp-icon-glyph {
+  transform: scale(1.12);
+}
+
+/* ---------- Glossy Windows XP Luna Taskbar ---------- */
+.xp-taskbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30px;
+  background: linear-gradient(
+    180deg,
+    var(--xp-bar-top) 0%,
+    var(--xp-bar-mid) 16%,
+    var(--xp-bar-mid) 84%,
+    var(--xp-bar-bot) 100%
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.32);
+  display: flex;
+  align-items: stretch;
+  z-index: 6500;
+}
+
+.xp-start-btn {
+  width: 98px;
+  background: linear-gradient(
+    180deg,
+    var(--xp-start-top) 0%,
+    var(--xp-start-mid) 18%,
+    var(--xp-start-mid) 82%,
+    var(--xp-start-bot) 100%
+  );
+  border-radius: 0 12px 12px 0;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 2px 0 4px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding-right: 6px;
+  color: #ffffff;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 14.5px;
+  letter-spacing: 0.3px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.65);
+  flex-shrink: 0;
+}
+
+.xp-start-btn.active {
+  filter: brightness(0.88);
+  box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.45);
+}
+
+.xp-start-flag {
+  width: 19px;
+  height: 19px;
+  display: inline-flex;
+}
+
+.xp-quicklaunch {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 8px 0 10px;
+  border-right: 1px solid rgba(0, 0, 0, 0.25);
+  box-shadow: 1px 0 0 rgba(255, 255, 255, 0.16);
+}
+
+.xp-ql-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+}
+
+.xp-tasks {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 6px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.xp-task-btn {
+  height: 23px;
+  max-width: 162px;
+  min-width: 96px;
+  padding: 0 8px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #4b94f4 0%, #3779e0 100%);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.xp-root.theme-silver .xp-task-btn {
+  background: linear-gradient(180deg, #e6e8f0 0%, #c0c4d4 100%);
+  color: #111;
+}
+
+.xp-task-btn.active {
+  background: linear-gradient(180deg, #1b4db2 0%, #245cd0 100%);
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5);
+  font-weight: 700;
+}
+
+.xp-task-btn.flashing {
+  background: linear-gradient(180deg, #ffb84a 0%, #e07814 100%) !important;
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+.xp-task-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+/* Light-Blue System Tray */
+.xp-tray {
+  background: linear-gradient(180deg, var(--xp-tray-top) 0%, var(--xp-tray-bot) 100%);
+  border-left: 1px solid rgba(0, 0, 0, 0.35);
+  box-shadow: inset 1px 0 2px rgba(255, 255, 255, 0.25);
+  padding: 0 10px 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ffffff;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.xp-root.theme-silver .xp-tray {
+  color: #111;
+}
+
+.xp-tray-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+}
+
+.xp-clock {
+  font-variant-numeric: tabular-nums;
+  padding-left: 3px;
+}
+
+/* ---------- Classic Two-Column XP Start Menu ---------- */
+.xp-start-menu {
+  position: absolute;
+  left: 0;
+  bottom: 30px;
+  width: 360px;
+  border-radius: 7px 7px 0 0;
+  overflow: hidden;
+  border: 2px solid var(--xp-win-border);
+  box-shadow: 2px -1px 10px rgba(0, 0, 0, 0.28);
+  z-index: 8200;
+  background: #ffffff;
+}
+
+.xp-sm-header {
+  height: 56px;
+  background: linear-gradient(180deg, var(--xp-title-top) 0%, var(--xp-title-mid) 60%, var(--xp-title-bot) 100%);
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #ffffff;
+  font-size: 14.5px;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.55);
+  border-bottom: 2px solid #e89624;
+}
+
+.xp-sm-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 4px;
+  border: 2px solid #ffffff;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.xp-sm-cols {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  min-height: 256px;
+}
+
+.xp-sm-left {
+  background: #ffffff;
+  padding: 6px 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-right: 1px solid #a8c4e8;
+}
+
+.xp-sm-right {
+  background: var(--xp-start-right);
+  padding: 6px 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.xp-sm-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 7px;
+  border-radius: 2px;
+  font-size: 11px;
+  color: #111;
+}
+
+.xp-sm-item.bold { font-weight: 700; }
+
+.xp-sm-item.highlight {
+  background: #316ac5;
+  color: #ffffff;
+}
+
+.xp-sm-item-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.xp-sm-sep {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c4d4e8, transparent);
+  margin: 4px 6px;
+}
+
+.xp-sm-footer {
+  height: 36px;
+  background: linear-gradient(180deg, var(--xp-title-mid) 0%, var(--xp-title-bot) 100%);
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  color: #ffffff;
+  font-size: 11px;
+}
+
+/* ---------- Classic Pale-Yellow XP Tray Balloon Notification ---------- */
+.xp-balloon {
+  position: absolute;
+  right: 14px;
+  bottom: 42px;
+  width: 274px;
+  background: #ffffe1;
+  border: 1px solid #000000;
+  border-radius: 7px;
+  box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.22);
+  padding: 9px 11px;
+  z-index: 8400;
+  animation: xpBalloonIn 0.22s ease-out;
+}
+
+.xp-balloon::after {
+  content: "";
+  position: absolute;
+  right: 26px;
+  bottom: -11px;
+  width: 0;
+  height: 0;
+  border-left: 11px solid transparent;
+  border-top: 11px solid #000000;
+}
+
+.xp-balloon::before {
+  content: "";
+  position: absolute;
+  right: 27px;
+  bottom: -9px;
+  width: 0;
+  height: 0;
+  border-left: 9px solid transparent;
+  border-top: 9px solid #ffffe1;
+  z-index: 1;
+}
+
+@keyframes xpBalloonIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.xp-balloon-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 11.5px;
+  margin-bottom: 4px;
+}
+
+.xp-balloon-close {
+  margin-left: auto;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #999;
+  border-radius: 2px;
+  background: #f6f6dc;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #555;
+}
+
+/* ---------- Glossy Rounded-Top Windows XP Luna Windows ---------- */
+.xp-windows {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.xp-win {
+  position: absolute;
+  border-radius: 8px 8px 3px 3px;
+  border: 3px solid var(--xp-win-border);
+  border-top: none;
+  background: var(--xp-face);
+  box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.22);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.xp-titlebar {
+  height: 28px;
+  background: linear-gradient(180deg, var(--xp-title-inactive) 0%, #9ab0e6 100%);
+  padding: 0 6px 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #e4ecfa;
+  font-weight: 700;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.xp-win.active .xp-titlebar {
+  background: linear-gradient(
+    180deg,
+    var(--xp-title-top) 0%,
+    var(--xp-title-mid) 22%,
+    var(--xp-title-mid) 82%,
+    var(--xp-title-bot) 100%
+  );
+  color: #ffffff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+.xp-root.theme-silver .xp-win.active .xp-titlebar {
+  color: #161822;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.xp-title-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.xp-title-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.xp-cap-btns {
+  display: flex;
+  gap: 3px;
+}
+
+.xp-cap {
+  width: 21px;
+  height: 21px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: linear-gradient(180deg, #5ea2f8 0%, #1c62d8 100%);
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.xp-cap.close {
+  background: linear-gradient(180deg, #f27c68 0%, #d4341e 65%, #a82010 100%);
+  font-size: 13px;
+}
+
+.xp-menubar {
+  height: 21px;
+  background: var(--xp-face);
+  border-bottom: 1px solid #d4d0c8;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  gap: 2px;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.xp-mitem {
+  padding: 2px 7px;
+}
+
+.xp-mitem.active {
+  background: #316ac5;
+  color: #fff;
+}
+
+.xp-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  overflow: hidden;
+  position: relative;
+  padding: 0;
+  white-space: normal;
+  font-size: inherit;
+  line-height: normal;
+}
+
+.xp-btn {
+  padding: 4px 14px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #ffffff 0%, #e4e2d8 100%);
+  border: 1px solid #003c74;
+  font-size: 11px;
+  color: #111;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.xp-btn.default {
+  box-shadow: inset 0 0 0 1.5px #88b8f0;
+  font-weight: 700;
+}
+
+.xp-btn.pressed {
+  background: #d8d4c8;
+}
+
+/* ---------- Explorer / My Computer Blue Left Task Pane ---------- */
+.xp-explorer-layout {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.xp-task-pane {
+  width: 168px;
+  background: var(--xp-pane-bg);
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.xp-pane-box {
+  border-radius: 4px 4px 0 0;
+  overflow: hidden;
+  background: #d6dff7;
+  border: 1px solid #ffffff;
+}
+
+.xp-pane-head {
+  background: linear-gradient(90deg, #ffffff 0%, #c6d6f7 100%);
+  color: #215dc6;
+  font-weight: 700;
+  font-size: 11px;
+  padding: 4px 8px;
+}
+
+.xp-pane-list {
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 10.5px;
+  color: #215dc6;
+}
+
+.xp-explorer-main {
+  flex: 1;
+  padding: 12px 16px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.xp-group-head {
+  font-weight: 700;
+  color: #1648a0;
+  font-size: 11.5px;
+  border-bottom: 1px solid #8eb4f0;
+  padding-bottom: 3px;
+  margin-bottom: 10px;
+}
+
+.xp-file-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 20px;
+  margin-bottom: 16px;
+}
+
+.xp-file-item {
+  width: 108px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  border-radius: 3px;
+}
+
+.xp-file-item.selected {
+  background: #316ac5;
+  color: #ffffff;
+}
+
+/* ---------- Winamp 2.91 Classic Gunmetal Skin ---------- */
+.xp-winamp-shell {
+  background: #1d2028;
+  border: 2px solid #586074;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.32);
+  color: #00ff44;
+  font-family: "Courier New", monospace;
+}
+
+.xp-wa-top {
+  height: 18px;
+  background: linear-gradient(90deg, #1b2848 0%, #3a527c 50%, #1b2848 100%);
+  color: #dce6f8;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+}
+
+.xp-wa-main {
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.xp-wa-display {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.xp-wa-lcd {
+  width: 112px;
+  height: 54px;
+  background: #060c08;
+  border: 1.5px inset #4a5264;
+  padding: 4px 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.xp-wa-time {
+  font-size: 19px;
+  font-weight: 700;
+  color: #36ff64;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.xp-wa-spec {
+  width: 100px;
+  height: 22px;
+  display: block;
+}
+
+.xp-wa-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.xp-wa-marquee {
+  background: #060c08;
+  border: 1px inset #4a5264;
+  padding: 3px 6px;
+  font-size: 11px;
+  color: #46ff72;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.xp-wa-meta {
+  display: flex;
+  gap: 6px;
+  font-size: 10px;
+  color: #66e88a;
+}
+
+.xp-wa-badge {
+  background: #060c08;
+  border: 1px solid #3c4454;
+  padding: 1px 5px;
+}
+
+.xp-wa-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.xp-wa-btn {
+  padding: 3px 8px;
+  background: linear-gradient(180deg, #565e72 0%, #2d3240 100%);
+  border: 1px solid #78829a;
+  color: #e6ecf8;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.xp-wa-btn.active {
+  background: #1b6830;
+  color: #90ffb0;
+}
+
+.xp-wa-playlist {
+  border-top: 2px solid #4a5266;
+  background: #080e0a;
+  padding: 6px 8px;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.xp-wa-track {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 5px;
+  color: #32cc58;
+}
+
+.xp-wa-track.active {
+  background: #14368c;
+  color: #ffffff;
+}
+
+/* ---------- AIM 5 buddy list & instant message ---------- */
+.xp-aim-list {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fff4a3;
+}
+
+.xp-aim-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: linear-gradient(180deg, #ffe56a 0%, #f6c82e 100%);
+  border-bottom: 1px solid #e0a800;
+  flex: 0 0 auto;
+}
+
+.xp-aim-mark {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.xp-aim-mark svg {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+.xp-aim-sn {
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.15;
+}
+
+.xp-aim-avail {
+  font-size: 10.5px;
+  color: #3d5c12;
+}
+
+.xp-aim-scroll {
+  flex: 1;
+  min-height: 0;
+  padding: 4px 8px 8px;
+  overflow: hidden;
+}
+
+.xp-aim-group {
+  font-weight: 700;
+  font-size: 11px;
+  margin: 6px 0 2px;
+  color: #222;
+}
+
+.xp-aim-buddy {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 6px;
+  color: #003399;
+  font-size: 12px;
+  border-radius: 2px;
+}
+
+.xp-aim-buddy i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2f9e3a;
+  flex-shrink: 0;
+}
+
+.xp-aim-buddy.away {
+  color: #6a5a20;
+  font-style: italic;
+}
+
+.xp-aim-buddy.away i { background: #e0a000; }
+
+.xp-aim-buddy.offline { color: #777; }
+
+.xp-aim-buddy.offline i { background: #b0b0b0; }
+
+.xp-aim-buddy span {
+  margin-left: auto;
+  font-size: 10px;
+  font-style: normal;
+  color: #777;
+}
+
+.xp-aim-buddy.just-on { background: #ffffff; }
+
+.xp-aim-buddy.lit {
+  background: #316ac5;
+  color: #ffffff;
+}
+
+.xp-aim-chat {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+.xp-aim-tools {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  background: #fff8cc;
+  border-bottom: 1px solid #e6d98a;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.xp-aim-tool {
+  width: 18px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #c8b45a;
+  background: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.xp-aim-log {
+  flex: 1;
+  min-height: 0;
+  padding: 8px 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.xp-aim-note {
+  min-height: 14px;
+  padding: 0 10px 2px;
+  font-size: 10.5px;
+  color: #666;
+  font-style: italic;
+  flex-shrink: 0;
+}
+
+.xp-aim-compose {
+  height: 52px;
+  border-top: 1px solid #cccccc;
+  display: flex;
+  gap: 8px;
+  padding: 6px 8px;
+  flex-shrink: 0;
+}
+
+.xp-aim-compose [data-aim-draft] { flex: 1; }
+
+/* ---------- 3D Pinball Space Cadet ---------- */
+.xp-pinball-wrap {
+  flex: 1;
+  background: #0a0a18;
+  display: flex;
+}
+
+.xp-pinball-side {
+  width: 158px;
+  background: linear-gradient(180deg, #1b2236 0%, #0d111d 100%);
+  border-left: 2px solid #3c4868;
+  padding: 12px 10px;
+  color: #90d8ff;
+  font-family: "Courier New", monospace;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.xp-pb-lcd {
+  background: #04080e;
+  border: 1.5px inset #4a5a7c;
+  padding: 7px 8px;
+  color: #ffcf48;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: right;
+  letter-spacing: 1px;
+}
+
+/* ---------- MS Paint XP ---------- */
+.xp-paint-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #ece9d8;
+}
+
+.xp-paint-mid {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.xp-paint-tools {
+  width: 54px;
+  padding: 6px 5px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3px;
+  align-content: start;
+  border-right: 1px solid #aba89a;
+}
+
+.xp-ptool {
+  height: 22px;
+  background: #f6f4ec;
+  border: 1px solid #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+.xp-ptool.active {
+  background: #ffffff;
+  border: 1.5px solid #225ad8;
+}
+
+.xp-paint-canvas-wrap {
+  flex: 1;
+  background: #808080;
+  padding: 8px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.xp-paint-palette {
+  height: 36px;
+  border-top: 1px solid #aba89a;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.xp-swatch {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #555;
+}
+
+.xp-swatch.active {
+  outline: 2px solid #225ad8;
+}
+
+/* ---------- Display Properties Dialog ---------- */
+.xp-disp-wrap {
+  flex: 1;
+  background: #ece9d8;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.xp-disp-preview {
+  height: 128px;
+  border: 2px inset #888;
+  background:
+    radial-gradient(circle 18px at 30% 34%, rgba(255, 255, 255, 0.95), transparent 70%),
+    radial-gradient(circle 14px at 42% 30%, rgba(255, 255, 255, 0.8), transparent 70%),
+    radial-gradient(circle 16px at 74% 28%, rgba(255, 255, 255, 0.75), transparent 70%),
+    linear-gradient(180deg, #2f6fbe 0%, #9ed0f6 54%, #e7f5fd 60%, #7fbe3a 64%, #3f7c1c 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---------- Boot, Welcome & 3D Pipes Fullscreen Overlays ---------- */
+.xp-boot {
+  position: absolute;
+  inset: 0;
+  background: #000000;
+  z-index: 9100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  color: #ffffff;
+  transition: opacity 0.55s ease;
+}
+
+.xp-boot.fade-out { opacity: 0; pointer-events: none; }
+
+.xp-boot-bar {
+  width: 164px;
+  height: 14px;
+  border: 1.5px solid #8c96a8;
+  border-radius: 4px;
+  padding: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.xp-boot-blocks {
+  position: absolute;
+  top: 2px;
+  left: -40px;
+  display: flex;
+  gap: 3px;
+  animation: xpBlocks 1.3s linear infinite;
+}
+
+.xp-boot-block {
+  width: 10px;
+  height: 8px;
+  border-radius: 1px;
+  background: linear-gradient(180deg, #8ec2ff 0%, #266ce6 60%, #1444a8 100%);
+}
+
+@keyframes xpBlocks {
+  from { transform: translateX(0); }
+  to { transform: translateX(210px); }
+}
+
+.xp-welcome {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #0a2d82 0 13%, #5c84d6 13% 87%, #0a2d82 87% 100%);
+  z-index: 9050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  transition: opacity 0.6s ease;
+}
+
+.xp-welcome.fade-out { opacity: 0; pointer-events: none; }
+
+.xp-welcome-word {
+  font-family: "Nimbus Sans", "Noto Sans", sans-serif;
+  font-size: 54px;
+  font-style: italic;
+  font-weight: 700;
+  text-shadow: 2px 3px 6px rgba(0, 20, 70, 0.55);
+}
+
+.xp-pipes-overlay {
+  position: absolute;
+  inset: 0;
+  background: #000000;
+  z-index: 9200;
+  transition: opacity 0.45s ease;
+}
+
+.xp-pipes-overlay.fade-out { opacity: 0; pointer-events: none; }
+
+/* ---------- Cursor & Drag Ghost ---------- */
+.xp-drag-ghost {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9400;
+  opacity: 0.85;
+  transform: translate(-50%, -50%);
+}
+
+.xp-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 24px;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+  filter: drop-shadow(1px 2px 1.5px rgba(0, 0, 0, 0.4));
+}

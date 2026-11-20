@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Living OS Screensavers</title>
+  <meta name="description" content="Fullscreen browser-based retro operating system screensavers that look like the OS is genuinely being used." />
+  <link rel="stylesheet" href="css/shell.css?v=9" />
+  <link rel="stylesheet" href="savers/mac-os-9/mac-os-9.css?v=4" />
+  <link rel="stylesheet" href="savers/commodore-64/commodore-64.css?v=4" />
+  <link rel="stylesheet" href="savers/ms-dos/ms-dos.css?v=4" />
+  <link rel="stylesheet" href="savers/windows-evolution/windows-evolution.css?v=4" />
+  <link rel="stylesheet" href="savers/nextstep/nextstep.css?v=5" />
+  <link rel="stylesheet" href="savers/os2-warp/os2-warp.css?v=6" />
+  <link rel="stylesheet" href="savers/mac-system-7/mac-system-7.css?v=7" />
+  <link rel="stylesheet" href="savers/windows-xp/windows-xp.css?v=13" />
+</head>
+<body class="saver-active">
+  <main id="stage" class="stage" aria-label="Screensaver stage"></main>
+
+  <div id="hud-zone" class="hud-zone" aria-hidden="true"></div>
+
+  <nav id="hud" class="hud" aria-label="Screensaver controls">
+    <div class="hud-group hud-title-group">
+      <button id="btn-gallery" class="hud-btn hud-btn-primary" title="Switch Screensaver (G)">
+        <span class="hud-icon" aria-hidden="true">⊞</span>
+        <span id="hud-saver-name">Mac OS 9.2</span>
+      </button>
+      <span id="hud-activity" class="hud-activity" title="Current activity">Initializing…</span>
+    </div>
+
+    <div class="hud-divider"></div>
+
+    <div class="hud-group">
+      <button id="btn-pause" class="hud-btn" title="Pause / Resume (Space)">
+        <span class="hud-icon" id="icon-pause">❚❚</span>
+      </button>
+      <button id="btn-next" class="hud-btn" title="Next Activity (N)">
+        <span class="hud-icon">⏭</span>
+        <span class="hud-label">Next</span>
+      </button>
+      <button id="btn-speed" class="hud-btn" title="Cycle Speed ([ / ])">
+        <span id="label-speed">1×</span>
+      </button>
+      <div class="hud-special-wrap">
+        <button id="btn-special" class="hud-btn" title="Trigger Classic Moment">
+          <span class="hud-icon">✦</span>
+        </button>
+        <div id="special-menu" class="special-menu" hidden></div>
+      </div>
+    </div>
+
+    <div class="hud-divider"></div>
+
+    <div class="hud-group">
+      <button id="btn-sound" class="hud-btn" title="Toggle sound (M)">
+        <span class="hud-icon" id="icon-sound">🔇</span>
+      </button>
+      <button id="btn-fullscreen" class="hud-btn" title="Toggle Fullscreen (F)">
+        <span class="hud-icon" id="icon-fullscreen">⛶</span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="hint-toast" class="hint-toast" role="status" aria-live="polite">
+    Move mouse to bottom edge for controls · Press <kbd>F</kbd> for Fullscreen · <kbd>G</kbd> to switch
+  </div>
+
+  <div id="gallery-backdrop" class="gallery-backdrop" hidden>
+    <section class="gallery-modal" role="dialog" aria-modal="true" aria-labelledby="gallery-heading">
+      <header class="gallery-header">
+        <div>
+          <h1 id="gallery-heading">Living OS Screensavers</h1>
+          <p class="gallery-subtitle">Fullscreen browser screensavers that look like classic operating systems being used.</p>
+        </div>
+        <button id="btn-close-gallery" class="gallery-close" aria-label="Close switcher">✕</button>
+      </header>
+      <div id="gallery-grid" class="gallery-grid"></div>
+      <footer class="gallery-footer">
+        <div class="gallery-shortcuts">
+          <span><kbd>F</kbd> Fullscreen</span>
+          <span><kbd>Space</kbd> Pause</span>
+          <span><kbd>N</kbd> Next Scene</span>
+          <span><kbd>[</kbd> <kbd>]</kbd> Speed</span>
+          <span><kbd>M</kbd> Sound</span>
+          <span><kbd>G</kbd> Switcher</span>
+        </div>
+        <a class="gallery-lobby" href="index.html">All screensavers</a>
+      </footer>
+    </section>
+  </div>
+
+  <script type="module" src="js/shell.js?v=15"></script>
+</body>
+</html>

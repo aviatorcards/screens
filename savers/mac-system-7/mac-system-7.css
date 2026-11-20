@@ -1,0 +1,747 @@
+/* ==========================================================================
+   Macintosh System 7.5 (1994) — Crisp 1-Bit & 256-Color Classic Mac Styles
+   ========================================================================== */
+
+.sys7-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #c0c0c0;
+  font-family: "Geneva", "Helvetica Neue", "Liberation Sans", Arial, sans-serif;
+  font-size: 12px;
+  color: #000000;
+  user-select: none;
+  image-rendering: pixelated;
+}
+
+/* Classic rounded CRT screen corners */
+.sys7-corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  z-index: 9500;
+  pointer-events: none;
+}
+.sys7-corner.tl { top: 0; left: 0; background: radial-gradient(circle at 10px 10px, transparent 9.5px, #000 10px); }
+.sys7-corner.tr { top: 0; right: 0; background: radial-gradient(circle at 0 10px, transparent 9.5px, #000 10px); }
+.sys7-corner.bl { bottom: 0; left: 0; background: radial-gradient(circle at 10px 0, transparent 9.5px, #000 10px); }
+.sys7-corner.br { bottom: 0; right: 0; background: radial-gradient(circle at 0 0, transparent 9.5px, #000 10px); }
+
+/* ---------- Crisp White System 7.5 Menu Bar ---------- */
+.sys7-menubar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 21px;
+  background: #ffffff;
+  border-bottom: 1px solid #000000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  z-index: 6000;
+  font-family: "Chicago", "Charcoal", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 12.5px;
+}
+
+.sys7-menu-left,
+.sys7-menu-right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.sys7-mitem {
+  height: 100%;
+  padding: 0 9px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #000000;
+}
+
+.sys7-mitem.active {
+  background: #000000;
+  color: #ffffff;
+}
+
+.sys7-mitem.active svg path[stroke="#000"] {
+  stroke: #fff;
+}
+
+.sys7-clock {
+  padding: 0 9px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Classic 1-Bit Inverted Dropdown Menu ---------- */
+.sys7-dropdown {
+  position: absolute;
+  top: 21px;
+  min-width: 176px;
+  background: #ffffff;
+  border: 1px solid #000000;
+  box-shadow: 2px 2px 0 #000000;
+  padding: 2px 0;
+  z-index: 8000;
+  font-family: "Chicago", "Charcoal", "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.sys7-dd-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 14px;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.sys7-dd-item.highlight {
+  background: #000000;
+  color: #ffffff;
+}
+
+.sys7-dd-item.disabled {
+  color: #888888;
+}
+
+.sys7-dd-sep {
+  height: 1px;
+  margin: 3px 0;
+  border-top: 1px dotted #666666;
+}
+
+/* ---------- Desktop & Icons ---------- */
+.sys7-desktop {
+  position: absolute;
+  top: 21px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.sys7-desk-icons {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  z-index: 10;
+}
+
+.sys7-desk-trash {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  z-index: 10;
+}
+
+.sys7-icon {
+  width: 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-align: center;
+}
+
+.sys7-icon-glyph {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sys7-icon-label {
+  font-size: 10.5px;
+  line-height: 1.2;
+  padding: 1px 4px;
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid transparent;
+}
+
+.sys7-icon.selected .sys7-icon-glyph {
+  filter: invert(1) contrast(1.1);
+}
+
+.sys7-icon.selected .sys7-icon-label {
+  background: #000000;
+  color: #ffffff;
+}
+
+.sys7-icon.drop-target .sys7-icon-glyph {
+  filter: invert(1);
+}
+
+/* ---------- Classic System 7.5 Windows (1px Black + Hard Shadow) ---------- */
+.sys7-windows {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.sys7-win {
+  position: absolute;
+  background: #ffffff;
+  border: 1px solid #000000;
+  box-shadow: 1px 1px 0 #000000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sys7-titlebar {
+  height: 19px;
+  background: #ffffff;
+  border-bottom: 1px solid #000000;
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+  gap: 5px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.sys7-win.active .sys7-titlebar {
+  background: #e6e8fa;
+}
+
+.sys7-stripes {
+  flex: 1;
+  height: 11px;
+  background: transparent;
+}
+
+.sys7-win.active .sys7-stripes {
+  background: repeating-linear-gradient(
+    to bottom,
+    #7882b8 0 1px,
+    transparent 1px 2px
+  );
+}
+
+.sys7-title-text {
+  font-family: "Chicago", "Charcoal", "Helvetica Neue", Arial, sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 0 6px;
+  color: #777777;
+  white-space: nowrap;
+}
+
+.sys7-win.active .sys7-title-text {
+  color: #000000;
+  background: #e6e8fa;
+}
+
+.sys7-box-btn {
+  width: 11px;
+  height: 11px;
+  border: 1px solid #000000;
+  background: #ffffff;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+}
+
+.sys7-win.active .sys7-box-btn {
+  visibility: visible;
+  box-shadow: inset 1px 1px 0 #c6ccf5;
+}
+
+.sys7-box-btn.zoom::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+  align-self: flex-start;
+  margin: 0 auto 0 0;
+}
+
+.sys7-box-btn.pressed {
+  background: #000000;
+}
+
+.sys7-win-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Classic Finder Header + List View */
+.sys7-finder-bar {
+  height: 18px;
+  border-bottom: 1px solid #000000;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  font-size: 10.5px;
+}
+
+.sys7-finder-content {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.sys7-finder-main {
+  flex: 1;
+  padding: 6px 8px;
+  overflow: hidden;
+}
+
+.sys7-vscroll {
+  width: 15px;
+  border-left: 1px solid #000000;
+  background:
+    radial-gradient(#999 0.8px, transparent 0.8px) 0 0 / 3px 3px,
+    #e6e6e6;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.sys7-scroll-btn {
+  height: 15px;
+  background: #e6e8fa;
+  border-bottom: 1px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+}
+
+.sys7-scroll-btn.bottom {
+  border-bottom: none;
+  border-top: 1px solid #000;
+}
+
+.sys7-list-row {
+  display: grid;
+  grid-template-columns: 18px 18px 1fr 68px 92px;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 6px;
+  font-size: 11px;
+  border-bottom: 1px dotted #d8d8d8;
+}
+
+.sys7-list-row.selected {
+  background: #000000;
+  color: #ffffff;
+}
+
+.sys7-list-row.sub {
+  padding-left: 24px;
+}
+
+/* Classic System 7 Push Buttons (with iconic 3px rounded default ring!) */
+.sys7-btn {
+  padding: 3px 14px;
+  background: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  font-family: "Chicago", "Charcoal", "Helvetica Neue", Arial, sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #000000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sys7-btn.default {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4.5px #000000;
+}
+
+.sys7-btn.pressed {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* ---------- System 7.5 Balloon Help Comic Bubble ---------- */
+.sys7-balloon {
+  position: fixed;
+  max-width: 240px;
+  background: #ffffff;
+  border: 1.5px solid #000000;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 11px;
+  line-height: 1.38;
+  color: #000000;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
+  z-index: 8800;
+  pointer-events: none;
+}
+
+/* ---------- HyperCard 2.2 Crisp 1-Bit Stage ---------- */
+.sys7-hc-stage {
+  flex: 1;
+  background: #ffffff;
+  color: #000000;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: "Geneva", "Helvetica Neue", Arial, sans-serif;
+  transition: opacity 0.22s ease;
+}
+
+.sys7-hc-stage.dissolve {
+  opacity: 0.15;
+}
+
+.sys7-hc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #000000;
+  padding-bottom: 8px;
+}
+
+.sys7-hc-title {
+  font-family: "New York", Georgia, serif;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.sys7-hc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.sys7-hc-cardbtn {
+  border: 1.5px solid #000000;
+  border-radius: 5px;
+  box-shadow: 2px 2px 0 #000000;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.sys7-hc-cardbtn.pressed {
+  background: #000000;
+  color: #ffffff;
+}
+
+.sys7-hc-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #000000;
+  padding-top: 8px;
+}
+
+/* ---------- Note Pad 7.5 (Yellow Ruled Paper + Dog-Eared Corner) ---------- */
+.sys7-notepad {
+  flex: 1;
+  background: #fff9c4;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 21px,
+    #e0d28c 21px 22px
+  );
+  padding: 10px 14px 36px;
+  font-family: "Geneva", "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 22px;
+  color: #111111;
+  position: relative;
+  white-space: pre-wrap;
+}
+
+.sys7-notepad-fold {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(45deg, #d8ca7c 0 49%, #000 49% 52%, #fff2a0 52% 100%);
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+}
+
+.sys7-notepad-page {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 5px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #333;
+}
+
+/* ---------- TeachText / SimpleText ---------- */
+.sys7-teachtext {
+  flex: 1;
+  padding: 12px 14px;
+  font-family: "New York", Georgia, serif;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #000000;
+  white-space: pre-wrap;
+}
+
+.sys7-speak-badge {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  background: #e6e8fa;
+  border: 1px solid #000000;
+  padding: 3px 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  box-shadow: 1px 1px 0 #000;
+}
+
+.sys7-caret {
+  display: inline-block;
+  width: 1.5px;
+  height: 14px;
+  background: #000;
+  vertical-align: -2px;
+  animation: sys7Blink 0.85s steps(2, start) infinite;
+}
+
+@keyframes sys7Blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* ---------- Desktop Patterns Control Panel ---------- */
+.sys7-patterns-panel {
+  flex: 1;
+  background: #ececec;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sys7-pat-preview {
+  width: 196px;
+  height: 124px;
+  border: 2px solid #000000;
+  box-shadow: inset 1px 1px 0 #fff;
+}
+
+.sys7-pat-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ---------- Classic 15-Tile Picture Puzzle DA ---------- */
+.sys7-puzzle-wrap {
+  flex: 1;
+  background: #dcdcdc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  gap: 8px;
+}
+
+.sys7-puzzle-board {
+  width: 184px;
+  height: 184px;
+  background: #222222;
+  border: 2px solid #000000;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 2px;
+  padding: 2px;
+}
+
+.sys7-ptile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Chicago", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.7);
+  transition: transform 0.16s ease;
+}
+
+.sys7-ptile.empty {
+  background: #1a1a1a;
+  border-color: #1a1a1a;
+  box-shadow: none;
+}
+
+/* ---------- About This Macintosh ---------- */
+.sys7-about {
+  flex: 1;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 11.5px;
+}
+
+.sys7-ram-row {
+  display: grid;
+  grid-template-columns: 145px 62px 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.sys7-ram-bar {
+  height: 11px;
+  border: 1px solid #000;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.sys7-ram-fill {
+  height: 100%;
+  background: repeating-linear-gradient(90deg, #5c78c8 0 3px, #8ca4e8 3px 6px);
+  transition: width 0.6s ease;
+}
+
+/* ---------- Drag Outline & Ghost Cursor ---------- */
+.sys7-drag-ghost {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9400;
+  border: 1px dashed #000;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 3px 6px;
+  font-size: 10.5px;
+  transform: translate(-50%, -50%);
+}
+
+.sys7-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 22px;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+}
+
+/* ---------- Boot Splash ("Welcome to Macintosh · Mac OS 7.5") ---------- */
+.sys7-boot {
+  position: absolute;
+  inset: 0;
+  background-color: #c0c0c0;
+  background-image:
+    radial-gradient(#777 1px, transparent 1px),
+    radial-gradient(#777 1px, #d8d8d8 1px);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+  z-index: 9000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.55s ease;
+}
+
+.sys7-boot.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sys7-welcome-box {
+  width: min(420px, 84vw);
+  background: #ffffff;
+  border: 2px solid #000000;
+  box-shadow: inset 0 0 0 2px #fff, inset 0 0 0 3.5px #000, 3px 3px 0 #000;
+  padding: 26px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.sys7-welcome-title {
+  font-family: "New York", Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.sys7-welcome-sub {
+  font-family: "Chicago", Arial, sans-serif;
+  font-size: 12px;
+  color: #3a528c;
+  letter-spacing: 0.5px;
+}
+
+.sys7-ext-march {
+  position: absolute;
+  left: 22px;
+  bottom: 22px;
+  display: flex;
+  gap: 10px;
+}
+
+.sys7-ext-icon {
+  width: 32px;
+  height: 32px;
+  background: #ffffff;
+  border: 1px solid #000;
+  padding: 2px;
+  box-shadow: 1px 1px 0 #000;
+}
+
+/* ---------- After Dark: Starry Night Fullscreen Overlay ---------- */
+.sys7-afterdark {
+  position: absolute;
+  inset: 0;
+  background: #040714;
+  z-index: 9200;
+  transition: opacity 0.45s ease;
+}
+
+.sys7-afterdark.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sys7-afterdark canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}

@@ -1,0 +1,588 @@
+/* =====================================================================
+   MS-DOS 6.22 (1994 · 486DX2 VGA Text Mode & Mode 13h)
+   Authentic IBM VGA 16-color palette + classic DOS TUI applications
+   ===================================================================== */
+
+.dos-root {
+  --vga-0: #000000;
+  --vga-1: #0000aa;
+  --vga-2: #00aa00;
+  --vga-3: #00aaaa;
+  --vga-4: #aa0000;
+  --vga-5: #aa00aa;
+  --vga-6: #aa5500;
+  --vga-7: #aaaaaa;
+  --vga-8: #555555;
+  --vga-9: #5555ff;
+  --vga-10: #55ff55;
+  --vga-11: #55ffff;
+  --vga-12: #ff5555;
+  --vga-13: #ff55ff;
+  --vga-14: #ffff55;
+  --vga-15: #ffffff;
+  --dos-font: "IBM Plex Mono", "VGA", "Courier New", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #050507;
+  display: grid;
+  place-items: center;
+  font-family: var(--dos-font);
+  color: var(--vga-7);
+}
+
+/* Subtle VGA CRT scanlines */
+.dos-root::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 900;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 3px
+  );
+}
+
+/* Crisp 4:3 VGA Screen */
+.dos-screen {
+  position: relative;
+  width: min(94vw, calc(92vh * 4 / 3));
+  height: min(92vh, calc(94vw * 3 / 4));
+  background: var(--vga-0);
+  color: var(--vga-7);
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 24px 80px rgba(0, 0, 0, 0.75);
+  font-size: clamp(11px, min(1.48vw, 1.98vh), 19px);
+  line-height: 1.24;
+}
+
+/* =====================================================================
+   486 Case Hardware LEDs (bottom-right)
+   ===================================================================== */
+.dos-leds {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  z-index: 820;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 5px 11px;
+  background: rgba(14, 15, 20, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #b7bec9;
+  pointer-events: none;
+}
+
+.dos-led-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dos-led-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2b2d34;
+}
+
+.dos-led-dot.turbo {
+  background: #35d461;
+  box-shadow: 0 0 8px #35d461;
+}
+
+.dos-led-dot.hdd.active {
+  background: #ff9f1c;
+  box-shadow: 0 0 9px #ff9f1c, 0 0 3px #ffe0a3;
+}
+
+/* =====================================================================
+   VGA Command Prompt Terminal Layer
+   ===================================================================== */
+.dos-term {
+  position: absolute;
+  inset: 0;
+  padding: 2% 2.4%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+  white-space: pre-wrap;
+  word-break: break-word;
+  z-index: 20;
+}
+
+.dos-term-line {
+  min-height: 1.24em;
+}
+
+.dos-cursor {
+  display: inline-block;
+  width: 0.62em;
+  height: 0.18em;
+  background: var(--vga-7);
+  vertical-align: -0.05em;
+  animation: dos-blink 0.62s steps(2, start) infinite;
+}
+
+@keyframes dos-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* VGA foreground color utility spans */
+.vga-white { color: var(--vga-15); }
+.vga-yellow { color: var(--vga-14); }
+.vga-cyan { color: var(--vga-11); }
+.vga-green { color: var(--vga-10); }
+.vga-red { color: var(--vga-12); }
+.vga-magenta { color: var(--vga-13); }
+.vga-blue { color: var(--vga-9); }
+.vga-grey { color: var(--vga-8); }
+.vga-bg-red { background: var(--vga-4); color: var(--vga-15); }
+.vga-bg-blue { background: var(--vga-1); color: var(--vga-15); }
+.vga-bg-cyan { background: var(--vga-3); color: var(--vga-0); }
+.vga-bg-grey { background: var(--vga-7); color: var(--vga-0); }
+
+/* =====================================================================
+   Full-Screen DOS TUI Layer (EDIT, DEFRAG, NC, ScanDisk, QBasic, MSD)
+   ===================================================================== */
+.dos-tui {
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  user-select: none;
+}
+
+.dos-tui.visible {
+  display: flex;
+}
+
+/* Mode 13h 320x200 VGA Graphics Overlay */
+.dos-vga-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  z-index: 120;
+  display: none;
+}
+
+.dos-vga-canvas.visible {
+  display: block;
+}
+
+/* Shared Classic TUI Menu & Status Bars */
+.tui-menubar {
+  background: var(--vga-7);
+  color: var(--vga-0);
+  padding: 0 10px;
+  height: 1.55em;
+  display: flex;
+  align-items: center;
+  gap: 1.1em;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.tui-menubar .hot {
+  color: var(--vga-4);
+}
+
+.tui-menubar .active {
+  background: var(--vga-0);
+  color: var(--vga-15);
+  padding: 0 6px;
+}
+
+.tui-statusbar {
+  background: var(--vga-3);
+  color: var(--vga-0);
+  padding: 0 10px;
+  height: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+/* MS-DOS EDIT & QBasic */
+.tui-blue-app {
+  flex: 1;
+  background: var(--vga-1);
+  color: var(--vga-15);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.tui-edit-frame {
+  flex: 1;
+  margin: 0.5em 0.6em;
+  border: 2px solid var(--vga-7);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.tui-edit-title {
+  position: absolute;
+  top: -0.75em;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--vga-7);
+  color: var(--vga-1);
+  padding: 0 10px;
+  font-weight: 700;
+}
+
+.tui-edit-body {
+  flex: 1;
+  padding: 0.9em 1em;
+  white-space: pre-wrap;
+  overflow: hidden;
+  color: var(--vga-15);
+}
+
+.tui-dropdown {
+  position: absolute;
+  top: 1.55em;
+  left: 0.6em;
+  min-width: 14em;
+  background: var(--vga-7);
+  color: var(--vga-0);
+  border: 2px solid var(--vga-0);
+  box-shadow: 0.6em 0.5em 0 rgba(0, 0, 0, 0.55);
+  padding: 0.25em 0;
+  z-index: 100;
+  font-weight: 700;
+}
+
+.tui-dropdown-row {
+  padding: 0.15em 0.8em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tui-dropdown-row.active {
+  background: var(--vga-0);
+  color: var(--vga-15);
+}
+
+/* =====================================================================
+   MS-DOS 6.22 DEFRAG (Hypnotic Cluster Map!)
+   ===================================================================== */
+.defrag-wrap {
+  flex: 1;
+  background: var(--vga-1);
+  color: var(--vga-15);
+  display: flex;
+  flex-direction: column;
+  padding: 0.55em 0.9em;
+  gap: 0.55em;
+  min-height: 0;
+}
+
+.defrag-map {
+  flex: 1;
+  border: 2px double var(--vga-11);
+  background: var(--vga-1);
+  padding: 0.45em 0.6em;
+  display: grid;
+  grid-template-columns: repeat(44, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1px;
+  align-items: center;
+  justify-items: center;
+  font-size: 0.88em;
+  line-height: 1;
+  overflow: hidden;
+}
+
+.df-cell {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.df-used { color: var(--vga-15); }
+.df-free { color: var(--vga-7); opacity: 0.55; }
+.df-opt { color: var(--vga-11); }
+.df-read { background: var(--vga-14); color: var(--vga-0); }
+.df-write { background: var(--vga-12); color: var(--vga-15); }
+.df-fixed { color: var(--vga-14); }
+
+.defrag-bottom {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 0.8em;
+  flex-shrink: 0;
+}
+
+.defrag-box {
+  border: 2px solid var(--vga-7);
+  background: var(--vga-3);
+  color: var(--vga-0);
+  padding: 0.45em 0.75em;
+  font-size: 0.85em;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+.defrag-progress {
+  height: 0.9em;
+  background: var(--vga-1);
+  border: 1px solid var(--vga-0);
+  overflow: hidden;
+}
+
+.defrag-progress > div {
+  height: 100%;
+  background: var(--vga-14);
+  width: 0%;
+  transition: width 0.15s linear;
+}
+
+/* =====================================================================
+   Norton Commander 4.0 Dual-Pane File Manager
+   ===================================================================== */
+.nc-wrap {
+  flex: 1;
+  background: var(--vga-0);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.nc-panels {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--vga-1);
+  padding: 4px;
+  min-height: 0;
+}
+
+.nc-pane {
+  border: 2px double var(--vga-11);
+  background: var(--vga-1);
+  color: var(--vga-11);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 0;
+}
+
+.nc-pane-title {
+  position: absolute;
+  top: -0.7em;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--vga-1);
+  padding: 0 8px;
+  color: var(--vga-11);
+  font-weight: 700;
+}
+
+.nc-pane.active .nc-pane-title {
+  background: var(--vga-3);
+  color: var(--vga-0);
+}
+
+.nc-header {
+  display: grid;
+  grid-template-columns: 1fr 5.5em 5.5em;
+  padding: 0.45em 0.55em 0.2em;
+  color: var(--vga-14);
+  font-weight: 700;
+  border-bottom: 1px solid var(--vga-11);
+  font-size: 0.88em;
+}
+
+.nc-rows {
+  flex: 1;
+  padding: 0.2em 0.3em;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-size: 0.88em;
+}
+
+.nc-row {
+  display: grid;
+  grid-template-columns: 1fr 5.5em 5.5em;
+  padding: 0.08em 0.3em;
+  white-space: nowrap;
+}
+
+.nc-row.dir {
+  color: var(--vga-15);
+  font-weight: 700;
+}
+
+.nc-row.selected {
+  background: var(--vga-3);
+  color: var(--vga-0);
+  font-weight: 700;
+}
+
+.nc-pane-foot {
+  border-top: 1px solid var(--vga-11);
+  padding: 0.25em 0.6em;
+  font-size: 0.84em;
+  color: var(--vga-11);
+  display: flex;
+  justify-content: space-between;
+}
+
+.nc-cmdbar {
+  background: var(--vga-0);
+  color: var(--vga-7);
+  padding: 0.15em 0.6em;
+  font-size: 0.9em;
+}
+
+.nc-fnkeys {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  background: var(--vga-0);
+  font-size: 0.78em;
+  font-weight: 700;
+}
+
+.nc-fn {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 3px;
+}
+
+.nc-fn span:first-child {
+  color: var(--vga-7);
+}
+
+.nc-fn span:last-child {
+  flex: 1;
+  background: var(--vga-3);
+  color: var(--vga-0);
+  padding: 0 3px;
+  overflow: hidden;
+}
+
+/* Classic Centered TUI Modal Dialog (Copy / ScanDisk / Info) */
+.tui-modal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 58%;
+  max-width: 82%;
+  background: var(--vga-7);
+  color: var(--vga-0);
+  border: 2px double var(--vga-0);
+  box-shadow: 0.7em 0.6em 0 rgba(0, 0, 0, 0.65);
+  padding: 0.9em 1.2em;
+  z-index: 150;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+}
+
+.tui-modal-title {
+  text-align: center;
+  color: var(--vga-1);
+  border-bottom: 1px solid var(--vga-0);
+  padding-bottom: 0.3em;
+}
+
+.tui-modal-btns {
+  display: flex;
+  justify-content: center;
+  gap: 1.2em;
+  margin-top: 0.25em;
+}
+
+.tui-modal-btn {
+  padding: 0.15em 1.2em;
+  background: var(--vga-3);
+  color: var(--vga-0);
+  box-shadow: 0.3em 0.25em 0 var(--vga-0);
+}
+
+.tui-modal-btn.active {
+  background: var(--vga-1);
+  color: var(--vga-15);
+}
+
+/* =====================================================================
+   Microsoft ScanDisk 6.22 & MSD Diagnostics
+   ===================================================================== */
+.sd-wrap {
+  flex: 1;
+  background: var(--vga-1);
+  color: var(--vga-7);
+  padding: 1em 1.6em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sd-title {
+  color: var(--vga-14);
+  font-weight: 700;
+  border-bottom: 1px solid var(--vga-7);
+  padding-bottom: 0.35em;
+}
+
+.sd-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45em;
+  margin: 0.8em 0;
+}
+
+.sd-step {
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+}
+
+.sd-step.done { color: var(--vga-15); }
+.sd-step.running { color: var(--vga-14); font-weight: 700; }
+
+.sd-bar {
+  height: 1.1em;
+  background: var(--vga-0);
+  border: 1px solid var(--vga-11);
+  overflow: hidden;
+}
+
+.sd-bar > div {
+  height: 100%;
+  background: var(--vga-11);
+  width: 0%;
+  transition: width 0.2s linear;
+}

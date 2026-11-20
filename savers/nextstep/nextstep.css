@@ -1,0 +1,735 @@
+/* =====================================================================
+   NeXTSTEP 3.3 (1993 · NeXTcube / NeXTstation)
+   Matte #555 Workspace, pitch-black title bars, left-side scrollbars,
+   floating vertical Main Menu, and 64×64 right-edge NeXT Dock tiles.
+   ===================================================================== */
+
+.nx-root {
+  --nx-desk: #555555;
+  --nx-light: #d6d6d6;
+  --nx-mid: #aaaaaa;
+  --nx-dark: #666666;
+  --nx-black: #000000;
+  --nx-white: #ffffff;
+  --nx-font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --nx-mono: "Ohlfs", "Courier New", ui-monospace, Menlo, Consolas, monospace;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--nx-desk);
+  font-family: var(--nx-font);
+  font-size: 12px;
+  color: #000;
+  user-select: none;
+  transition: background-color 0.35s ease;
+}
+
+/* =====================================================================
+   Floating Vertical Main Menu (Top-Left, iconic NeXTSTEP)
+   ===================================================================== */
+.nx-main-menu {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 138px;
+  z-index: 420;
+  background: var(--nx-light);
+  border: 1px solid #000;
+  box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.42);
+}
+
+.nx-menu-head {
+  height: 22px;
+  background: #000000;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  letter-spacing: 0.01em;
+}
+
+.nx-menu-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.nx-menu-row {
+  position: relative;
+  height: 21px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #cfcfcf;
+  border-top: 1px solid #f4f4f4;
+  border-bottom: 1px solid #7d7d7d;
+  border-left: 1px solid #f4f4f4;
+  border-right: 1px solid #7d7d7d;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #000;
+}
+
+.nx-menu-row.active {
+  background: #ffffff;
+  border-top-color: #ffffff;
+}
+
+.nx-menu-row .nx-key {
+  font-size: 10.5px;
+  color: #333;
+}
+
+/* Cascading tear-off submenu to the right of Main Menu */
+.nx-submenu {
+  position: absolute;
+  top: -1px;
+  left: calc(100% + 1px);
+  width: 136px;
+  background: var(--nx-light);
+  border: 1px solid #000;
+  box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.42);
+  z-index: 430;
+}
+
+/* =====================================================================
+   Right-Edge 64×64 Beveled NeXT Dock
+   ===================================================================== */
+.nx-dock {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  bottom: 8px;
+  width: 64px;
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+
+.nx-dock-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nx-tile {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  background: linear-gradient(135deg, #c6c6c6 0%, #a8a8a8 100%);
+  border: 1px solid #000;
+  box-shadow:
+    inset 1px 1px 0 #f4f4f4,
+    inset -1px -1px 0 #5c5c5c,
+    2px 2px 0 rgba(0, 0, 0, 0.32);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.nx-tile.pressed {
+  background: #8f8f8f;
+  box-shadow: inset 1px 1px 0 #444, inset -1px -1px 0 #ddd;
+}
+
+.nx-tile.running::after {
+  content: "···";
+  position: absolute;
+  left: 5px;
+  bottom: 1px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #111;
+}
+
+.nx-tile.drop-target {
+  background: #ffffff;
+}
+
+.nx-tile.spin svg {
+  animation: nx-spin-fast 0.45s linear 2;
+}
+
+@keyframes nx-spin-fast {
+  to { transform: rotate(360deg); }
+}
+
+/* Live NeXTSTEP Dock Clock Tile! */
+.nx-dock-clock {
+  padding: 2px;
+  gap: 1px;
+  background: linear-gradient(135deg, #cfcfcf 0%, #b2b2b2 100%);
+}
+
+.nx-dock-clock canvas {
+  display: block;
+}
+
+.nx-dock-date {
+  width: 100%;
+  background: #111;
+  color: #fff;
+  font-size: 8.5px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.3;
+  letter-spacing: 0.03em;
+}
+
+/* Bottom-Left Miniwindow Tray */
+.nx-miniwindows {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 380;
+  display: flex;
+  gap: 4px;
+}
+
+.nx-miniwin {
+  width: 62px;
+  height: 62px;
+  background: linear-gradient(135deg, #c6c6c6 0%, #a8a8a8 100%);
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #f4f4f4, inset -1px -1px 0 #5c5c5c, 2px 2px 0 rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.nx-miniwin-head {
+  height: 12px;
+  background: #000;
+  color: #fff;
+  font-size: 7.5px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 12px;
+  padding: 0 2px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.nx-miniwin-body {
+  flex: 1;
+  display: grid;
+  place-items: center;
+}
+
+/* =====================================================================
+   NeXTSTEP Windows (Black Active Title Bar, Left Scrollbar, Resize Bar)
+   ===================================================================== */
+.nx-windows {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+}
+
+.nx-win {
+  position: absolute;
+  background: var(--nx-light);
+  border: 1px solid #000;
+  box-shadow: 4px 5px 0 rgba(0, 0, 0, 0.42);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.nx-titlebar {
+  height: 22px;
+  background: #000000;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+
+.nx-win.inactive .nx-titlebar {
+  background: #8a8a8a;
+  color: #f4f4f4;
+}
+
+.nx-win-btn {
+  width: 14px;
+  height: 14px;
+  background: #b8b8b8;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #f4f4f4, inset -1px -1px 0 #5c5c5c;
+  display: grid;
+  place-items: center;
+  color: #000;
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.nx-win-btn.mini::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border: 1px solid #222;
+  background: #e4e4e4;
+}
+
+.nx-win-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 8px;
+}
+
+.nx-win-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--nx-light);
+}
+
+.nx-resizebar {
+  height: 9px;
+  background: #c4c4c4;
+  border-top: 1px solid #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+
+.nx-resize-grip {
+  width: 24px;
+  border-right: 1px solid #555;
+  box-shadow: inset 1px 1px 0 #f0f0f0;
+}
+
+.nx-resize-grip.right {
+  border-right: 0;
+  border-left: 1px solid #555;
+}
+
+/* Iconic NeXT LEFT-SIDE Vertical Scrollbar! */
+.nx-scroll-layout {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.nx-lscroll {
+  width: 17px;
+  flex-shrink: 0;
+  background: #929292;
+  border-right: 1px solid #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1px;
+}
+
+.nx-lscroll-track {
+  flex: 1;
+  position: relative;
+}
+
+.nx-lscroll-thumb {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 2px;
+  height: 44%;
+  background: #cfcfcf;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #666;
+  display: grid;
+  place-items: center;
+}
+
+.nx-lscroll-thumb::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #888;
+  box-shadow: inset 1px 1px 0 #444, 1px 1px 0 #fff;
+}
+
+.nx-lscroll-arrows {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.nx-lscroll-btn {
+  height: 15px;
+  background: #cfcfcf;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #666;
+  display: grid;
+  place-items: center;
+  font-size: 8px;
+  color: #111;
+}
+
+/* Classic NeXT Beveled Buttons */
+.nx-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 68px;
+  height: 24px;
+  padding: 0 12px;
+  background: #d2d2d2;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #666666;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #000;
+}
+
+.nx-btn.default::after {
+  content: " ↵";
+  margin-left: 5px;
+  font-size: 11px;
+}
+
+.nx-btn.pressed {
+  background: #ffffff;
+  box-shadow: inset 1px 1px 0 #555;
+}
+
+/* =====================================================================
+   Workspace Manager — Miller Columns File Viewer
+   ===================================================================== */
+.nx-shelf {
+  height: 68px;
+  background: #a8a8a8;
+  border-bottom: 1px solid #000;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  box-shadow: inset 0 1px 0 #d8d8d8;
+}
+
+.nx-shelf-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.nx-pathbar {
+  height: 22px;
+  background: #cccccc;
+  border-bottom: 1px solid #000;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.nx-miller {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: #bdbdbd;
+  min-height: 0;
+}
+
+.nx-col {
+  border-right: 1px solid #000;
+  background: #e6e6e6;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.nx-col:last-child {
+  border-right: 0;
+}
+
+.nx-col-row {
+  padding: 4px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11.5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  white-space: nowrap;
+}
+
+.nx-col-row.selected {
+  background: #ffffff;
+  font-weight: 700;
+  box-shadow: inset 0 1px 0 #000, inset 0 -1px 0 #000;
+}
+
+/* =====================================================================
+   NeXT Terminal, Edit, WorldWideWeb, NeXTMail, Interface Builder, DPS
+   ===================================================================== */
+.nx-term-body {
+  flex: 1;
+  background: #141414;
+  color: #ececec;
+  padding: 10px 12px;
+  font-family: var(--nx-mono);
+  font-size: 12px;
+  line-height: 1.42;
+  white-space: pre-wrap;
+  overflow: hidden;
+}
+
+.nx-edit-body {
+  flex: 1;
+  background: #ffffff;
+  color: #111111;
+  padding: 12px 14px;
+  font-family: var(--nx-mono);
+  font-size: 12px;
+  line-height: 1.48;
+  white-space: pre-wrap;
+  overflow: hidden;
+}
+
+.nx-caret {
+  display: inline-block;
+  width: 2px;
+  height: 13px;
+  background: currentColor;
+  vertical-align: -2px;
+  animation: nx-blink 0.8s steps(2, start) infinite;
+}
+
+@keyframes nx-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.nx-www-body {
+  flex: 1;
+  background: #ffffff;
+  color: #111111;
+  padding: 16px 20px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  line-height: 1.55;
+  overflow: hidden;
+}
+
+.nx-www-link {
+  text-decoration: underline;
+  font-weight: 700;
+  color: #000;
+}
+
+.nx-www-link.active {
+  background: #000;
+  color: #fff;
+  padding: 0 3px;
+}
+
+.nx-mail-list {
+  height: 102px;
+  border-bottom: 2px solid #000;
+  background: #e6e6e6;
+  overflow: hidden;
+}
+
+.nx-mail-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 70px;
+  gap: 8px;
+  padding: 4px 10px;
+  font-size: 11px;
+  border-bottom: 1px solid #bbb;
+}
+
+.nx-mail-row.selected {
+  background: #ffffff;
+  font-weight: 700;
+}
+
+.nx-mail-read {
+  flex: 1;
+  background: #ffffff;
+  padding: 12px 14px;
+  font-family: Georgia, serif;
+  font-size: 12.5px;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+/* Interface Builder Canvas & Palette */
+.nx-ib-canvas {
+  flex: 1;
+  background: #cfcfcf;
+  padding: 16px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.nx-ib-drop {
+  border: 1px dashed #333;
+  padding: 12px;
+  background: #dcdcdc;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 130px;
+}
+
+.nx-ib-palette-grid {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #bdbdbd;
+  flex: 1;
+}
+
+.nx-slider {
+  width: 160px;
+  height: 16px;
+  background: #888;
+  border: 1px solid #000;
+  position: relative;
+}
+
+.nx-slider-knob {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 48%;
+  width: 24px;
+  background: #dcdcdc;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #fff;
+}
+
+/* Preferences Module Row */
+.nx-pref-strip {
+  display: flex;
+  gap: 6px;
+  padding: 8px 10px;
+  background: #a8a8a8;
+  border-bottom: 1px solid #000;
+}
+
+.nx-pref-tab {
+  width: 48px;
+  height: 44px;
+  background: #cfcfcf;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #666;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  gap: 2px;
+}
+
+.nx-pref-tab.active {
+  background: #ffffff;
+}
+
+/* =====================================================================
+   NeXTSTEP Boot & Login Overlay
+   ===================================================================== */
+.nx-boot-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 650;
+  background: #555555;
+  display: grid;
+  place-items: center;
+}
+
+.nx-login-box {
+  width: min(440px, 90vw);
+  background: #d2d2d2;
+  border: 2px solid #000;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #666, 6px 7px 0 rgba(0, 0, 0, 0.5);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.nx-login-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid #666;
+  padding-bottom: 12px;
+}
+
+.nx-login-field {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.nx-input {
+  height: 24px;
+  background: #ffffff;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #888;
+  padding: 0 7px;
+  display: flex;
+  align-items: center;
+  font-family: var(--nx-mono);
+  font-size: 12px;
+}
+
+/* Drag Ghost & Ghost Cursor */
+.nx-drag-ghost {
+  position: absolute;
+  z-index: 540;
+  pointer-events: none;
+  opacity: 0.85;
+  transform: translate(-50%, -50%);
+  background: #e4e4e4;
+  border: 1px dashed #000;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.nx-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 800;
+  pointer-events: none;
+  will-change: transform;
+  transform: translate3d(260px, 180px, 0);
+}
+
+.nx-wait-spin {
+  animation: nx-spin-fast 0.9s linear infinite;
+}

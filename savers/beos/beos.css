@@ -1,0 +1,908 @@
+/* BeOS Release 5 — yellow tabs, per-window menus, Deskbar in the top right. */
+
+.beos {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #000;
+  color: #111;
+  font-family: "DejaVu Sans", "Liberation Sans", "Nimbus Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.3;
+  user-select: none;
+  cursor: none;
+}
+
+.beos *,
+.beos *::before,
+.beos *::after {
+  box-sizing: border-box;
+}
+
+.beos button,
+.beos input {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.beos-desk {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #3e7ea8 0%, #24577a 100%);
+}
+
+.beos-deskicons {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.beos-windows {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.beos-deskicon,
+.beos-ficon {
+  border: 0;
+  background: transparent;
+  padding: 3px 2px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 78px;
+}
+
+.beos-deskicon {
+  position: absolute;
+}
+
+.beos-glyph {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+}
+
+.beos-glyph svg {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
+.beos-deskicon .beos-label {
+  color: #fff;
+  text-shadow: 0 1px 1px #000, 0 0 2px #000;
+  font-size: 11px;
+  line-height: 1.2;
+  text-align: center;
+  max-width: 76px;
+  padding: 0 3px;
+  border-radius: 2px;
+}
+
+.beos-deskicon.selected .beos-label,
+.beos-ficon.selected .beos-label {
+  background: #1d4e9e;
+  color: #fff;
+  text-shadow: none;
+}
+
+.beos-ficon.selected .beos-glyph,
+.beos-deskicon.selected .beos-glyph {
+  background: rgba(29, 78, 158, 0.45);
+  border-radius: 3px;
+}
+
+.beos-deskbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  height: 28px;
+  max-width: calc(100% - 8px);
+  background: linear-gradient(#f3f3f3, #d4d4d4);
+  border-left: 1px solid #1c1c1c;
+  border-bottom: 1px solid #1c1c1c;
+  box-shadow: inset 0 1px 0 #fff;
+  padding-right: 4px;
+}
+
+.beos-bebtn {
+  width: 30px;
+  height: 22px;
+  margin: 0 4px 0 3px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid #222;
+  background: linear-gradient(#f7f7f7, #d7d7d7);
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.beos-bebtn svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.beos-apps {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.beos-appbtn {
+  height: 20px;
+  margin-right: 2px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.beos-appbtn.on {
+  border-color: #8a8a8a;
+  background: #d0d0d0;
+  box-shadow: inset 1px 1px 0 #8d8d8d;
+}
+
+.beos-tray {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 6px;
+  padding-left: 8px;
+  border-left: 1px solid #9a9a9a;
+  box-shadow: inset 1px 0 0 #fff;
+}
+
+.beos-workspaces {
+  display: flex;
+  gap: 2px;
+}
+
+.beos-ws {
+  width: 14px;
+  height: 11px;
+  padding: 0;
+  border: 1px solid #222;
+  background: #f7f7f7;
+}
+
+.beos-ws.on {
+  background: #ffe14a;
+}
+
+.beos-clock {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 11px;
+  padding-right: 4px;
+  white-space: nowrap;
+}
+
+.beos-win {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.32));
+  z-index: 3;
+}
+
+.beos-tab {
+  align-self: flex-start;
+  max-width: calc(100% - 6px);
+  height: 22px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px 0 4px;
+  background: linear-gradient(#efefef, #d2d2d2);
+  color: #444;
+  border: 1px solid #1c1c1c;
+  border-bottom: 0;
+  border-radius: 3px 12px 0 0;
+  position: relative;
+  z-index: 2;
+}
+
+.beos-win.active .beos-tab {
+  background: linear-gradient(#fff6ae, #ffe14a 52%, #f0c41c);
+  color: #111;
+}
+
+.beos-tab-title {
+  font-weight: 700;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+  padding-right: 2px;
+}
+
+.beos-win:not(.active) .beos-tab-title {
+  font-weight: 600;
+}
+
+.beos-box {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  flex: none;
+  border: 1px solid #333;
+  background: linear-gradient(#f4f4f4, #cfcfcf);
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.beos-win.active .beos-box {
+  background: linear-gradient(#fff4a8, #e6be18);
+}
+
+.beos-frame {
+  flex: 1;
+  min-height: 0;
+  margin-top: -1px;
+  display: flex;
+  flex-direction: column;
+  background: #e6e6e6;
+  border: 1px solid #1c1c1c;
+  position: relative;
+}
+
+.beos-menubar {
+  flex: none;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 0 4px;
+  background: #e4e4e4;
+  border-bottom: 1px solid #cfcfcf;
+}
+
+.beos-menu {
+  border: 0;
+  background: transparent;
+  padding: 1px 8px;
+  border-radius: 2px;
+  line-height: 16px;
+}
+
+.beos-menu.lit {
+  background: #ffe14a;
+}
+
+.beos-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.beos-fill {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.beos-grip {
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  width: 11px;
+  height: 11px;
+  background: linear-gradient(135deg, transparent 0 45%, #8d8d8d 45% 55%, transparent 55% 70%, #8d8d8d 70% 80%, transparent 80%);
+  pointer-events: none;
+}
+
+.beos-icons-view {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 86px);
+  align-content: start;
+  gap: 6px 4px;
+  padding: 10px;
+  background: #fff;
+}
+
+.beos-ficon .beos-label {
+  color: #111;
+  font-size: 11px;
+  line-height: 1.2;
+  text-align: center;
+  max-width: 80px;
+  padding: 0 3px;
+  border-radius: 2px;
+  word-break: break-word;
+}
+
+.beos-status {
+  flex: none;
+  height: 18px;
+  background: #dedede;
+  border-top: 1px solid #b5b5b5;
+  font-size: 11px;
+  line-height: 18px;
+  padding: 0 8px;
+  color: #222;
+}
+
+.beos-list {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.beos-list-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.beos-list-head,
+.beos-row {
+  display: grid;
+  grid-template-columns: 1.4fr 0.55fr 0.9fr 1.5fr;
+  gap: 8px;
+  padding: 2px 8px;
+  width: 100%;
+  text-align: left;
+}
+
+.beos-list-head {
+  background: #e4e4e4;
+  border-bottom: 1px solid #bdbdbd;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.beos-row {
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  line-height: 18px;
+}
+
+.beos-row.selected {
+  background: #1d4e9e;
+  color: #fff;
+}
+
+.beos-doc {
+  flex: 1;
+  min-height: 0;
+  margin: 8px;
+  overflow: auto;
+  background: #fff;
+  border: 1px solid #b0b0b0;
+  box-shadow: inset 1px 1px 0 #e4e4e4;
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+.beos-term {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  overflow: auto;
+  background: #fff;
+  color: #111;
+  font-family: "DejaVu Sans Mono", "Liberation Mono", ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 1.35;
+  padding: 8px 10px;
+  white-space: pre-wrap;
+}
+
+.beos-caret {
+  display: inline-block;
+  width: 7px;
+  height: 14px;
+  background: #111;
+  vertical-align: text-bottom;
+  margin-left: 1px;
+  animation: beos-blink 1.05s steps(1) infinite;
+}
+
+@keyframes beos-blink {
+  0%,
+  45% { opacity: 1; }
+  50%,
+  100% { opacity: 0; }
+}
+
+.beos-np {
+  flex: 1;
+  min-height: 0;
+  background: #d9d9d9;
+}
+
+.beos-np-tools {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px;
+  background: #e4e4e4;
+  border-bottom: 1px solid #c8c8c8;
+}
+
+.beos-tool {
+  height: 20px;
+  min-width: 22px;
+  padding: 0 6px;
+  border: 1px solid #666;
+  background: linear-gradient(#fafafa, #d4d4d4);
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.beos-np-url {
+  flex: 1;
+  min-width: 0;
+  height: 20px;
+  border: 1px solid #888;
+  background: #fff;
+  padding: 0 6px;
+  box-shadow: inset 1px 1px 0 #ddd;
+}
+
+.beos-throb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex: none;
+  background: conic-gradient(#2a4fd0, #f04332, #f0c41c, #2a4fd0);
+  opacity: 0.35;
+}
+
+.beos-throb.spin {
+  opacity: 1;
+  animation: beos-spin 0.7s linear infinite;
+}
+
+@keyframes beos-spin {
+  to { transform: rotate(360deg); }
+}
+
+.beos-np-page {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  background: #fff;
+}
+
+.beos-np-status {
+  flex: none;
+  height: 18px;
+  background: #dedede;
+  border-top: 1px solid #c0c0c0;
+  font-size: 11px;
+  line-height: 18px;
+  padding: 0 8px;
+}
+
+.np-doc {
+  padding: 22px 28px 48px;
+  max-width: 680px;
+}
+
+.np-banner {
+  display: inline-block;
+  background: #24577a;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 4px 8px;
+  margin-bottom: 12px;
+}
+
+.np-doc h1 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.np-doc h2 {
+  margin: 18px 0 6px;
+  font-size: 15px;
+}
+
+.np-doc p,
+.np-doc li {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.np-doc ul {
+  margin: 0 0 10px;
+  padding-left: 18px;
+}
+
+.np-a {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: #1a3fad;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+.beos-mp-stage {
+  flex: 1;
+  min-height: 70px;
+  margin: 8px 8px 0;
+  background: #141414;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  padding: 12px 10px 8px;
+  overflow: hidden;
+}
+
+.beos-mp-bar {
+  flex: 1;
+  background: #2f6a3c;
+  min-height: 4px;
+}
+
+.beos-mp-bar.past {
+  background: #8dff9a;
+}
+
+.beos-mp-controls {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+}
+
+.beos-mp-track {
+  flex: 1;
+  height: 8px;
+  background: #c8c8c8;
+  border: 1px solid #666;
+  position: relative;
+}
+
+.beos-mp-knob {
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 12px;
+  height: 14px;
+  margin-left: -6px;
+  background: linear-gradient(#fff, #d0d0d0);
+  border: 1px solid #333;
+}
+
+.beos-mp-time {
+  width: 40px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.beos-about {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 18px 18px 16px;
+  background: #ececec;
+}
+
+.beos-about .mark {
+  width: 68px;
+  height: 68px;
+  margin-bottom: 4px;
+}
+
+.beos-about .mark svg {
+  width: 68px;
+  height: 68px;
+  display: block;
+}
+
+.beos-about h1 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: 0.14em;
+}
+
+.beos-about p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.beos-about .gap {
+  height: 10px;
+}
+
+.beos-find,
+.beos-bgprefs,
+.beos-alert {
+  flex: 1;
+  background: #e6e6e6;
+}
+
+.beos-find,
+.beos-bgprefs {
+  padding: 16px;
+  gap: 14px;
+}
+
+.beos-find-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.beos-find-q {
+  flex: 1;
+  min-width: 0;
+  height: 22px;
+  border: 1px solid #777;
+  background: #fff;
+  padding: 0 6px;
+  box-shadow: inset 1px 1px 0 #ddd;
+}
+
+.beos-find-actions,
+.beos-alert-actions,
+.beos-bg-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.beos-bgprefs h2 {
+  margin: 0;
+  font-size: 12px;
+}
+
+.beos-swatches {
+  display: flex;
+  gap: 12px;
+  padding: 4px 2px 8px;
+}
+
+.beos-swatch {
+  width: 58px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid #222;
+}
+
+.beos-swatch.on {
+  outline: 3px solid #ffe14a;
+  outline-offset: 2px;
+}
+
+.beos-btn {
+  min-width: 84px;
+  height: 24px;
+  padding: 0 12px;
+  border: 1px solid #333;
+  background: linear-gradient(#f7f7f7, #d0d0d0);
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.beos-btn.default {
+  border-width: 2px;
+  font-weight: 700;
+}
+
+.beos-alert {
+  padding: 16px 16px 12px;
+  justify-content: space-between;
+}
+
+.beos-alert p {
+  margin: 6px 4px 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.pressed {
+  filter: brightness(0.86);
+}
+
+.beos-menus {
+  position: absolute;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+}
+
+.beos-pop {
+  position: absolute;
+  min-width: 196px;
+  padding: 3px 0;
+  background: #f3f3f3;
+  border: 1px solid #1c1c1c;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+.beos-mi {
+  position: relative;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 2px 12px 2px 20px;
+  line-height: 18px;
+  white-space: nowrap;
+}
+
+.beos-mi.lit {
+  background: #ffe14a;
+}
+
+.beos-mi.disabled {
+  color: #888;
+}
+
+.beos-mi.checked::before {
+  content: "✓";
+  position: absolute;
+  left: 6px;
+  font-size: 11px;
+}
+
+.beos-mi.sub::after {
+  content: "";
+  border: 4px solid transparent;
+  border-left-color: #222;
+  margin-left: 8px;
+}
+
+.beos-mi .sc {
+  color: #444;
+  font-size: 11px;
+}
+
+.beos-mi.lit .sc {
+  color: #222;
+}
+
+.beos-sep {
+  height: 1px;
+  margin: 3px 2px;
+  background: #c6c6c6;
+  box-shadow: 0 1px 0 #fff;
+}
+
+.beos-cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 200;
+  width: 15px;
+  height: 20px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.beos-cursor.on {
+  opacity: 1;
+}
+
+.beos-cursor svg {
+  display: block;
+}
+
+.beos-ring {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 180;
+  animation: beos-ring 0.32s ease-out forwards;
+}
+
+@keyframes beos-ring {
+  to {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+.beos-boot {
+  position: absolute;
+  inset: 0;
+  z-index: 110;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #000;
+  color: #f2f2f2;
+}
+
+.beos-boot.on {
+  display: flex;
+}
+
+.beos-boot .mark {
+  width: 84px;
+  height: 84px;
+}
+
+.beos-boot .mark svg {
+  width: 84px;
+  height: 84px;
+  display: block;
+}
+
+.beos-boot-word {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-indent: 0.22em;
+}
+
+.beos-boot-row {
+  display: flex;
+  gap: 22px;
+  margin-top: 26px;
+}
+
+.beos-boot-icon {
+  width: 36px;
+  height: 36px;
+  opacity: 0.22;
+  filter: grayscale(1);
+  transition: opacity 0.18s linear, filter 0.18s linear;
+}
+
+.beos-boot-icon svg {
+  width: 36px;
+  height: 36px;
+  display: block;
+}
+
+.beos-boot-icon.lit {
+  opacity: 1;
+  filter: none;
+}
+
+.beos-boot-hint {
+  position: absolute;
+  bottom: 28px;
+  margin: 0;
+  color: #6a6a6a;
+  font-size: 13px;
+}
+
+.beos-boot-hint[hidden] {
+  display: none;
+}

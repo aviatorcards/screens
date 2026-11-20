@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Living OS Screensavers</title>
+  <meta name="description" content="Fullscreen browser screensavers that look like classic operating systems are still being used." />
+  <meta name="theme-color" content="#101114" />
+  <link rel="stylesheet" href="css/landing.css?v=7" />
+  <script>
+    (function () {
+      var q = new URLSearchParams(location.search);
+      if (q.get('saver') || q.get('gallery') === '1') {
+        location.replace('watch.html' + location.search);
+      }
+    })();
+  </script>
+</head>
+<body>
+  <div class="lobby">
+    <header class="topbar">
+      <div class="brand">Living OS</div>
+      <p class="topbar-note">Screensavers that look like someone never logged off.</p>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-name">
+      <div class="hero-copy">
+        <p class="eyebrow" id="hero-era">1999 · Platinum</p>
+        <h1 id="hero-name">Classic Mac OS 9.2</h1>
+        <p class="lede" id="hero-desc">
+          A Platinum desktop that uses itself. Finder, SimpleText, QuickTime, SoundJam, Netscape, and Sherlock take turns at the machine, and sometimes the toasters fly.
+        </p>
+        <div class="hero-actions">
+          <a class="play-btn" id="hero-play" href="watch.html?saver=mac-os-9">
+            <span class="play-glyph" aria-hidden="true">▶</span>
+            Play screensaver
+          </a>
+        </div>
+        <ul class="hero-notes">
+          <li>Fullscreen in the browser</li>
+          <li>The pointer hides while the desktop works</li>
+          <li>Sound stays off until you turn it on</li>
+        </ul>
+      </div>
+
+      <div class="monitor-wrap">
+        <div class="monitor">
+          <div class="monitor-screen">
+            <div class="dio" id="diorama">
+              <div class="dio-menu">
+                <div class="dio-menu-left">
+                  <span class="dio-apple" data-dio-icon="rainbowApple"></span>
+                  <span>File</span>
+                  <span>Edit</span>
+                  <span>View</span>
+                  <span>Special</span>
+                  <span>Help</span>
+                </div>
+                <div class="dio-menu-right">
+                  <span id="diorama-clock">Mon 9:41 AM</span>
+                  <span class="dio-app"><span data-dio-icon="finderFace"></span>Finder</span>
+                </div>
+              </div>
+              <div class="dio-desk" id="dio-desk">
+                <section class="dio-win dio-finder" aria-hidden="true">
+                  <div class="dio-title">
+                    <span class="dio-stripes"></span>
+                    <span class="dio-title-text"><span data-dio-icon="macHd"></span>Macintosh HD</span>
+                    <span class="dio-stripes"></span>
+                  </div>
+                  <div class="dio-status">4 items, 1.84 GB available</div>
+                  <div class="dio-finder-grid">
+                    <div class="dio-ficon">
+                      <div class="dio-glyph" data-dio-icon="systemFolder"></div>
+                      <div class="dio-label">System Folder</div>
+                    </div>
+                    <div class="dio-ficon">
+                      <div class="dio-glyph" data-dio-icon="folder"></div>
+                      <div class="dio-label">Applications</div>
+                    </div>
+                    <div class="dio-ficon selected">
+                      <div class="dio-glyph" data-dio-icon="folder"></div>
+                      <div class="dio-label">Documents</div>
+                    </div>
+                    <div class="dio-ficon">
+                      <div class="dio-glyph" data-dio-icon="simpleTextDoc"></div>
+                      <div class="dio-label">Read Me</div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="dio-win dio-sticky" aria-hidden="true">
+                  <div class="dio-sticky-title">Sticky — Today</div>
+                  <p>Empty the Trash<br />Reply to Alex on AIM<br />Burn the Zip 100<span class="dio-caret"></span></p>
+                </section>
+
+                <div class="dio-desk-icons">
+                  <div class="dio-dicon">
+                    <div class="dio-glyph" data-dio-icon="macHd"></div>
+                    <div class="dio-label">Macintosh HD</div>
+                  </div>
+                  <div class="dio-dicon">
+                    <div class="dio-glyph" data-dio-icon="zipDisk"></div>
+                    <div class="dio-label">Backup Zip 100</div>
+                  </div>
+                  <div class="dio-dicon">
+                    <div class="dio-glyph" data-dio-icon="folder"></div>
+                    <div class="dio-label">Projects '99</div>
+                  </div>
+                </div>
+                <div class="dio-trash">
+                  <div class="dio-glyph" data-dio-icon="trashEmpty"></div>
+                  <div class="dio-label">Trash</div>
+                </div>
+                <div class="dio-cs" aria-hidden="true">▸</div>
+                <div class="dio-cursor" aria-hidden="true">
+                  <svg viewBox="0 0 18 22" width="16" height="20">
+                    <path d="M1 1 L1 16.5 L4.8 13 L7.6 19.2 L10.3 18 L7.5 11.8 L12.5 11.8 Z" fill="#000" stroke="#fff" stroke-width="1.5" stroke-linejoin="miter"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="monitor-chin"><span class="power-led" aria-hidden="true"></span></div>
+        </div>
+        <div class="monitor-stand" aria-hidden="true"></div>
+        <p class="monitor-caption">The desktop keeps working while you watch.</p>
+      </div>
+    </section>
+
+    <section class="shelf-wrap" aria-labelledby="shelf-heading">
+      <div class="shelf-head">
+        <h2 id="shelf-heading">All screensavers</h2>
+        <p>Classic Mac OS 9, Windows Upgrade Path, Commodore 64, Amiga Workbench, Windows 3.1, NeXTSTEP 3.3, MS-DOS 6.22, Macintosh System 7.5, Windows 95/98, OS/2 Warp 4, BeOS, and Windows XP Luna are ready. CP/M-80 is planned.</p>
+      </div>
+      <div class="shelf" id="shelf">
+        <a class="shelf-card ready" href="watch.html?saver=mac-os-9">
+          <div class="shelf-thumb thumb-macos9"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">1999 · Platinum</div>
+            <div class="shelf-name">Classic Mac OS 9.2</div>
+            <div class="shelf-desc">A Platinum desktop that uses itself. Finder, SimpleText, QuickTime, SoundJam, Netscape, and Sherlock take turns at the machine.</div>
+          </div>
+        </a>
+        <a class="shelf-card ready" href="watch.html?saver=windows-evolution">
+          <div class="shelf-thumb thumb-winevo"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">1985–2001 · DOS → XP</div>
+            <div class="shelf-name">Windows Upgrade Path</div>
+            <div class="shelf-desc">Watch one PC upgrade through 16 years of history: MS-DOS 3.1 → Windows 1.01 → Windows 3.1 → Windows 95 → Windows 98 SE → Windows XP Luna, carrying the same journal file through every Setup wizard.</div>
+          </div>
+        </a>
+        <article class="shelf-card soon">
+          <div class="shelf-thumb thumb-cpm"><span class="shelf-badge">Planned</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">1979 · CP/M</div>
+            <div class="shelf-name">CP/M-80</div>
+            <div class="shelf-desc">CP/M-80 2.2 on a green phosphor screen. The A&gt; prompt runs DIR, PIP, and a little MBASIC.</div>
+          </div>
+        </article>
+        <a class="shelf-card ready" href="watch.html?saver=commodore-64">
+          <div class="shelf-thumb thumb-c64"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">1982 · 8-bit</div>
+            <div class="shelf-name">Commodore 64</div>
+            <div class="shelf-desc">Commodore 64 blue, from the BASIC V2 READY prompt and 10 PRINT into GEOS 2.0 deskTop with geoWrite, geoPaint, VIC-II sprites, and 6581 SID demos.</div>
+          </div>
+        </a>
+        <a class="shelf-card ready" href="watch.html?saver=amiga-workbench">
+          <div class="shelf-thumb thumb-amiga"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">1987 · Amiga</div>
+            <div class="shelf-name">Amiga Workbench</div>
+            <div class="shelf-desc">Workbench 1.3 on the bright blue screen. Drawers open, the Shell types, Deluxe Paint draws, and the Boing Ball takes a bounce.</div>
+          </div>
+        </a>
+        <a class="shelf-card ready" href="watch.html?saver=windows-3.1">
+          <div class="shelf-thumb thumb-win31"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">1992 · Windows 3.1</div>
+            <div class="shelf-name">Windows 3.1</div>
+            <div class="shelf-desc">Program Manager on the teal desktop. Main, Accessories, and Games open inside it, while Notepad, File Manager, Paintbrush, and Solitaire take turns under navy title bars.</div>
+          </div>
+        </a>
+        <a class="shelf-card ready" href="watch.html?saver=nextstep">
+          <div class="shelf-thumb thumb-next"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">1993 · NeXTSTEP</div>
+            <div class="shelf-name">NeXTSTEP 3.3</div>
+            <div class="shelf-desc">NeXTSTEP 3.3 Workspace on a matte dark gray desk. Miller Columns File Viewer, Tim Berners-Lee’s WorldWideWeb.app, Interface Builder, Terminal, Edit, NeXTmail, Display PostScript, floating left menus, and the right-edge Dock.</div>
+          </div>
+        </a>
+        <a class="shelf-card ready" href="watch.html?saver=ms-dos">
+          <div class="shelf-thumb thumb-dos"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">1994 · MS-DOS</div>
+            <div class="shelf-name">MS-DOS 6.22</div>
+            <div class="shelf-desc">486DX2 BIOS POST into MS-DOS 6.22 — DIR, MEM, hypnotic DEFRAG cluster maps, MS-DOS Edit, Norton Commander, ScanDisk, QBasic Mode 13h, 14.4K ANSI BBS, and DOOM startup.</div>
+          </div>
+        </a>
+        <a class="shelf-card ready" href="watch.html?saver=mac-system-7">
+          <div class="shelf-thumb thumb-sys7"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">1994 · Classic</div>
+            <div class="shelf-name">Macintosh System 7.5</div>
+            <div class="shelf-desc">Crisp 1-bit &amp; 256-color Classic Mac desktop with HyperCard 2.2, Balloon Help, Finder disclosure triangles, SimpleText PlainTalk speech, yellow Note Pad, Desktop Patterns, 15-tile Puzzle, and After Dark: Starry Night.</div>
+          </div>
+        </a>
+        <a class="shelf-card ready" href="watch.html?saver=windows-95">
+          <div class="shelf-thumb thumb-win95"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">1995 · Windows 95</div>
+            <div class="shelf-name">Windows 95 / 98</div>
+            <div class="shelf-desc">Windows 95 on the teal desk, then Windows 98 SE when the title bars go gradient. My Computer, WordPad, and Internet Explorer take a turn, and the taskbar keeps whatever is running.</div>
+          </div>
+        </a>
+        <a class="shelf-card ready" href="watch.html?saver=os2-warp">
+          <div class="shelf-thumb thumb-warp"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">1996 · Warp 4</div>
+            <div class="shelf-name">OS/2 Warp 4</div>
+            <div class="shelf-desc">OS/2 Warp 4 ("Merlin") and the Workplace Shell. Top WarpCenter with live CPU meter, OS/2 System &amp; Shredder, spiral-bound Notebook Properties, REXX, IBM VoiceType dictation, WebExplorer, Pulse, Scheme Palette drag-and-drop, and Klondike.</div>
+          </div>
+        </a>
+        <a class="shelf-card ready" href="watch.html?saver=haiku">
+          <div class="shelf-thumb thumb-haiku"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">2000 · BeOS</div>
+            <div class="shelf-name">Haiku / BeOS</div>
+            <div class="shelf-desc">A BeOS Release 5 desk that uses itself. Yellow tabs, Tracker, Deskbar, Terminal, and NetPositive take turns, and the workspaces still switch.</div>
+          </div>
+        </a>
+        <a class="shelf-card ready" href="watch.html?saver=windows-xp">
+          <div class="shelf-thumb thumb-winxp"><span class="shelf-badge">Play</span></div>
+          <div class="shelf-body">
+            <div class="shelf-era">2001 · Bliss</div>
+            <div class="shelf-name">Windows XP Luna</div>
+            <div class="shelf-desc">Autonomous Windows XP Professional on Bliss hills with the glossy Luna taskbar &amp; two-column Start menu, AOL Instant Messenger, Winamp 2.91, 3D Pinball: Space Cadet, Paint, IE6, live Blue/Olive/Silver Luna themes, tray balloons, and 3D Pipes.</div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <footer class="lobby-foot">
+      <span><kbd>Enter</kbd> play</span>
+      <span>On the desktop: <kbd>F</kbd> fullscreen</span>
+      <span><kbd>Space</kbd> pause</span>
+      <span><kbd>N</kbd> next</span>
+      <span><kbd>M</kbd> sound</span>
+      <span><kbd>G</kbd> switcher</span>
+    </footer>
+  </div>
+  <script type="module" src="js/landing.js?v=15"></script>
+</body>
+</html>

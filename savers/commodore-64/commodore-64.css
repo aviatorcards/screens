@@ -1,0 +1,870 @@
+/* =====================================================================
+   Commodore 64 (1982 · 8-bit) — BASIC V2 & GEOS 2.0 deskTop
+   Authentic VIC-II 16-color palette + 1-bit stipple GEOS GUI
+   ===================================================================== */
+
+.c64-root {
+  /* Authentic VIC-II Pepto palette */
+  --c64-black: #000000;
+  --c64-white: #ffffff;
+  --c64-red: #68372b;
+  --c64-cyan: #70a4b2;
+  --c64-purple: #6f3d86;
+  --c64-green: #588d43;
+  --c64-blue: #352879;
+  --c64-yellow: #b8c76f;
+  --c64-orange: #6f4f25;
+  --c64-brown: #433900;
+  --c64-light-red: #9a6759;
+  --c64-dark-grey: #444444;
+  --c64-grey: #6c6c6c;
+  --c64-light-green: #9ad284;
+  --c64-light-blue: #6c5eb5;
+  --c64-light-grey: #959595;
+
+  --c64-border: var(--c64-light-blue);
+  --c64-bg: var(--c64-blue);
+  --c64-fg: var(--c64-light-blue);
+  --c64-font: "C64 Pro Mono", "Courier New", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* GEOS theme variables (switchable via Preference Mgr) */
+  --geos-ink: #111111;
+  --geos-paper: #eef0f4;
+  --geos-stipple-a: #aeb3be;
+  --geos-stipple-b: #d8dce4;
+  --geos-accent: #111111;
+  --geos-accent-text: #ffffff;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--c64-border);
+  display: grid;
+  place-items: center;
+  font-family: var(--c64-font);
+  transition: background-color 0.14s linear;
+}
+
+/* Subtle CRT scanline sheen over the whole C64 viewport */
+.c64-root::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 900;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.085) 2px,
+    rgba(0, 0, 0, 0.085) 3px
+  );
+}
+
+/* Inner 4:3 active VIC-II screen framed by authentic C64 border */
+.c64-screen {
+  position: relative;
+  width: min(86vw, calc(86vh * 4 / 3));
+  height: min(86vh, calc(86vw * 3 / 4));
+  background: var(--c64-bg);
+  color: var(--c64-fg);
+  overflow: hidden;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.06);
+  transition: background-color 0.14s linear, color 0.14s linear;
+}
+
+/* Border rainbow bars during SID demo / 1541 turbo load */
+.c64-root.raster-border {
+  background: repeating-linear-gradient(
+    to bottom,
+    #352879 0 18px,
+    #6c5eb5 18px 36px,
+    #70a4b2 36px 54px,
+    #588d43 54px 72px,
+    #b8c76f 72px 90px,
+    #9a6759 90px 108px,
+    #6f3d86 108px 126px
+  );
+  background-size: 100% 126px;
+  animation: c64-raster-scroll 0.65s linear infinite;
+}
+
+@keyframes c64-raster-scroll {
+  from { background-position: 0 0; }
+  to { background-position: 0 126px; }
+}
+
+/* =====================================================================
+   1541 Floppy Drive Status Indicator (bottom-right of border)
+   ===================================================================== */
+.c64-drive-hud {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  z-index: 820;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  background: rgba(20, 18, 28, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+  color: #e6e2d6;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+
+.c64-drive-hud.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.c64-drive-led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4b1d1d;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+}
+
+.c64-drive-hud.active .c64-drive-led {
+  background: #ff3b30;
+  box-shadow: 0 0 10px #ff3b30, 0 0 3px #ffb4ae;
+  animation: c64-led-blink 0.22s steps(2, start) infinite;
+}
+
+@keyframes c64-led-blink {
+  50% { opacity: 0.35; }
+}
+
+/* =====================================================================
+   BASIC V2 40×25 Terminal Layer
+   ===================================================================== */
+.c64-basic-layer {
+  position: absolute;
+  inset: 0;
+  padding: 2.8% 3.2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  font-weight: 700;
+  font-size: clamp(12px, min(2.05vw, 2.75vh), 26px);
+  line-height: 1.18;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow: hidden;
+  z-index: 20;
+}
+
+.c64-basic-lines {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.c64-basic-line {
+  min-height: 1.18em;
+}
+
+.c64-basic-cursor {
+  display: inline-block;
+  width: 0.68em;
+  height: 0.96em;
+  background: currentColor;
+  vertical-align: -0.1em;
+  animation: c64-blink 0.92s steps(2, start) infinite;
+}
+
+@keyframes c64-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Graphics / Sprite / 10 PRINT / SID Canvas Overlay inside C64 screen */
+.c64-gfx-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  z-index: 40;
+  display: none;
+}
+
+.c64-gfx-canvas.visible {
+  display: block;
+}
+
+/* =====================================================================
+   GEOS 2.0 Boot Splash & deskTop Layer (1986 Berkeley Softworks)
+   ===================================================================== */
+.c64-geos-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  flex-direction: column;
+  color: var(--geos-ink);
+  background-color: var(--geos-stipple-b);
+  background-image:
+    radial-gradient(var(--geos-stipple-a) 1px, transparent 1px),
+    radial-gradient(var(--geos-stipple-a) 1px, transparent 1px);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+  font-family: "Geneva", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: none;
+  letter-spacing: 0;
+  overflow: hidden;
+}
+
+.c64-geos-layer.visible {
+  display: flex;
+}
+
+/* GEOS color palettes selectable in Preference Manager */
+.c64-geos-layer.theme-blue {
+  --geos-ink: #1e1857;
+  --geos-paper: #dfe4ff;
+  --geos-stipple-a: #6c5eb5;
+  --geos-stipple-b: #9fa9e0;
+  --geos-accent: #352879;
+  --geos-accent-text: #ffffff;
+}
+
+.c64-geos-layer.theme-green {
+  --geos-ink: #0a2910;
+  --geos-paper: #d7f7dc;
+  --geos-stipple-a: #3b8a47;
+  --geos-stipple-b: #74c47f;
+  --geos-accent: #104219;
+  --geos-accent-text: #d7f7dc;
+}
+
+.c64-geos-layer.theme-amber {
+  --geos-ink: #2b1800;
+  --geos-paper: #ffefc4;
+  --geos-stipple-a: #b87b1e;
+  --geos-stipple-b: #e6b85c;
+  --geos-accent: #3b2200;
+  --geos-accent-text: #ffefc4;
+}
+
+/* GEOS Boot Splash */
+.geos-boot-splash {
+  position: absolute;
+  inset: 0;
+  z-index: 260;
+  background: #0d0d12;
+  color: #eef2ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  font-family: var(--c64-font);
+}
+
+.geos-boot-box {
+  border: 3px double #70a4b2;
+  background: #231b57;
+  padding: 22px 32px;
+  box-shadow: 6px 6px 0 #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.geos-boot-logo {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: clamp(28px, 4.5vw, 48px);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  text-shadow: 3px 3px 0 #000;
+}
+
+.geos-boot-sub {
+  font-size: clamp(10px, 1.3vw, 14px);
+  color: #b8c76f;
+  letter-spacing: 0.06em;
+}
+
+.geos-boot-bar {
+  width: 220px;
+  height: 12px;
+  border: 2px solid #ffffff;
+  padding: 2px;
+  background: #141030;
+}
+
+.geos-boot-fill {
+  height: 100%;
+  width: 0%;
+  background: #70a4b2;
+  transition: width 0.2s linear;
+}
+
+/* GEOS Top Menu Bar */
+.geos-menubar {
+  height: 26px;
+  background: var(--geos-paper);
+  border-bottom: 2px solid var(--geos-ink);
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  padding: 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  z-index: 200;
+  flex-shrink: 0;
+}
+
+.geos-menu-left,
+.geos-menu-right {
+  display: flex;
+  align-items: stretch;
+}
+
+.geos-menu-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+  color: var(--geos-ink);
+  border-right: 1px solid rgba(0, 0, 0, 0.14);
+  white-space: nowrap;
+}
+
+.geos-menu-item.open {
+  background: var(--geos-accent);
+  color: var(--geos-accent-text);
+}
+
+.geos-clock {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.geos-dropdown {
+  position: absolute;
+  top: 24px;
+  left: -2px;
+  min-width: 156px;
+  background: var(--geos-paper);
+  border: 2px solid var(--geos-ink);
+  box-shadow: 3px 3px 0 var(--geos-ink);
+  padding: 2px 0;
+  z-index: 220;
+  color: var(--geos-ink);
+  font-size: 12.5px;
+}
+
+.geos-dropdown-item {
+  padding: 4px 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  white-space: nowrap;
+}
+
+.geos-dropdown-item.active {
+  background: var(--geos-accent);
+  color: var(--geos-accent-text);
+}
+
+.geos-dropdown-item.blink {
+  animation: geos-menu-blink 0.24s steps(2, start) 1;
+}
+
+@keyframes geos-menu-blink {
+  0%, 100% { background: var(--geos-accent); color: var(--geos-accent-text); }
+  50% { background: var(--geos-paper); color: var(--geos-ink); }
+}
+
+.geos-dropdown-divider {
+  height: 1px;
+  margin: 3px 4px;
+  border-top: 1px dotted var(--geos-ink);
+}
+
+/* GEOS DeskTop Workspace */
+.geos-workspace {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Right-side GEOS DeskTop hardware icons (Drive A, Printer, Trash) */
+.geos-desk-icons {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  bottom: 14px;
+  width: 82px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 110;
+  pointer-events: none;
+}
+
+.geos-desk-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+.geos-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-align: center;
+}
+
+.geos-icon-box {
+  width: 44px;
+  height: 36px;
+  background: var(--geos-paper);
+  border: 2px solid var(--geos-ink);
+  box-shadow: 2px 2px 0 var(--geos-ink);
+  display: grid;
+  place-items: center;
+}
+
+.geos-icon-label {
+  background: var(--geos-paper);
+  color: var(--geos-ink);
+  border: 1px solid var(--geos-ink);
+  padding: 1px 5px;
+  font-size: 10.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.geos-icon.selected .geos-icon-box,
+.geos-icon.drop-target .geos-icon-box {
+  background: var(--geos-accent);
+  color: var(--geos-accent-text);
+}
+
+.geos-icon.selected .geos-icon-label,
+.geos-icon.drop-target .geos-icon-label {
+  background: var(--geos-accent);
+  color: var(--geos-accent-text);
+}
+
+/* Classic GEOS 2.0 deskTop Notepad/Disk Pad Window */
+.geos-diskpad {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  width: min(68%, 480px);
+  height: min(76%, 350px);
+  background: var(--geos-paper);
+  border: 2px solid var(--geos-ink);
+  box-shadow: 4px 4px 0 var(--geos-ink);
+  display: flex;
+  flex-direction: column;
+  z-index: 120;
+}
+
+.geos-pad-head {
+  height: 24px;
+  background: var(--geos-accent);
+  color: var(--geos-accent-text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.geos-pad-info {
+  padding: 4px 10px;
+  border-bottom: 1px solid var(--geos-ink);
+  font-size: 11px;
+  display: flex;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.geos-pad-grid {
+  flex: 1;
+  padding: 14px 14px 28px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-content: start;
+  gap: 14px 8px;
+  position: relative;
+}
+
+.geos-file-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.geos-file-glyph {
+  width: 38px;
+  height: 32px;
+  border: 2px solid var(--geos-ink);
+  background: var(--geos-paper);
+  display: grid;
+  place-items: center;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+.geos-file-name {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 1px 4px;
+  line-height: 1.15;
+}
+
+.geos-file-item.selected .geos-file-glyph {
+  background: var(--geos-accent);
+  color: var(--geos-accent-text);
+}
+
+.geos-file-item.selected .geos-file-name {
+  background: var(--geos-accent);
+  color: var(--geos-accent-text);
+}
+
+/* Iconic GEOS deskTop dog-eared bottom-left page flipper! */
+.geos-page-flip {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 34px;
+  height: 28px;
+  border-top: 2px solid var(--geos-ink);
+  border-right: 2px solid var(--geos-ink);
+  background: linear-gradient(135deg, var(--geos-paper) 48%, var(--geos-ink) 49%, var(--geos-ink) 53%, var(--geos-stipple-b) 54%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 2px 5px;
+  font-size: 9.5px;
+  font-weight: 900;
+}
+
+/* GEOS Application Windows (geoWrite, geoPaint, Note Pad, Calculator, Dialogs) */
+.geos-windows {
+  position: absolute;
+  inset: 0;
+  z-index: 150;
+  pointer-events: none;
+}
+
+.geos-win {
+  position: absolute;
+  background: var(--geos-paper);
+  border: 2px solid var(--geos-ink);
+  box-shadow: 4px 4px 0 var(--geos-ink);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.geos-win-bar {
+  height: 23px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--geos-ink) 0 1px,
+    var(--geos-paper) 1px 3px
+  );
+  border-bottom: 2px solid var(--geos-ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+  flex-shrink: 0;
+}
+
+.geos-win-close {
+  width: 13px;
+  height: 13px;
+  background: var(--geos-paper);
+  border: 2px solid var(--geos-ink);
+  display: grid;
+  place-items: center;
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.geos-win-title {
+  background: var(--geos-paper);
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--geos-ink);
+  border-left: 1px solid var(--geos-ink);
+  border-right: 1px solid var(--geos-ink);
+}
+
+.geos-win-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--geos-paper);
+}
+
+/* geoWrite Styling */
+.geowrite-ruler {
+  height: 22px;
+  border-bottom: 2px solid var(--geos-ink);
+  background: rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  font-size: 10.5px;
+  font-weight: 700;
+  font-family: var(--c64-font);
+}
+
+.geowrite-doc {
+  flex: 1;
+  padding: 12px 16px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--geos-ink);
+  white-space: pre-wrap;
+  overflow: hidden;
+}
+
+.geowrite-caret {
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  background: var(--geos-ink);
+  vertical-align: -2px;
+  animation: c64-blink 0.8s steps(2, start) infinite;
+}
+
+/* geoPaint Styling */
+.geopaint-wrap {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.geopaint-tools {
+  width: 42px;
+  border-right: 2px solid var(--geos-ink);
+  padding: 6px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.geopaint-tool {
+  height: 24px;
+  border: 1px solid var(--geos-ink);
+  background: var(--geos-paper);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.geopaint-tool.active {
+  background: var(--geos-accent);
+  color: var(--geos-accent-text);
+}
+
+.geopaint-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.geopaint-swatches {
+  height: 24px;
+  border-bottom: 1px solid var(--geos-ink);
+  padding: 3px 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.geopaint-swatch {
+  width: 15px;
+  height: 15px;
+  border: 1px solid #000;
+}
+
+.geopaint-swatch.active {
+  outline: 2px solid var(--geos-ink);
+  outline-offset: 1px;
+}
+
+.geopaint-stage {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  background: repeating-conic-gradient(rgba(0, 0, 0, 0.06) 0% 25%, transparent 0% 50%) 50% / 8px 8px;
+}
+
+.geopaint-canvas {
+  background: #ffffff;
+  border: 2px solid var(--geos-ink);
+  image-rendering: pixelated;
+  display: block;
+}
+
+/* GEOS Calculator */
+.geos-calc {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.geos-calc-lcd {
+  height: 24px;
+  border: 2px solid var(--geos-ink);
+  background: #ffffff;
+  color: #000;
+  padding: 0 7px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-family: var(--c64-font);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.geos-calc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.geos-calc-key {
+  height: 22px;
+  border: 1.5px solid var(--geos-ink);
+  background: var(--geos-paper);
+  box-shadow: 1px 1px 0 var(--geos-ink);
+  display: grid;
+  place-items: center;
+  font-family: var(--c64-font);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.geos-calc-key.pressed {
+  background: var(--geos-accent);
+  color: var(--geos-accent-text);
+  box-shadow: none;
+  transform: translate(1px, 1px);
+}
+
+/* GEOS Dialog / Preference Manager / Alarm Clock */
+.geos-dialog {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+
+.geos-btn-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.geos-btn {
+  padding: 4px 14px;
+  border: 2px solid var(--geos-ink);
+  background: var(--geos-paper);
+  box-shadow: 2px 2px 0 var(--geos-ink);
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.geos-btn.pressed {
+  background: var(--geos-accent);
+  color: var(--geos-accent-text);
+  box-shadow: none;
+}
+
+.geos-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.geos-theme-opt {
+  padding: 7px 10px;
+  border: 2px solid var(--geos-ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.geos-theme-opt.selected {
+  background: var(--geos-accent);
+  color: var(--geos-accent-text);
+}
+
+.geos-theme-dot {
+  width: 12px;
+  height: 12px;
+  border: 1px solid #000;
+}
+
+/* GEOS Drag Ghost & Pointer */
+.geos-drag-ghost {
+  position: absolute;
+  z-index: 250;
+  pointer-events: none;
+  opacity: 0.85;
+  transform: translate(-50%, -50%);
+  padding: 3px 7px;
+  border: 1px dashed var(--geos-ink);
+  background: var(--geos-paper);
+  font-size: 10.5px;
+  font-weight: 800;
+}
+
+.geos-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  pointer-events: none;
+  will-change: transform;
+  transform: translate3d(160px, 140px, 0);
+}

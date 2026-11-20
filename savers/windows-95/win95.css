@@ -1,0 +1,1027 @@
+/* Windows 95 / 98 — teal desk, Start button, taskbar. Scoped under .w95. */
+
+.w95 {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #008080;
+  color: #000;
+  font-family: "Noto Sans", "Nimbus Sans", "Microsoft Sans Serif", Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1.15;
+  -webkit-font-smoothing: none;
+  text-rendering: optimizeSpeed;
+  user-select: none;
+  cursor: none;
+}
+
+.w95 *,
+.w95 *::before,
+.w95 *::after {
+  box-sizing: border-box;
+}
+
+.w95 button {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  cursor: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.w95-deskicons,
+.w95-windows,
+.w95-menus,
+.w95-fly,
+.w95-safe,
+.w95-boot {
+  position: absolute;
+  inset: 0;
+}
+
+.w95-deskicons {
+  inset: auto;
+  left: 2px;
+  top: 2px;
+  z-index: 1;
+  width: 86px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.w95-windows { z-index: 2; }
+.w95-taskbar { z-index: 5; }
+.w95-menus { z-index: 30; pointer-events: none; }
+.w95-fly { z-index: 40; display: none; background: #000; overflow: hidden; }
+.w95-fly.on { display: block; }
+.w95-safe { z-index: 50; display: none; }
+.w95-safe.on { display: flex; }
+.w95-boot { z-index: 60; display: none; }
+.w95-boot.on { display: flex; }
+
+.w95-dicon {
+  width: 82px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  padding: 3px 2px 4px;
+}
+
+.w95 .w95-dicon.w95-only98 { display: none; }
+.w95.w98 .w95-dicon.w95-only98 { display: flex; }
+.w95.w98 .w95-dicon.w95-only95 { display: none; }
+
+.w95-dicon span.w95-dlabel {
+  display: block;
+  max-width: 78px;
+  text-align: center;
+  line-height: 1.15;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+  padding: 0 2px;
+}
+
+.w95-dicon.selected span.w95-dlabel {
+  background: #000080;
+  color: #fff;
+  text-shadow: none;
+}
+
+.w95-glyph {
+  width: 16px;
+  height: 16px;
+  display: block;
+  flex: none;
+}
+
+.w95-glyph svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+}
+
+.w95-dicon .w95-glyph,
+.w95-si .w95-glyph,
+.w95-licon .w95-glyph,
+.w95-shut-head .w95-glyph {
+  width: 32px;
+  height: 32px;
+}
+
+.w95-logo {
+  width: 18px;
+  height: 14px;
+  display: block;
+  flex: none;
+}
+
+.w95-logo svg { width: 100%; height: 100%; display: block; }
+
+.w95-taskbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30px;
+  background: #c0c0c0;
+  border-top: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px;
+}
+
+.w95-start {
+  height: 22px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px 0 3px;
+  background: #c0c0c0;
+  color: #000;
+  border: 2px solid #fff;
+  border-color: #fff #808080 #808080 #fff;
+  box-shadow: inset 1px 1px 0 #dfdfdf;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.w95-start-label {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.w95-start.open {
+  border-color: #808080 #fff #fff #808080;
+  box-shadow: inset 1px 1px 0 #808080;
+  padding-top: 1px;
+}
+
+.w95-quick {
+  display: none;
+  align-items: center;
+  height: 22px;
+  gap: 1px;
+}
+
+.w95.w98 .w95-quick { display: flex; }
+
+.w95-qsep {
+  width: 2px;
+  height: 18px;
+  margin: 0 3px;
+  border-left: 1px solid #808080;
+  border-right: 1px solid #fff;
+}
+
+.w95-qbtn {
+  width: 22px;
+  height: 22px;
+  border: 0;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.w95-qbtn .w95-glyph { width: 20px; height: 20px; }
+
+.w95-tasks {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: 3px;
+  overflow: hidden;
+}
+
+.w95-task {
+  flex: 1 1 120px;
+  max-width: 180px;
+  min-width: 0;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 6px;
+  background: #c0c0c0;
+  color: #000;
+  border: 2px solid #fff;
+  border-color: #fff #808080 #808080 #fff;
+  box-shadow: inset 1px 1px 0 #dfdfdf;
+}
+
+.w95-task span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.w95-task.on {
+  border-color: #808080 #fff #fff #808080;
+  box-shadow: inset 1px 1px 0 #808080;
+  padding-top: 1px;
+}
+
+.w95-clock {
+  flex: none;
+  min-width: 70px;
+  height: 22px;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #c0c0c0;
+  border: 1px solid #808080;
+  border-color: #808080 #fff #fff #808080;
+}
+
+.w95-win {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+  background: #c0c0c0;
+  border: 1px solid #000;
+  padding: 2px;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #808080;
+  outline: none;
+}
+
+.w95-title {
+  height: 18px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 2px 2px 3px;
+  background: #808080;
+  color: #c0c0c0;
+  font-weight: 700;
+}
+
+.w95 .w95-win.active > .w95-title {
+  background: #000080;
+  color: #fff;
+}
+
+.w95.w98 .w95-win.active > .w95-title {
+  background: linear-gradient(90deg, #000080, #1084d0);
+  color: #fff;
+}
+
+.w95.w98 .w95-win:not(.active) > .w95-title {
+  background: linear-gradient(90deg, #808080, #b5b5b5);
+  color: #d4d0c8;
+}
+
+.w95-title-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.w95-title-btns {
+  display: flex;
+  gap: 2px;
+  flex: none;
+}
+
+.w95-cap {
+  width: 16px;
+  height: 14px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  background: #c0c0c0;
+  border: 1px solid #fff;
+  border-color: #fff #000 #000 #fff;
+  box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 #808080;
+  color: #000;
+}
+
+.w95-cap svg { width: 9px; height: 9px; display: block; }
+
+.w95 .w95-menubar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: 20px;
+  gap: 0;
+  padding: 0 2px;
+  background: #c0c0c0;
+}
+
+.w95 .w95-menu {
+  display: inline-block;
+  border: 0;
+  background: transparent;
+  padding: 1px 7px;
+  line-height: 16px;
+  gap: 0;
+  color: #000;
+}
+
+.w95 .w95-menu u {
+  display: inline;
+  text-decoration: underline;
+  text-underline-offset: 1px;
+}
+
+.w95 .w95-menu.lit { background: #000080; color: #fff; }
+
+.w95-client {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #c0c0c0;
+}
+
+.w95-app {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.w95-pop,
+.w95-startmenu {
+  position: absolute;
+  background: #c0c0c0;
+  color: #000;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #808080;
+  padding: 2px;
+}
+
+.w95-startmenu {
+  left: 2px;
+  bottom: 30px;
+  display: flex;
+  padding: 2px 2px 2px 1px;
+}
+
+.w95-rail {
+  width: 28px;
+  flex: none;
+  position: relative;
+  background: #000080;
+  overflow: hidden;
+}
+
+.w95-rail span {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  transform: rotate(-90deg);
+  transform-origin: top left;
+  white-space: nowrap;
+  color: #fff;
+  font: 700 16px/1 "Noto Sans", "Nimbus Sans", sans-serif;
+  padding: 6px 0 0 12px;
+}
+
+.w95-sitems,
+.w95-pop {
+  min-width: 210px;
+}
+
+.w95-sitems { display: flex; flex-direction: column; }
+
+.w95-si {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 40px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 2px 8px 2px 3px;
+  font-weight: 700;
+  color: #000;
+}
+
+.w95-si.lit { background: #000080; color: #fff; }
+
+.w95-arrow {
+  margin-left: auto;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 0 4px 5px;
+  border-color: transparent transparent transparent #000;
+}
+
+.w95-si.lit .w95-arrow { border-color: transparent transparent transparent #fff; }
+
+.w95-sep {
+  height: 2px;
+  margin: 3px 2px;
+  background: #808080;
+  box-shadow: 0 1px 0 #fff;
+}
+
+.w95-mi {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 4px 10px 4px 4px;
+  color: #000;
+}
+
+.w95-mi.lit { background: #000080; color: #fff; }
+.w95-mi.disabled { color: #808080; }
+.w95-check { display: inline-block; width: 14px; }
+
+.w95-sunken {
+  border: 2px solid #808080;
+  border-color: #808080 #fff #fff #808080;
+  background: #fff;
+}
+
+.w95-status {
+  flex: none;
+  height: 18px;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  border: 1px solid #808080;
+  border-color: #808080 #fff #fff #808080;
+}
+
+.w95-licons {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 10px 8px;
+  padding: 10px;
+  margin: 0;
+  overflow: auto;
+}
+
+.w95-licon {
+  width: 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  border: 0;
+  background: transparent;
+  padding: 2px;
+  color: #000;
+}
+
+.w95-licon span { text-align: center; line-height: 1.15; max-width: 80px; }
+.w95-licon.selected span { background: #000080; color: #fff; }
+
+.w95-explore {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  margin: 0;
+  overflow: hidden;
+}
+
+.w95-tree {
+  width: 188px;
+  flex: none;
+  overflow: auto;
+  background: #fff;
+  border-right: 1px solid #808080;
+  padding: 3px 0;
+}
+
+.w95-tree button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 1px 4px;
+  color: #000;
+}
+
+.w95-tree button .w95-glyph { width: 16px; height: 16px; }
+.w95-tree button.selected { background: #000080; color: #fff; }
+
+.w95-list { flex: 1; min-width: 0; overflow: auto; background: #fff; display: flex; flex-direction: column; }
+
+.w95-cols,
+.w95-file {
+  display: grid;
+  grid-template-columns: minmax(108px, 1fr) 40px 96px 66px;
+  gap: 6px;
+  align-items: center;
+}
+
+.w95-file > span,
+.w95-cols > span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.w95-cols {
+  position: sticky;
+  top: 0;
+  background: #c0c0c0;
+  border-bottom: 1px solid #808080;
+  padding: 2px 4px;
+  font-weight: 700;
+}
+
+.w95-file {
+  width: 100%;
+  border: 0;
+  background: #fff;
+  text-align: left;
+  padding: 1px 4px;
+  color: #000;
+}
+
+.w95-name { display: flex; align-items: center; gap: 4px; min-width: 0; }
+.w95-name .w95-glyph { width: 16px; height: 16px; }
+.w95-file.selected { background: #000080; color: #fff; }
+
+.w95-note,
+.w95-write {
+  flex: 1;
+  min-height: 0;
+  margin: 2px;
+  padding: 6px 8px;
+  overflow: auto;
+  white-space: pre-wrap;
+  color: #000;
+  background: #fff;
+}
+
+.w95-note { font: 13px/1.35 "Liberation Mono", "Courier New", ui-monospace, monospace; }
+.w95-write { font: 16px/1.35 "Times New Roman", "Nimbus Roman", "Liberation Serif", serif; }
+
+.w95-ruler {
+  flex: none;
+  height: 14px;
+  margin: 0 2px;
+  background-color: #c0c0c0;
+  background-image: repeating-linear-gradient(90deg, #808080 0 1px, transparent 1px 10px);
+  border-bottom: 1px solid #808080;
+}
+
+.w95-caret {
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  background: #000;
+  vertical-align: text-bottom;
+  margin-left: 1px;
+  animation: w95-blink 1.06s step-end infinite;
+}
+
+.w95-caret.light { background: #c0c0c0; }
+
+@keyframes w95-blink { 50% { opacity: 0; } }
+
+.w95-dos {
+  flex: 1;
+  min-height: 0;
+  background: #000;
+  color: #c0c0c0;
+  padding: 6px 8px;
+  overflow: auto;
+  white-space: pre-wrap;
+  font: 14px/1.35 "Liberation Mono", "Courier New", ui-monospace, monospace;
+}
+
+.w95-felt {
+  flex: 1;
+  position: relative;
+  background: #008000;
+  margin: 2px;
+}
+
+.w95-card {
+  position: absolute;
+  width: 48px;
+  height: 64px;
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 2px;
+  padding: 2px 4px;
+  font: 700 14px/1 "Times New Roman", "Nimbus Roman", serif;
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.w95-card.red { color: #c00000; }
+.w95-card.black { color: #000; }
+.w95-card .suit { font-size: 16px; margin-top: 8px; }
+.w95-card.back {
+  background-color: #000080;
+  background-image:
+    linear-gradient(45deg, #9eb6ff 25%, transparent 25%, transparent 75%, #9eb6ff 75%),
+    linear-gradient(45deg, #9eb6ff 25%, transparent 25%, transparent 75%, #9eb6ff 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 4px 4px;
+  color: transparent;
+}
+
+.w95-slot {
+  position: absolute;
+  width: 48px;
+  height: 64px;
+  border: 1px solid rgba(0, 0, 0, 0.45);
+  border-radius: 2px;
+}
+
+.w95-mine { gap: 4px; padding: 4px; }
+.w95-mine-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px;
+}
+
+.w95-lcd {
+  min-width: 46px;
+  background: #000;
+  color: #f00;
+  text-align: right;
+  font: 700 18px/1 ui-monospace, "Liberation Mono", monospace;
+  letter-spacing: 1px;
+  padding: 2px 4px;
+  border: 1px solid #808080;
+  border-color: #808080 #fff #fff #808080;
+}
+
+.w95-face {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-color: #fff #808080 #808080 #fff;
+}
+
+.w95-face svg { width: 18px; height: 18px; display: block; }
+
+.w95-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 20px);
+  align-self: center;
+}
+
+.w95-cell {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-color: #fff #808080 #808080 #fff;
+  font: 700 12px/16px "Noto Sans", sans-serif;
+  color: #000;
+}
+
+.w95-cell.open {
+  border: 1px solid #808080;
+  background: #c0c0c0;
+}
+
+.w95-cell.c1 { color: #0000ff; }
+.w95-cell.c2 { color: #008000; }
+.w95-cell.c3 { color: #ff0000; }
+.w95-cell.c4 { color: #000080; }
+.w95-cell.pressed { border-color: #808080 #fff #fff #808080; }
+
+.w95-calc { padding: 4px; gap: 4px; }
+.w95-calc-display {
+  margin: 4px;
+  min-height: 28px;
+  padding: 4px 6px;
+  text-align: right;
+  background: #fff;
+  border: 2px solid #808080;
+  border-color: #808080 #fff #fff #808080;
+  font: 18px/1.2 ui-monospace, "Liberation Mono", monospace;
+}
+
+.w95-keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 4px;
+}
+
+.w95-key {
+  height: 28px;
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-color: #fff #000 #000 #fff;
+  box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 #808080;
+  font-weight: 700;
+}
+
+.w95-key.pressed {
+  border-color: #000 #fff #fff #000;
+  box-shadow: inset 1px 1px 0 #808080;
+}
+
+.w95-paint-main { flex: 1; min-height: 0; display: flex; }
+.w95-tools {
+  width: 32px;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 2px;
+}
+
+.w95-tool {
+  height: 22px;
+  background: #c0c0c0;
+  border: 1px solid #fff;
+  border-color: #fff #808080 #808080 #fff;
+  font-weight: 700;
+  padding: 0;
+}
+
+.w95-tool.on { background: #fff; outline: 1px dotted #000; }
+
+.w95-canvas-wrap {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  margin: 2px;
+  background: #fff;
+}
+
+.w95-canvas-wrap canvas { display: block; width: 100%; height: 100%; }
+
+.w95-palette {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 3px;
+}
+
+.w95-swatch {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 1px solid #000;
+}
+
+.w95-swatch.on { outline: 1px dotted #000; outline-offset: 1px; }
+
+.w95-addrrow {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 4px;
+}
+
+.w95-addr {
+  flex: 1;
+  background: #fff;
+  padding: 2px 4px;
+  border: 2px solid #808080;
+  border-color: #808080 #fff #fff #808080;
+}
+
+.w95-page {
+  flex: 1;
+  min-height: 0;
+  margin: 2px;
+  padding: 16px 18px;
+  overflow: auto;
+  background: #fff;
+  color: #000;
+}
+
+.w95-page h1 {
+  margin: 0 0 8px;
+  font: 700 22px/1.2 "Times New Roman", "Nimbus Roman", "Liberation Serif", serif;
+}
+
+.w95-page p {
+  margin: 0 0 8px;
+  font: 16px/1.35 "Times New Roman", "Nimbus Roman", "Liberation Serif", serif;
+}
+
+.w95-dialog {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px 10px;
+}
+
+.w95-shut-head { display: flex; gap: 12px; align-items: center; }
+.w95-shut-head p { margin: 0; }
+
+.w95-choice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 2px 0;
+  color: #000;
+}
+
+.w95-choice i {
+  width: 12px;
+  height: 12px;
+  flex: none;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #fff;
+  position: relative;
+}
+
+.w95-choice.on i::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #000;
+}
+
+.w95-dlg-btns {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.w95-btn {
+  min-width: 75px;
+  height: 23px;
+  padding: 0 10px;
+  background: #c0c0c0;
+  color: #000;
+  border: 2px solid #fff;
+  border-color: #fff #000 #000 #fff;
+  box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 #808080;
+}
+
+.w95-btn.default { box-shadow: 0 0 0 1px #000, inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 #808080; }
+
+.w95-btn.pressed {
+  border-color: #000 #fff #fff #000;
+  box-shadow: inset 1px 1px 0 #808080;
+  padding-top: 1px;
+}
+
+.w95-star {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 2px;
+  margin: -1px 0 0 -1px;
+  background: #fff;
+}
+
+.w95-flag {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 72px;
+  height: 54px;
+  margin: -27px 0 0 -36px;
+}
+
+.w95-flag svg { width: 100%; height: 100%; display: block; }
+
+.w95-safe {
+  background: #000;
+  color: #ff8000;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  font: 22px/1.35 "Noto Sans", "Nimbus Sans", sans-serif;
+}
+
+.w95-boot {
+  background: linear-gradient(#1f6fbe, #7ec8f8 55%, #d7efff);
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.w95-cloud {
+  position: absolute;
+  background: #fff;
+  border-radius: 40px;
+}
+
+.w95-cloud::before,
+.w95-cloud::after {
+  content: '';
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.w95-cloud::before { width: 46%; height: 140%; left: 12%; top: -70%; }
+.w95-cloud::after { width: 58%; height: 170%; left: 36%; top: -95%; }
+
+.w95-boot .w95-cloud:nth-child(1) { width: 150px; height: 42px; left: 6%; top: 16%; }
+.w95-boot .w95-cloud:nth-child(2) { width: 190px; height: 48px; right: 7%; top: 20%; }
+.w95-boot .w95-cloud:nth-child(3) { width: 120px; height: 34px; left: 16%; bottom: 14%; }
+.w95-boot .w95-cloud:nth-child(4) { width: 170px; height: 44px; right: 12%; bottom: 18%; }
+.w95-boot .w95-cloud:nth-child(5) { width: 100px; height: 30px; left: 42%; top: 8%; }
+
+.w95-boot-card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.w95-boot .w95-logo { width: 108px; height: 80px; margin-bottom: 8px; }
+.w95-boot-ms { margin: 0; font-size: 15px; letter-spacing: 0.16em; font-weight: 500; }
+.w95-boot-win { margin: 0; font-size: 42px; font-weight: 700; letter-spacing: -0.03em; }
+
+.w95-load {
+  display: flex;
+  width: 200px;
+  height: 18px;
+  margin-top: 22px;
+  gap: 2px;
+  padding: 2px;
+  background: #000080;
+  border: 2px solid #000080;
+}
+
+.w95-load i { flex: 1; }
+.w95-load i:nth-child(6n+1) { background: #ff0000; }
+.w95-load i:nth-child(6n+2) { background: #ffff00; }
+.w95-load i:nth-child(6n+3) { background: #00c000; }
+.w95-load i:nth-child(6n+4) { background: #00ffff; }
+.w95-load i:nth-child(6n+5) { background: #0000ff; }
+.w95-load i:nth-child(6n+6) { background: #ff00ff; }
+
+.w95-cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 70;
+  width: 12px;
+  height: 19px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.w95-cursor.on { opacity: 1; }
+.w95-cursor svg { display: block; }
+
+.w95-ring {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border: 1px solid #fff;
+  box-shadow: 0 0 0 1px #000;
+  pointer-events: none;
+  z-index: 35;
+  animation: w95-ring 0.28s ease-out forwards;
+}
+
+@keyframes w95-ring {
+  to { transform: scale(2.2); opacity: 0; }
+}
