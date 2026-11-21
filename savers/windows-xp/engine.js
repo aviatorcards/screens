@@ -46,57 +46,51 @@ export class XpEngine {
     root.className = 'xp-root';
     root.innerHTML = `
       <div class="xp-bliss">
-        <svg class="xp-bliss-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+        <svg class="xp-bliss-svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
           <defs>
             <linearGradient id="xpSky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#2f6fbe"/>
-              <stop offset="42%" stop-color="#4c94e0"/>
-              <stop offset="70%" stop-color="#9ed0f6"/>
-              <stop offset="100%" stop-color="#e7f5fd"/>
+              <stop offset="0%" stop-color="#163f86"/>
+              <stop offset="22%" stop-color="#2f74bc"/>
+              <stop offset="58%" stop-color="#7eb6e4"/>
+              <stop offset="80%" stop-color="#d5eef6"/>
+              <stop offset="100%" stop-color="#f3f6ee"/>
             </linearGradient>
-            <linearGradient id="xpHaze" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#e7f5fd" stop-opacity="0"/>
-              <stop offset="100%" stop-color="#f7fbff" stop-opacity="0.85"/>
+            <linearGradient id="xpFar" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#8eae7a"/>
+              <stop offset="100%" stop-color="#6a925c"/>
             </linearGradient>
-            <linearGradient id="xpHillBack" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#7eae58"/>
-              <stop offset="100%" stop-color="#5d8c3c"/>
+            <linearGradient id="xpMid" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#7eac4c"/>
+              <stop offset="100%" stop-color="#4c832e"/>
             </linearGradient>
-            <linearGradient id="xpHillFront" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#c6de6a"/>
-              <stop offset="38%" stop-color="#7fbe3a"/>
-              <stop offset="100%" stop-color="#3f7c1c"/>
+            <linearGradient id="xpNear" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#d5e07a"/>
+              <stop offset="32%" stop-color="#8fbf48"/>
+              <stop offset="100%" stop-color="#3c781f"/>
             </linearGradient>
-            <filter id="xpCloud" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="7"/>
+            <filter id="xpHazeBlur" x="-15%" y="-40%" width="130%" height="180%">
+              <feGaussianBlur stdDeviation="16"/>
+            </filter>
+            <filter id="xpCloudBlur" x="-25%" y="-60%" width="150%" height="220%">
+              <feGaussianBlur stdDeviation="10"/>
             </filter>
           </defs>
-          <rect width="1440" height="900" fill="url(#xpSky)"/>
-          <g fill="#ffffff" filter="url(#xpCloud)">
-            <g opacity="0.95">
-              <circle cx="248" cy="188" r="52"/>
-              <circle cx="312" cy="156" r="70"/>
-              <circle cx="386" cy="182" r="56"/>
-              <circle cx="292" cy="214" r="46"/>
-              <circle cx="198" cy="204" r="34"/>
-              <circle cx="360" cy="216" r="38"/>
-            </g>
-            <g opacity="0.82">
-              <circle cx="690" cy="118" r="36"/>
-              <circle cx="748" cy="100" r="48"/>
-              <circle cx="808" cy="122" r="34"/>
-              <circle cx="734" cy="146" r="28"/>
-            </g>
-            <g opacity="0.9">
-              <circle cx="1108" cy="198" r="44"/>
-              <circle cx="1184" cy="170" r="60"/>
-              <circle cx="1262" cy="202" r="42"/>
-              <circle cx="1152" cy="228" r="32"/>
-            </g>
+          <rect width="1600" height="1000" fill="url(#xpSky)"/>
+          <ellipse cx="1240" cy="470" rx="460" ry="150" fill="#fff4dc" opacity="0.28" filter="url(#xpHazeBlur)"/>
+          <g fill="#ffffff" filter="url(#xpCloudBlur)">
+            <ellipse cx="250" cy="200" rx="170" ry="28" opacity="0.92"/>
+            <ellipse cx="400" cy="184" rx="120" ry="34" opacity="0.95"/>
+            <ellipse cx="530" cy="214" rx="90" ry="20" opacity="0.8"/>
+            <ellipse cx="980" cy="146" rx="140" ry="24" opacity="0.9"/>
+            <ellipse cx="1120" cy="164" rx="80" ry="18" opacity="0.75"/>
+            <ellipse cx="1390" cy="230" rx="180" ry="32" opacity="0.88"/>
           </g>
-          <rect x="0" y="430" width="1440" height="110" fill="url(#xpHaze)"/>
-          <path d="M0 548 C200 492 420 528 640 506 C880 482 1100 524 1440 486 L1440 900 L0 900 Z" fill="url(#xpHillBack)"/>
-          <path d="M0 648 C220 548 460 572 700 628 C960 688 1180 590 1440 640 L1440 900 L0 900 Z" fill="url(#xpHillFront)"/>
+          <path d="M0 545 C220 500 420 535 680 505 C980 470 1220 530 1600 488 L1600 1000 L0 1000 Z" fill="#a3b98e" opacity="0.9"/>
+          <path d="M0 590 C260 530 500 575 780 548 C1080 518 1320 575 1600 538 L1600 1000 L0 1000 Z" fill="url(#xpFar)"/>
+          <path d="M0 690 C240 600 460 650 740 710 C1040 775 1240 640 1600 705 L1600 1000 L0 1000 Z" fill="url(#xpMid)"/>
+          <path d="M420 655 C560 640 700 690 820 730 C700 700 560 690 420 655 Z" fill="#3f6e32" opacity="0.28"/>
+          <path d="M0 790 C280 690 540 735 820 815 C1100 895 1320 750 1600 815 L1600 1000 L0 1000 Z" fill="url(#xpNear)"/>
+          <path d="M0 800 C320 730 600 790 860 850" fill="none" stroke="#2f6218" stroke-width="22" opacity="0.16" filter="url(#xpCloudBlur)"/>
         </svg>
       </div>
 

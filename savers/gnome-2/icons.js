@@ -28,8 +28,9 @@ const ICONS = {
     <path d="M13 15 V23 M16.5 15 V23 M20 15 V23" stroke="#666" stroke-width="1"/>
   </svg>`,
   folder: `<svg viewBox="0 0 32 32" aria-hidden="true">
-    <path d="M4 11 H13 L15 13 H28 V25 H4Z" fill="#e3b34a" stroke="#5a3e10" stroke-width="1.2"/>
-    <path d="M4 15 H28 V25 H4Z" fill="#f0cb6a" stroke="#5a3e10" stroke-width="1.2"/>
+    <path d="M3 12 H12.2 L14.4 14.2 H29 V26.2 H3Z" fill="#c48a2e"/>
+    <path d="M3 16 H29 V26.2 H3Z" fill="#f0c14a" stroke="#6a4510" stroke-width="1"/>
+    <path d="M5 17.4 H22" stroke="#fff4c8" stroke-width="1.3" opacity="0.85"/>
   </svg>`,
   text: `<svg viewBox="0 0 32 32" aria-hidden="true">
     <path d="M8 4 H19 L25 10 V28 H8Z" fill="#fff" stroke="#222" stroke-width="1.2"/>

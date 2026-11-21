@@ -1,4 +1,4 @@
-/* GNOME 2.4 — Simple theme, Metacity, menu panel and bottom edge panel. */
+/* GNOME 2 shell with Clearlooks chrome. Cantarell when the system has it. */
 
 .gnome {
   position: absolute;
@@ -6,7 +6,7 @@
   overflow: hidden;
   background: #39374b;
   color: #1c1c1c;
-  font-family: "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", sans-serif;
+  font-family: Cantarell, "DejaVu Sans", "Noto Sans", "Liberation Sans", sans-serif;
   font-size: 12px;
   line-height: 1.3;
   user-select: none;
@@ -28,11 +28,14 @@
 
 .gnome-desk {
   position: absolute;
-  top: 28px;
+  top: 26px;
   right: 0;
-  bottom: 28px;
+  bottom: 26px;
   left: 0;
-  background: linear-gradient(#39374b, #42528f);
+  background:
+    radial-gradient(90% 70% at 50% 0%, rgba(255, 255, 255, 0.08), transparent 55%),
+    radial-gradient(80% 60% at 50% 110%, rgba(0, 0, 0, 0.22), transparent 50%),
+    linear-gradient(#39374b, #42528f);
 }
 
 .gnome-deskicons,
@@ -118,16 +121,16 @@
   position: absolute;
   left: 0;
   right: 0;
-  height: 28px;
+  height: 26px;
   z-index: 20;
   display: flex;
   align-items: stretch;
   gap: 2px;
-  padding: 0 2px;
-  background: linear-gradient(#f3f2ee, #d4d2cd 55%, #c8c6c1);
-  border-color: #6e6c68;
+  padding: 0 4px;
+  background: linear-gradient(#f7f6f3, #e4e2dd 40%, #d0cec9);
+  border-color: #8a8884;
   border-style: solid;
-  box-shadow: inset 0 1px 0 #fff;
+  box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0, 0, 0, 0.18);
 }
 
 .gnome-panel-top {
@@ -268,9 +271,12 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  background: #dcdad5;
-  border: 1px solid #8a8884;
-  box-shadow: inset 1px 1px 0 #fff, 2px 3px 6px rgba(0, 0, 0, 0.32);
+  background: #e8e6e1;
+  border: 1px solid #6e6c68;
+  border-radius: 4px 4px 2px 2px;
+  box-shadow:
+    inset 1px 1px 0 #fff,
+    0 10px 24px rgba(0, 0, 0, 0.38);
   min-width: 0;
 }
 
@@ -279,21 +285,25 @@
 }
 
 .gnome-title {
-  height: 20px;
+  height: 24px;
   flex: none;
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 0 3px 0 3px;
-  background: linear-gradient(#e4e2dd, #c4c2bd);
-  color: #666;
+  padding: 0 4px;
+  background: linear-gradient(#eceae6, #d0cec9);
+  color: #6a6864;
   border-bottom: 1px solid #9a9894;
+  border-radius: 3px 3px 0 0;
   box-shadow: inset 0 1px 0 #f7f6f3;
 }
 
 .gnome-win.active .gnome-title {
-  background: linear-gradient(#f7f6f3, #d4d2cd 72%, #c8c6c1);
-  color: #1c1c1c;
+  background: linear-gradient(180deg, #b7d0ea 0%, #6f9bc8 42%, #3f74ae 100%);
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(16, 42, 78, 0.45);
+  border-bottom-color: #2c5c90;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
 .gnome-title-icon {
@@ -379,6 +389,22 @@
 .gnome-box.pressed {
   border-color: #5c5a56 #fff #fff #5c5a56;
   background: #c8c6c1;
+}
+
+.gnome-win.active .gnome-box,
+.gnome-win.active .gnome-title-icon {
+  border-color: rgba(255, 255, 255, 0.75) rgba(20, 48, 88, 0.45) rgba(20, 48, 88, 0.55) rgba(255, 255, 255, 0.7);
+  background: linear-gradient(#e7f2fb, #7ea4cc);
+}
+
+.gnome-win.active .gnome-box::before,
+.gnome-win.active .gnome-box.close::after {
+  background: #fff;
+}
+
+.gnome-win.active .gnome-box.max::before {
+  background: transparent;
+  border-color: #fff;
 }
 
 .gnome-frame {
@@ -948,8 +974,8 @@
   left: 0;
   top: 0;
   z-index: 80;
-  width: 15px;
-  height: 20px;
+  width: 17px;
+  height: 22px;
   pointer-events: none;
   opacity: 0;
   filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.35));

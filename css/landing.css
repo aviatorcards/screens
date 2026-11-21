@@ -740,9 +740,9 @@ h1 {
   height: 68px;
   border: 1px solid #6e6c68;
   background:
-    linear-gradient(#e6e4df, #d0cec9) 0 0 / 100% 14px no-repeat,
+    linear-gradient(#8fb4dc, #3f74ae) 0 0 / 100% 14px no-repeat,
     #f7f7f5;
-  color: #1c1c1c;
+  color: #fff;
   font-size: 10px;
   font-weight: 700;
   line-height: 14px;

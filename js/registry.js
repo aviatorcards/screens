@@ -264,7 +264,7 @@ export const SCREENSAVERS = [
       { key: 'pipes-3d', label: '3D Pipes Screensaver' },
       { key: 'error-cascade', label: 'Classic XP Error Cascade' },
     ],
-    load: () => import('../savers/windows-xp/index.js?v=14'),
+    load: () => import('../savers/windows-xp/index.js?v=15'),
   },
   {
     id: 'solaris',
@@ -297,7 +297,7 @@ export const SCREENSAVERS = [
       { key: 'workspaces', label: 'Switch workspace' },
       { key: 'logout', label: 'Log Out' },
     ],
-    load: () => import('../savers/gnome-2/index.js?v=5'),
+    load: () => import('../savers/gnome-2/index.js?v=6'),
   },
   {
     id: 'kde-3',
@@ -314,7 +314,7 @@ export const SCREENSAVERS = [
       { key: 'desktops', label: 'Switch desktop' },
       { key: 'logout', label: 'Logout' },
     ],
-    load: () => import('../savers/kde-3/index.js?v=5'),
+    load: () => import('../savers/kde-3/index.js?v=6'),
   },
   {
     id: 'compilers',
