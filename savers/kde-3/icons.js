@@ -9,9 +9,10 @@ export const KMARK = `<svg viewBox="0 0 64 64" aria-hidden="true">
 const ICONS = {
   k: KMARK,
   folder: `<svg viewBox="0 0 32 32" aria-hidden="true">
-    <path d="M4 11 H13 L15.2 13.4 H28 V25.5 H4Z" fill="#7eb0e6" stroke="#1d3f68" stroke-width="1.2"/>
-    <path d="M4 15 H28 V25.5 H4Z" fill="#d7ebff" stroke="#1d3f68" stroke-width="1.1"/>
-    <path d="M7 15 H24" stroke="#fff" stroke-width="1.4" opacity="0.7"/>
+    <path d="M3 12 H12 L14.4 14.4 H29 V26.4 H3Z" fill="#2f6eae"/>
+    <path d="M3 16 H29 V26.4 H3Z" fill="#d7ebff" stroke="#163e70" stroke-width="1"/>
+    <path d="M5 17.2 H24" stroke="#fff" stroke-width="1.6" opacity="0.75"/>
+    <path d="M6 22 H18" stroke="#8eb8e0" stroke-width="1" opacity="0.7"/>
   </svg>`,
   trash: `<svg viewBox="0 0 32 32" aria-hidden="true">
     <path d="M9 11 H23 L21.2 27 H10.8Z" fill="#d5dbe3" stroke="#243140" stroke-width="1.2"/>

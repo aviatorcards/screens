@@ -243,7 +243,7 @@ A BeOS Release 5 Personal Edition desktop with signature yellow window tabs, top
 - **Classic Special Moments** (`✦` HUD menu): **About BeOS**, **Switch workspace** (switches to Desk 2, runs `uname -a` in Terminal, and returns to Desk 1), **Find on the disk**, and **Restart** (triggers the Restart alert and full boot icon sequence).
 
 #### Windows XP Luna (`2001 · Bliss`)
-An autonomous Windows XP Professional desktop set on layered **Bliss** rolling hills with the glossy Luna taskbar, green pill `start` button, two-column Start Menu, blinking twin-CRT network tray monitors, pale-yellow tray **Balloon Notifications**, and live **Default (blue) / Olive Green / Silver** Luna color schemes.
+An autonomous Windows XP Professional desktop on an original Bliss-like landscape (not the copyrighted photograph), with Luna blue title bars, the green `start` pill, the recessed tray clock, Tahoma when the system has it and Liberation Sans otherwise, and live **Default (blue) / Olive Green / Silver** schemes. The Start button stays green in every scheme.
 
 - **Boot, 8 Autonomous Vignettes & Easter Eggs**:
   1. **Windows XP Boot & Welcome** — Pitch-black boot screen with the scrolling 3-blue-blocks bar into the royal-blue *"welcome"* screen, lush XP Startup chord, and classic *"Take a tour of Windows XP"* tray balloon.
@@ -265,14 +265,14 @@ Solaris 9’s Common Desktop Environment: a blue desk, Motif window frames (wind
 - **Specials**: Lock Display, Log out (Cancel, so the session stays), and Switch workspace.
 
 #### GNOME 2.4 (`2003 · GNOME 2.4`)
-The plain GNOME 2.4 desk: Metacity, the Simple theme, and the documented vertical gradient (RGB 57,55,75 to 66,82,143). Home, Start Here, and Trash sit on the desktop. The top menu panel has the foot, Applications, Actions, Home Folder, Terminal, the clock, volume, and the window list. The bottom edge has Show Desktop, the window list, and the workspace switcher.
+The GNOME 2 desk, kept on the menu panel and bottom workspace switcher the scenes actually click (not the GNOME 3 Activities overview). Window chrome is Clearlooks: blue title bars, gray GTK panels, the documented desktop gradient (RGB 57,55,75 to 66,82,143). Type is Cantarell, then DejaVu Sans and Noto Sans. Home, Start Here, and Trash sit on the desktop.
 
 - **Startup**: Foot mark, the word GNOME, and a row of progress icons into the desk.
 - **Vignettes**: Nautilus (home, then Start Here → Preferences, including the multiroot tree), gedit, Epiphany 1.0 opening `welcome.html`, the terminal launcher (`pwd`, `ls`), gcalctool in Basic mode (left to right, so `2+3×4` is 20), Run Application, Search for Files, Show Desktop, and the clock calendar. After most of these the cursor grabs the title bar and drags the window aside. One scene opens gedit and the calculator and parks them by dragging.
 - **Specials**: About GNOME (Version 2.4), Lock Screen, switch workspace, and Log Out.
 
 #### KDE 3.1 (`2003 · KDE 3.1`)
-KDE 3.1, released 28 January 2003, with Keramik window frames and the kicker along the bottom. The desk is blue, with Trash on it. The K menu opens Internet → Web Browser, Utilities → Text Editor and Calculator, Find Files, Run Command, Lock Session, and Logout.
+KDE 3.1, released 28 January 2003, with Keramik plastic frames and the kicker, not the later Breeze panel. The desk is an original blue curve. Type is Noto Sans, then DejaVu Sans. Trash sits on the desk. The K menu opens Internet → Web Browser, Utilities → Text Editor and Calculator, Find Files, Run Command, Lock Session, and Logout.
 
 - **Startup**: K mark and “Starting KDE 3.1”.
 - **Vignettes**: Konqueror at `file:/home/user` with a second tab on `welcome.html`, KWrite, Konsole via Run Command (`pwd`, `ls`), KCalc, Find Files, and Trash. After most of these the cursor grabs the title bar and drags the window aside. One scene opens KWrite and KCalc and parks them by dragging.

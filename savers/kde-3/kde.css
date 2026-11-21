@@ -1,12 +1,12 @@
-/* KDE 3.1 — Keramik windows, Crystal-like glyphs, kicker along the bottom. */
+/* KDE 3.1 Keramik. Noto Sans when the system has it; not the Plasma Breeze shell. */
 
 .kde {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #1a3d6e;
+  background: #12325c;
   color: #1c2836;
-  font-family: "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", sans-serif;
+  font-family: "Noto Sans", "DejaVu Sans", "Liberation Sans", sans-serif;
   font-size: 12px;
   line-height: 1.3;
   user-select: none;
@@ -30,11 +30,13 @@
   position: absolute;
   top: 0;
   right: 0;
-  bottom: 40px;
+  bottom: 42px;
   left: 0;
   background:
-    radial-gradient(120% 70% at 50% -10%, rgba(255, 255, 255, 0.16), transparent 52%),
-    linear-gradient(#4a82c0, #1c457c 48%, #14325c);
+    radial-gradient(70% 42% at 78% 0%, rgba(255, 255, 255, 0.28), transparent 46%),
+    radial-gradient(55% 40% at 8% 100%, rgba(6, 18, 42, 0.45), transparent 58%),
+    radial-gradient(40% 28% at 62% 72%, rgba(120, 180, 230, 0.18), transparent 70%),
+    linear-gradient(168deg, #7eb4e2 0%, #3a78b8 36%, #1d4e8c 70%, #102848 100%);
 }
 
 .kde-deskicons,
@@ -110,23 +112,26 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 40px;
+  height: 42px;
   z-index: 20;
   display: flex;
   align-items: flex-end;
   gap: 4px;
-  padding: 0 6px 4px;
-  background: linear-gradient(#fbfdff, #d7e3ee 36%, #c5d4e2 72%, #b7c6d4);
-  border-top: 1px solid #f7fbff;
-  box-shadow: inset 0 1px 0 #fff, 0 -1px 0 #8ea0b4;
+  padding: 0 8px 3px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 30%),
+    linear-gradient(180deg, #f7fbff, #d5e2ee 40%, #b7c9da 100%);
+  border-top: 1px solid #fff;
+  box-shadow: inset 0 1px 0 #fff, 0 -2px 6px rgba(8, 20, 40, 0.18);
 }
 
 .kde-kbtn {
-  width: 46px;
-  height: 46px;
-  margin-bottom: 2px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1px;
   padding: 0;
   border: 0;
+  border-radius: 50%;
   background: transparent;
 }
 
@@ -216,16 +221,23 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  padding: 4px 4px 5px;
-  background: linear-gradient(#e7eef4, #c5d2e0 48%, #b3c2d2);
-  border: 1px solid #6a7c90;
-  border-radius: 10px 10px 4px 4px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 4px 12px rgba(10, 24, 48, 0.3);
+  padding: 5px 6px 6px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0) 26%),
+    linear-gradient(180deg, #e7eef5, #c3d2e2 58%, #a9bdd2);
+  border: 1px solid #5c7088;
+  border-radius: 12px 12px 5px 5px;
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -1px 0 rgba(40, 60, 84, 0.22),
+    0 12px 26px rgba(8, 18, 36, 0.4);
   overflow: hidden;
 }
 
 .kde-win.active {
-  background: linear-gradient(#fbfdff, #d5e3f0 42%, #b9cadb);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 24%),
+    linear-gradient(180deg, #f8fbfe, #d4e4f4 40%, #b5cbe0);
 }
 
 .kde-win.dragging {
@@ -273,17 +285,22 @@
 }
 
 .kde-deco {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   padding: 0;
   position: relative;
   flex: none;
-  border-radius: 2px;
-  border: 1px solid #5d6e82;
-  background: linear-gradient(#fbfdff, #c5d2e0);
-  box-shadow: inset 0 1px 0 #fff;
+  border-radius: 9px;
+  border: 1px solid #4e6278;
+  background: linear-gradient(180deg, #ffffff, #c5d4e4 70%);
+  box-shadow: inset 0 1px 0 #fff, 0 1px 1px rgba(20, 40, 60, 0.25);
   color: transparent;
   font-size: 0;
+}
+
+.kde-win.active .kde-deco.close {
+  background: linear-gradient(180deg, #f8d2cc, #d2645c);
+  border-color: #8a3c38;
 }
 
 .kde-deco::before,
@@ -311,9 +328,9 @@
 
 .kde-deco.close::before,
 .kde-deco.close::after {
-  left: 7px;
-  top: 3px;
-  width: 1.5px;
+  left: 8px;
+  top: 4px;
+  width: 1.6px;
   height: 10px;
 }
 
@@ -797,8 +814,9 @@
   left: 0;
   top: 0;
   z-index: 80;
-  width: 15px;
-  height: 20px;
+  width: 17px;
+  height: 22px;
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.35));
   pointer-events: none;
   opacity: 0;
 }

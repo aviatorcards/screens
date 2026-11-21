@@ -165,8 +165,8 @@ export const XP_ICONS = {
   </svg>`,
 
   // Crisp XP Cursors
-  cursorArrow: `<svg viewBox="0 0 20 24" width="18" height="22">
-    <path d="M1.5 1.5 L1.5 18.5 L5.8 14.3 L9.1 21.2 L12.0 19.8 L8.7 13.0 L14.8 13.0 Z" fill="#ffffff" stroke="#000000" stroke-width="1.4" stroke-linejoin="miter"/>
+  cursorArrow: `<svg viewBox="0 0 18 24" width="17" height="22">
+    <path d="M1 1 L1 17.4 L4.8 13.6 L8.2 21.6 L11.1 20.2 L7.7 12.4 L13.4 12.2 Z" fill="#ffffff" stroke="#000000" stroke-width="1.35" stroke-linejoin="miter"/>
   </svg>`,
 
   cursorHand: `<svg viewBox="0 0 20 22" width="18" height="20">

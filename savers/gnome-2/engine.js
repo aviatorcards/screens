@@ -42,8 +42,8 @@ const DESKTOP_ICONS = [
 
 const BOOT_GLYPHS = ['home', 'folder', 'terminal', 'browser', 'calc'];
 
-const CURSOR = `<svg width="15" height="20" viewBox="0 0 15 20" aria-hidden="true">
-  <path d="M1.2 1.2 L1.2 15.2 L4.6 11.8 L7.4 17.2 L9.5 16.2 L6.6 10.8 L11.6 10.6 Z" fill="#000" stroke="#fff" stroke-width="1"/>
+const CURSOR = `<svg width="17" height="22" viewBox="0 0 17 22" aria-hidden="true">
+  <path d="M1 1 L1 16.2 L4.6 12.8 L7.6 20.2 L10.2 19 L7.2 11.6 L12.6 11.4 Z" fill="#111" stroke="#fff" stroke-width="1.15" stroke-linejoin="miter"/>
 </svg>`;
 
 export class GnomeEngine {
@@ -226,7 +226,7 @@ export class GnomeEngine {
 
   _loadCss() {
     const id = 'gnome-css';
-    const href = new URL('./gnome.css?v=4', import.meta.url).href;
+    const href = new URL('./gnome.css?v=5', import.meta.url).href;
     let link = document.getElementById(id);
     const ready = (node, wait) =>
       new Promise((resolve) => {

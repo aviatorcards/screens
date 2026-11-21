@@ -4,20 +4,20 @@
 
 .xp-root {
   /* Luna Default (Blue) variables — live-swappable to Olive Green & Silver! */
-  --xp-bar-top: #3c8cf4;
-  --xp-bar-mid: #245edc;
-  --xp-bar-bot: #1941a5;
-  --xp-bar-border: #0a246a;
-  --xp-tray-top: #1898ef;
-  --xp-tray-bot: #0c72c8;
-  --xp-start-top: #5cc75c;
-  --xp-start-mid: #3a9f3a;
-  --xp-start-bot: #287a28;
+  --xp-bar-top: #4ea2ff;
+  --xp-bar-mid: #1c58d4;
+  --xp-bar-bot: #123f9c;
+  --xp-bar-border: #0a2f86;
+  --xp-tray-top: #0e6ec4;
+  --xp-tray-bot: #0a4f98;
+  --xp-start-top: #8ae07a;
+  --xp-start-mid: #3aaa30;
+  --xp-start-bot: #1c7414;
   --xp-win-border: #0a3c9e;
-  --xp-title-top: #3888f4;
-  --xp-title-mid: #0b5be0;
-  --xp-title-bot: #0644b8;
-  --xp-title-inactive: #7a96df;
+  --xp-title-top: #6eb4ff;
+  --xp-title-mid: #1666ea;
+  --xp-title-bot: #0844b6;
+  --xp-title-inactive: #8aa4d4;
   --xp-face: #ece9d8;
   --xp-pane-bg: linear-gradient(180deg, #7aa1e6 0%, #6375d6 100%);
   --xp-start-right: #d3e5fa;
@@ -26,7 +26,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: "Nimbus Sans", "Noto Sans", sans-serif;
+  font-family: Tahoma, "Liberation Sans", "Nimbus Sans", sans-serif;
   font-size: 11px;
   color: #111;
   user-select: none;
@@ -39,9 +39,9 @@
   --xp-bar-border: #4d5f2c;
   --xp-tray-top: #a8be7a;
   --xp-tray-bot: #7c944c;
-  --xp-start-top: #e89a42;
-  --xp-start-mid: #d67618;
-  --xp-start-bot: #a85408;
+  --xp-start-top: #8ae07a;
+  --xp-start-mid: #3aaa30;
+  --xp-start-bot: #1c7414;
   --xp-win-border: #5e7238;
   --xp-title-top: #b8ca8a;
   --xp-title-mid: #8fa45c;
@@ -152,39 +152,59 @@
   background: linear-gradient(
     180deg,
     var(--xp-bar-top) 0%,
-    var(--xp-bar-mid) 16%,
-    var(--xp-bar-mid) 84%,
+    var(--xp-bar-mid) 14%,
+    var(--xp-bar-mid) 78%,
     var(--xp-bar-bot) 100%
   );
-  border-top: 1px solid rgba(255, 255, 255, 0.32);
+  border-top: 1px solid rgba(180, 220, 255, 0.85);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
   display: flex;
   align-items: stretch;
   z-index: 6500;
 }
 
 .xp-start-btn {
-  width: 98px;
+  position: relative;
+  width: 102px;
+  margin: 2px 0 2px 0;
   background: linear-gradient(
     180deg,
     var(--xp-start-top) 0%,
-    var(--xp-start-mid) 18%,
-    var(--xp-start-mid) 82%,
+    #4cba3e 16%,
+    var(--xp-start-mid) 52%,
     var(--xp-start-bot) 100%
   );
-  border-radius: 0 12px 12px 0;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 2px 0 4px rgba(0, 0, 0, 0.35);
+  border-radius: 0 18px 16px 0;
+  border: 1px solid #146010;
+  border-left: 0;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -2px 3px rgba(0, 50, 0, 0.28),
+    2px 0 3px rgba(0, 0, 0, 0.28);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding-right: 6px;
+  padding-right: 10px;
   color: #ffffff;
   font-style: italic;
   font-weight: 700;
-  font-size: 14.5px;
-  letter-spacing: 0.3px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.65);
+  font-size: 15px;
+  letter-spacing: 0.2px;
+  text-shadow: 1px 1px 1px rgba(0, 40, 0, 0.65);
   flex-shrink: 0;
+}
+
+.xp-start-btn::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 16px;
+  top: 2px;
+  height: 7px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+  pointer-events: none;
 }
 
 .xp-start-btn.active {
@@ -267,9 +287,11 @@
 
 /* Light-Blue System Tray */
 .xp-tray {
+  margin: 3px 4px 3px 0;
+  border-radius: 3px 2px 2px 3px;
   background: linear-gradient(180deg, var(--xp-tray-top) 0%, var(--xp-tray-bot) 100%);
-  border-left: 1px solid rgba(0, 0, 0, 0.35);
-  box-shadow: inset 1px 0 2px rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(0, 20, 60, 0.45);
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.45), inset -1px 0 0 rgba(255, 255, 255, 0.18);
   padding: 0 10px 0 8px;
   display: flex;
   align-items: center;
@@ -473,10 +495,9 @@
 .xp-win {
   position: absolute;
   border-radius: 8px 8px 3px 3px;
-  border: 3px solid var(--xp-win-border);
-  border-top: none;
+  border: 3px solid var(--xp-title-inactive);
   background: var(--xp-face);
-  box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 12px 26px rgba(0, 16, 48, 0.38);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -484,27 +505,28 @@
 
 .xp-titlebar {
   height: 28px;
-  background: linear-gradient(180deg, var(--xp-title-inactive) 0%, #9ab0e6 100%);
-  padding: 0 6px 0 8px;
+  border-radius: 5px 5px 0 0;
+  background: linear-gradient(180deg, var(--xp-title-inactive) 0%, #b7c6e4 100%);
+  padding: 0 4px 0 6px;
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #e4ecfa;
+  color: #f4f7fc;
   font-weight: 700;
   font-size: 12px;
   flex-shrink: 0;
 }
 
+.xp-win.active {
+  border-color: var(--xp-title-mid);
+}
+
 .xp-win.active .xp-titlebar {
-  background: linear-gradient(
-    180deg,
-    var(--xp-title-top) 0%,
-    var(--xp-title-mid) 22%,
-    var(--xp-title-mid) 82%,
-    var(--xp-title-bot) 100%
-  );
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 42%),
+    linear-gradient(180deg, var(--xp-title-top) 0%, var(--xp-title-mid) 38%, var(--xp-title-bot) 100%);
   color: #ffffff;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 1px 1px rgba(0, 20, 70, 0.55);
 }
 
 .xp-root.theme-silver .xp-win.active .xp-titlebar {
@@ -531,22 +553,25 @@
 }
 
 .xp-cap {
-  width: 21px;
+  width: 22px;
   height: 21px;
   border-radius: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  background: linear-gradient(180deg, #5ea2f8 0%, #1c62d8 100%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  background: linear-gradient(180deg, #8ec4ff 0%, #2f7ef0 42%, #1458c8 100%);
   color: #ffffff;
-  font-weight: 900;
+  font-weight: 700;
   font-size: 11px;
+  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgba(0, 40, 120, 0.35);
+  text-shadow: 0 1px 0 rgba(0, 30, 80, 0.45);
 }
 
 .xp-cap.close {
-  background: linear-gradient(180deg, #f27c68 0%, #d4341e 65%, #a82010 100%);
+  background: linear-gradient(180deg, #ffb0a0 0%, #ee5a42 40%, #c62814 100%);
+  border-color: #ffd4cc;
   font-size: 13px;
 }
 
@@ -1165,7 +1190,7 @@
 .xp-welcome.fade-out { opacity: 0; pointer-events: none; }
 
 .xp-welcome-word {
-  font-family: "Nimbus Sans", "Noto Sans", sans-serif;
+  font-family: Tahoma, "Liberation Sans", "Nimbus Sans", sans-serif;
   font-size: 54px;
   font-style: italic;
   font-weight: 700;
