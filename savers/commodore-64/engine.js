@@ -1,3 +1,4 @@
+import { settlePointer, typeInto as typeHuman } from '../../js/human.js';
 import { C64Sounds } from './sounds.js';
 
 export class C64AbortError extends Error {
@@ -415,12 +416,18 @@ export class C64Engine {
   async typeBasicCommand(cmd, signal, delay = 62) {
     let buf = '';
     this._renderBasic(buf);
-    for (let i = 0; i < cmd.length; i++) {
-      buf += cmd[i];
-      this._renderBasic(buf);
-      if (cmd[i] !== ' ') this.sounds.keyClack();
-      await this.wait(delay + Math.random() * 42, signal);
-    }
+    await typeHuman(cmd, { base: delay }, {
+      check: () => this._checkSignal(signal),
+      apply: (step) => {
+        if (step.kind === 'backspace') buf = buf.slice(0, -1);
+        else buf += step.ch;
+        this._renderBasic(buf);
+      },
+      sound: (step) => {
+        if (step.kind === 'backspace' || step.ch !== ' ') this.sounds.keyClack();
+      },
+      wait: (ms) => this.wait(ms, signal),
+    });
     await this.wait(240, signal);
     this.sounds.keyClack();
     this.printLine(buf);
@@ -608,9 +615,15 @@ export class C64Engine {
       this.cursor.y = u * u * u * sy + 3 * u * u * t * cy1 + 3 * u * t * t * cy2 + t * t * t * targetY;
       this._renderCursor();
     }
-    this.cursor.x = targetX;
-    this.cursor.y = targetY;
-    this._renderCursor();
+    await settlePointer(sx, sy, targetX, targetY, {
+      signal,
+      wait: (ms, sig) => this.wait(ms, sig),
+      place: (px, py) => {
+        this.cursor.x = px;
+        this.cursor.y = py;
+        this._renderCursor();
+      },
+    });
   }
 
   async moveToElement(el, rx = 0.5, ry = 0.5, durationMs = null, signal = null) {
@@ -735,16 +748,22 @@ export class C64Engine {
       el.innerHTML = caret ? `${esc}<span class="geowrite-caret"></span>` : esc;
     };
     render(true);
-    for (let i = 0; i < text.length; i++) {
-      const ch = text[i];
-      buf += ch;
-      render(true);
-      if (ch !== ' ') this.sounds.keyClack();
-      let pause = delay + Math.random() * 38;
-      if (ch === '.' || ch === '!' || ch === '?') pause += 200;
-      else if (ch === '\n') pause += 220;
-      await this.wait(pause, signal);
-    }
+    const prefix = buf;
+    await typeHuman(text, { base: delay, allowTypo: opts.allowTypo !== false }, {
+      check: () => this._checkSignal(signal),
+      apply: (step) => {
+        if (step.kind === 'backspace') {
+          if (buf.length > prefix.length) buf = buf.slice(0, -1);
+        } else {
+          buf += step.ch;
+        }
+        render(true);
+      },
+      sound: (step) => {
+        if (step.kind === 'backspace' || step.ch !== ' ') this.sounds.keyClack();
+      },
+      wait: (ms) => this.wait(ms, signal),
+    });
     if (opts.removeCaretAtEnd) render(false);
   }
 

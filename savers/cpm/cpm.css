@@ -88,9 +88,23 @@
   font-variant-ligatures: none;
   line-height: 1.15;
   font-size: min(
-    calc((100cqw - 32px) / 52),
+    calc((100cqw - 28px) / 64),
     calc((100cqh - 24px) / 28)
   );
+}
+
+.cpm-screen {
+  animation: cpm-mains 11s linear infinite;
+}
+
+@keyframes cpm-mains {
+  0%, 17%, 19%, 68%, 70%, 100% { filter: brightness(1); }
+  18% { filter: brightness(1.06); }
+  69% { filter: brightness(0.95); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cpm-screen { animation: none; }
 }
 
 .cpm-line {

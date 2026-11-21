@@ -78,7 +78,12 @@ async function notepadJournal(engine, signal) {
   const note = openNotepad(engine);
   await engine.wait(360, signal);
   await engine.click(note.docEl, { rx: 0.2, ry: 0.78 }, signal);
-  await engine.typeText(note.docEl, '\nProgram Manager still keeps Main, Accessories, and Games.', signal);
+  const lines = [
+    '\nProgram Manager still keeps Main, Accessories, and Games.',
+    '\nNotepad is in the Accessories group.',
+    '\nThe desktop is still that teal color.',
+  ];
+  await engine.typeText(note.docEl, lines[Math.floor(Math.random() * lines.length)], signal);
   await engine.openWindowMenu(note, 'File', 'Save', signal);
   await engine.wait(480, signal);
 }

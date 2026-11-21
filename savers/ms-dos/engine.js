@@ -1,3 +1,4 @@
+import { typeInto as typeHuman } from '../../js/human.js';
 import { DosSounds } from './sounds.js';
 
 export class DosAbortError extends Error {
@@ -163,18 +164,24 @@ export class DosEngine {
     this._renderTerm(`${this.esc(this.cwd)}&gt;`);
   }
 
-  async typeCommand(cmd, signal, delay = 52) {
+  async typeCommand(cmd, signal, delay = 52, { allowTypo = true } = {}) {
     const prefix = `${this.esc(this.cwd)}&gt;`;
     let buf = '';
     this._renderTerm(prefix);
     await this.wait(180, signal);
 
-    for (let i = 0; i < cmd.length; i++) {
-      buf += cmd[i];
-      this._renderTerm(`${prefix}${this.esc(buf)}`);
-      if (cmd[i] !== ' ') this.sounds.keyClick();
-      await this.wait(delay + Math.random() * 38, signal);
-    }
+    await typeHuman(cmd, { base: delay, allowTypo }, {
+      check: () => this._checkSignal(signal),
+      apply: (step) => {
+        if (step.kind === 'backspace') buf = buf.slice(0, -1);
+        else buf += step.ch;
+        this._renderTerm(`${prefix}${this.esc(buf)}`);
+      },
+      sound: (step) => {
+        if (step.kind === 'backspace' || step.ch !== ' ') this.sounds.keyClick();
+      },
+      wait: (ms) => this.wait(ms, signal),
+    });
     await this.wait(220, signal);
     this.sounds.keyClick();
     this.printHtml(`${prefix}${this.esc(buf)}`);

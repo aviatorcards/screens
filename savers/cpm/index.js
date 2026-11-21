@@ -34,6 +34,10 @@ export function createScreensaver() {
       'cpm-pip',
       'cpm-stat',
       'cpm-mbasic',
+      'cpm-miss',
+      'cpm-ed',
+      'cpm-ddt',
+      'cpm-era',
     ]
       .map((id) => BY_ID.get(id))
       .filter(Boolean);

@@ -1,3 +1,4 @@
+import { settlePointer, typeInto as typeHuman } from '../../js/human.js';
 import { NEXT_ICONS } from './icons.js';
 import { NextSounds } from './sounds.js';
 
@@ -341,9 +342,15 @@ export class NextStepEngine {
       this.cursor.y = u * u * u * sy + 3 * u * u * t * cy1 + 3 * u * t * t * cy2 + t * t * t * ty;
       this._renderCursor();
     }
-    this.cursor.x = tx;
-    this.cursor.y = ty;
-    this._renderCursor();
+    await settlePointer(sx, sy, tx, ty, {
+      signal,
+      wait: (ms, sig) => this.wait(ms, sig),
+      place: (px, py) => {
+        this.cursor.x = px;
+        this.cursor.y = py;
+        this._renderCursor();
+      },
+    });
   }
 
   async click(el = null, opts = {}, signal = null) {
@@ -462,15 +469,22 @@ export class NextStepEngine {
       el.innerHTML = caret ? `${esc(buf)}<span class="nx-caret"></span>` : esc(buf);
     };
     render(true);
-    for (let i = 0; i < text.length; i++) {
-      buf += text[i];
-      render(true);
-      if (text[i] !== ' ') this.sounds.key();
-      let pause = delay + Math.random() * 34;
-      if (text[i] === '\n') pause += 180;
-      else if (text[i] === '.' || text[i] === ';') pause += 130;
-      await this.wait(pause, signal);
-    }
+    const prefix = buf;
+    await typeHuman(text, { base: delay, allowTypo: opts.allowTypo !== false }, {
+      check: () => this._checkSignal(signal),
+      apply: (step) => {
+        if (step.kind === 'backspace') {
+          if (buf.length > prefix.length) buf = buf.slice(0, -1);
+        } else {
+          buf += step.ch;
+        }
+        render(true);
+      },
+      sound: (step) => {
+        if (step.kind === 'backspace' || step.ch !== ' ') this.sounds.key();
+      },
+      wait: (ms) => this.wait(ms, signal),
+    });
     if (opts.removeCaretAtEnd) render(false);
   }
 

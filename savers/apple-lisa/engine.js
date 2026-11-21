@@ -1,3 +1,4 @@
+import { settlePointer, textApply, typeInto as typeHuman } from '../../js/human.js';
 import { LISA_ICONS } from './icons.js';
 import { LisaSounds } from './sounds.js';
 
@@ -287,7 +288,11 @@ export class LisaEngine {
         u * u * u * sy + 3 * u * u * t * cy1 + 3 * u * t * t * cy2 + t * t * t * ty,
       );
     }
-    this._setCursorPos(tx, ty);
+    await settlePointer(sx, sy, tx, ty, {
+      signal,
+      wait: (ms, sig) => this.wait(ms, sig),
+      place: (px, py) => this._setCursorPos(px, py),
+    });
   }
 
   async moveToEl(el, durationMs = null, signal = null) {
@@ -584,13 +589,15 @@ export class LisaEngine {
     this.setAppMenus('Desktop Manager', ['File/Print', 'Edit', 'Housekeeping', 'Disk']);
   }
 
-  async typeText(el, text, { charMs = 42, sound = true } = {}, signal = null) {
-    for (let i = 0; i < text.length; i++) {
-      this._checkSignal(signal);
-      el.textContent += text[i];
-      if (sound && text[i] !== ' ' && text[i] !== '\n') this.sounds.key();
-      await this.wait(charMs + Math.random() * 22, signal);
-    }
+  async typeText(el, text, { charMs = 42, sound = true, allowTypo = true } = {}, signal = null) {
+    await typeHuman(text, { base: charMs, allowTypo: allowTypo && sound }, {
+      check: () => this._checkSignal(signal),
+      apply: textApply(el),
+      sound: (step) => {
+        if (sound && (step.kind === 'backspace' || (step.ch !== ' ' && step.ch !== '\n'))) this.sounds.key();
+      },
+      wait: (ms) => this.wait(ms, signal),
+    });
   }
 
   destroy() {

@@ -1,3 +1,4 @@
+import { settlePointer, textApply, typeInto as typeHuman } from '../../js/human.js';
 import { WARP_ICONS } from './icons.js';
 import { WarpSounds } from './sounds.js';
 
@@ -299,7 +300,10 @@ export class WarpEngine {
       this._setCursorPos(x, y);
       await new Promise((r) => setTimeout(r, 16));
     }
-    this._setCursorPos(tx, ty);
+    await settlePointer(sx, sy, tx, ty, {
+      wait: (ms) => this.wait(ms),
+      place: (px, py) => this._setCursorPos(px, py),
+    });
   }
 
   getElCenter(el) {
@@ -580,14 +584,15 @@ export class WarpEngine {
     this.root.style.setProperty('--warp-chrome', s.chrome);
   }
 
-  async typeText(targetEl, text, { charMs = 46, sound = true } = {}) {
-    for (let i = 0; i < text.length; i++) {
-      this.checkAbort();
-      targetEl.textContent += text[i];
-      if (sound && text[i] !== ' ') this.sounds.key();
-      const jitter = Math.random() * 26;
-      await this.wait(charMs + jitter);
-    }
+  async typeText(targetEl, text, { charMs = 46, sound = true, allowTypo = true } = {}) {
+    await typeHuman(text, { base: charMs, allowTypo: allowTypo && sound }, {
+      check: () => this.checkAbort(),
+      apply: textApply(targetEl),
+      sound: (step) => {
+        if (sound && (step.kind === 'backspace' || step.ch !== ' ')) this.sounds.key();
+      },
+      wait: (ms) => this.wait(ms),
+    });
   }
 
   unmount() {

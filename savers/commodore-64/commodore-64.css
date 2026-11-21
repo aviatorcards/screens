@@ -72,6 +72,17 @@
   overflow: hidden;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.06);
   transition: background-color 0.14s linear, color 0.14s linear;
+  animation: c64-mains 8.5s linear infinite;
+}
+
+@keyframes c64-mains {
+  0%, 31%, 33%, 74%, 76%, 100% { filter: brightness(1); }
+  32% { filter: brightness(1.08); }
+  75% { filter: brightness(0.94); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c64-screen { animation: none; }
 }
 
 /* Border rainbow bars during SID demo / 1541 turbo load */

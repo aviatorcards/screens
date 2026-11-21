@@ -1,3 +1,4 @@
+import { settlePointer, typeInto as typeHuman } from '../../js/human.js';
 import { ICONS, csSoundIcon } from './icons.js';
 import { DESKTOP_PATTERNS, HIGHLIGHT_COLORS } from './wallpapers.js';
 import { PlatinumSounds } from './sounds.js';
@@ -901,9 +902,15 @@ export class MacOS9Engine {
       this._renderCursor();
     }
 
-    this.cursor.x = targetX;
-    this.cursor.y = targetY;
-    this._renderCursor();
+    await settlePointer(sx, sy, targetX, targetY, {
+      signal,
+      wait: (ms, sig) => this.wait(ms, sig),
+      place: (px, py) => {
+        this.cursor.x = px;
+        this.cursor.y = py;
+        this._renderCursor();
+      },
+    });
   }
 
   async moveToElement(el, rx = 0.5, ry = 0.5, durationMs = null, signal = null) {
@@ -1047,7 +1054,6 @@ export class MacOS9Engine {
     const withCaret = opts.caret ?? true;
     const allowTypo = opts.allowTypo ?? true;
     let current = opts.append ? el.dataset.rawText || el.textContent || '' : '';
-    let didTypo = false;
 
     const render = () => {
       el.dataset.rawText = current;
@@ -1060,34 +1066,18 @@ export class MacOS9Engine {
 
     render();
 
-    for (let i = 0; i < text.length; i++) {
-      const ch = text[i];
-
-      // Occasional realistic typo + quick backspace fix
-      if (allowTypo && !didTypo && i > 12 && i < text.length - 6 && /[a-z]/.test(ch) && Math.random() < 0.04) {
-        didTypo = true;
-        const wrong = ch === 'e' ? 'r' : ch === 'a' ? 's' : ch === 'o' ? 'p' : 'n';
-        current += wrong;
+    await typeHuman(text, { base: baseDelay, allowTypo }, {
+      check: () => this._checkSignal(signal),
+      apply: (step) => {
+        if (step.kind === 'backspace') current = current.slice(0, -1);
+        else current += step.ch;
         render();
-        this.sounds.key();
-        await this.wait(baseDelay * 2.4, signal);
-        current = current.slice(0, -1);
-        render();
-        this.sounds.key();
-        await this.wait(baseDelay * 1.6, signal);
-      }
-
-      current += ch;
-      render();
-      if (ch !== ' ') this.sounds.key();
-
-      let pause = baseDelay + Math.random() * 44;
-      if (ch === '.' || ch === '!' || ch === '?') pause += 220;
-      else if (ch === ',' || ch === '—') pause += 120;
-      else if (ch === '\n') pause += 240;
-
-      await this.wait(pause, signal);
-    }
+      },
+      sound: (step) => {
+        if (step.kind === 'backspace' || step.ch !== ' ') this.sounds.key();
+      },
+      wait: (ms) => this.wait(ms, signal),
+    });
 
     if (opts.removeCaretAtEnd) {
       el.innerHTML = current

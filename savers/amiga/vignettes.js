@@ -108,7 +108,12 @@ async function notepad(engine, signal) {
   const note = openNotepad(engine);
   await engine.wait(180, signal);
   await engine.click(note.docEl, { rx: 0.16, ry: 0.18 }, signal);
-  await engine.typeText(note.docEl, '1988\n\nDrawers on the blue screen.\nThe Shell still speaks Topaz.', signal);
+  const notes = [
+    '1988\n\nDrawers on the blue screen.\nThe Shell still speaks Topaz.',
+    '1988\n\nUtilities has the Clock.\nDeluxe Paint is on the desk.',
+    '1988\n\nWorkbench 1.3.\nThe Shell still speaks Topaz.',
+  ];
+  await engine.typeText(note.docEl, notes[Math.floor(Math.random() * notes.length)], signal);
   await engine.wait(480, signal);
 }
 

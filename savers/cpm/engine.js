@@ -1,4 +1,15 @@
+import { typeInto } from '../../js/human.js';
 import { CpmSounds } from './sounds.js';
+
+/** CP/M 2.2 DIR: drive letter once per line, four names across, directory order. */
+export function formatCpmDirectory(files) {
+  const cell = ([name, ext]) => `${name.padEnd(8, ' ')} ${ext.padEnd(3, ' ')}`;
+  const lines = [];
+  for (let i = 0; i < files.length; i += 4) {
+    lines.push(`A: ${files.slice(i, i + 4).map(cell).join(' : ')}`);
+  }
+  return lines;
+}
 
 export class CpmAbortError extends Error {
   constructor() {
@@ -127,20 +138,33 @@ export class CpmEngine {
     }
   }
 
+  _touchFree() {
+    const extra = Math.max(0, this.notes.length - 4);
+    this.freeKb = 196 - (this.hasBak ? 1 : 0) - Math.min(8, Math.floor(extra / 2));
+  }
+
   noteBackup() {
     if (this.hasBak) return;
     this.files.push(['NOTES', 'BAK']);
     this.hasBak = true;
-    this.freeKb = 195;
+    this._touchFree();
+  }
+
+  forgetBackup() {
+    this.files = this.files.filter(([name, ext]) => !(name === 'NOTES' && ext === 'BAK'));
+    this.hasBak = false;
+    this._touchFree();
+  }
+
+  appendNote(line) {
+    const text = String(line).toUpperCase();
+    if (!this.notes.includes(text)) this.notes.push(text);
+    if (this.notes.length > 12) this.notes.splice(4, this.notes.length - 12);
+    this._touchFree();
   }
 
   dirLines() {
-    const cell = ([name, ext]) => `A: ${name.padEnd(8, ' ')} ${ext.padEnd(3, ' ')}`;
-    const lines = [];
-    for (let i = 0; i < this.files.length; i += 4) {
-      lines.push(this.files.slice(i, i + 4).map(cell).join(' : '));
-    }
-    return lines;
+    return formatCpmDirectory(this.files);
   }
 
   spaceLine() {
@@ -148,11 +172,14 @@ export class CpmEngine {
   }
 
   statLines() {
+    const bytes = this.notes.reduce((n, line) => n + line.length + 2, 0);
+    const recs = Math.max(1, Math.ceil(bytes / 128));
+    const kb = recs > 1 ? '2k' : '1k';
     const names = this.hasBak
       ? [['NOTES', 'BAK'], ['NOTES', 'TXT']]
       : [['NOTES', 'TXT']];
     const row = ([name, ext]) =>
-      `${'1'.padStart(4, ' ')}${'1k'.padStart(6, ' ')}${'1'.padStart(4, ' ')} R/W A:${name}.${ext}`;
+      `${String(recs).padStart(4, ' ')}${kb.padStart(6, ' ')}${'1'.padStart(4, ' ')} R/W A:${name}.${ext}`;
     return [
       '',
       ' Recs  Bytes  Ext Acc',
@@ -206,20 +233,25 @@ export class CpmEngine {
     this._render('output');
   }
 
-  async typeCommand(cmd, { prompt = 'A>', delay = 52 } = {}, signal) {
+  async typeCommand(cmd, { prompt = 'A>', delay = 52, allowTypo = true, mistake = false } = {}, signal) {
     this.prompt = prompt;
     let buf = '';
     this._render('typing', buf);
-    for (const ch of cmd) {
-      this._check(signal);
-      buf += ch;
-      this._render('typing', buf);
-      if (ch !== ' ') this.sounds.keyClick();
-      await this.wait(delay + Math.random() * 36, signal);
-    }
+    await typeInto(cmd, { base: delay, allowTypo }, {
+      check: () => this._check(signal),
+      apply: (step) => {
+        if (step.kind === 'backspace') buf = buf.slice(0, -1);
+        else buf += step.ch;
+        this._render('typing', buf);
+      },
+      sound: (step) => {
+        if (step.kind === 'backspace' || step.ch !== ' ') this.sounds.keyClick();
+      },
+      wait: (ms) => this.wait(ms, signal),
+    });
     await this.wait(150, signal);
     this.sounds.keyClick();
-    this.lines.push(this.prompt + buf);
+    this.lines.push(mistake ? `${this.prompt}${buf}?` : this.prompt + buf);
     this._render('output');
   }
 

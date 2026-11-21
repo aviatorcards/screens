@@ -1,3 +1,4 @@
+import { typeInto } from '../../js/human.js';
 import { CompilerSounds } from './sounds.js';
 
 export class CompilerAbortError extends Error {
@@ -146,21 +147,32 @@ export class CompilerEngine {
     this._render('output');
   }
 
-  async _type(text, { prompt, delay, kind }, signal) {
+  async _type(text, { prompt, delay, kind, allowTypo = true }, signal) {
     this.prompt = prompt;
     let buf = '';
     this._render('typing', buf);
-    for (const ch of text) {
-      this._check(signal);
-      buf += ch;
-      this._render('typing', buf);
-      if (ch !== ' ') this.sounds.keyClick();
-      const jitter = delay > 30 ? 16 : 12;
-      await this.wait(delay + Math.random() * jitter, signal);
-    }
+    await typeInto(text, { base: delay, allowTypo }, {
+      check: () => this._check(signal),
+      apply: (step) => {
+        if (step.kind === 'backspace') buf = buf.slice(0, -1);
+        else buf += step.ch;
+        this._render('typing', buf);
+      },
+      sound: (step) => {
+        if (step.kind === 'backspace' || step.ch !== ' ') this.sounds.keyClick();
+      },
+      wait: (ms) => this.wait(ms, signal),
+    });
     await this.wait(80, signal);
     this.lines.push({ text: prompt + buf, kind });
     this._render('output');
+  }
+
+  noteBuilt(name, bytes) {
+    if (!this.artifacts) this.artifacts = [];
+    const found = this.artifacts.find((row) => row.name === name);
+    if (found) found.bytes = bytes;
+    else this.artifacts.push({ name, bytes });
   }
 
   async typeCommand(cmd, signal) {
