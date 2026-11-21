@@ -1,3 +1,4 @@
+import { caretApply, settlePointer, typeInto as typeHuman, valueApply } from '../../js/human.js';
 import { iconSvg } from './icons.js';
 import { SolarisSounds } from './sounds.js';
 
@@ -394,9 +395,15 @@ export class SolarisEngine {
       },
       signal,
     );
-    this.cursor.x = x;
-    this.cursor.y = y;
-    this._renderCursor();
+    await settlePointer(sx, sy, x, y, {
+      signal,
+      wait: (ms, sig) => this.wait(ms, sig),
+      place: (px, py) => {
+        this.cursor.x = px;
+        this.cursor.y = py;
+        this._renderCursor();
+      },
+    });
   }
 
   async moveToElement(el, rx = 0.5, ry = 0.5, duration, signal) {
@@ -432,26 +439,26 @@ export class SolarisEngine {
   }
 
   async typeText(el, text, signal) {
-    for (const ch of text) {
-      this._check(signal);
-      const caret = el.querySelector?.('.sol-caret');
-      const node = document.createTextNode(ch);
-      if (caret) el.insertBefore(node, caret);
-      else el.appendChild(node);
-      const scroller = el.closest?.('.sol-term, .sol-doc') || el;
-      if (scroller.scrollHeight) scroller.scrollTop = scroller.scrollHeight;
-      this.sounds.key();
-      await this.wait(ch === '\n' ? 64 : ch === ' ' ? 26 : 40, signal);
-    }
+    const apply = caretApply(el, '.sol-caret');
+    await typeHuman(text, { base: 40 }, {
+      check: () => this._check(signal),
+      apply: (step) => {
+        apply(step);
+        const scroller = el.closest?.('.sol-term, .sol-doc') || el;
+        if (scroller.scrollHeight) scroller.scrollTop = scroller.scrollHeight;
+      },
+      sound: () => this.sounds.key(),
+      wait: (ms) => this.wait(ms, signal),
+    });
   }
 
   async typeValue(input, text, signal) {
-    for (const ch of text) {
-      this._check(signal);
-      input.value += ch;
-      this.sounds.key();
-      await this.wait(36, signal);
-    }
+    await typeHuman(text, { base: 36 }, {
+      check: () => this._check(signal),
+      apply: valueApply(input),
+      sound: () => this.sounds.key(),
+      wait: (ms) => this.wait(ms, signal),
+    });
   }
 
   async launch(signal) {

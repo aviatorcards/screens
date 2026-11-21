@@ -1,3 +1,4 @@
+import { typeInto as typeHuman } from '../../js/human.js';
 import { Apple2Sounds } from './sounds.js';
 
 export class Apple2AbortError extends Error {
@@ -238,15 +239,21 @@ export class Apple2Engine {
     this.textLayerEl.innerHTML = body + current;
   }
 
-  async typeCommand(cmd, { prompt = ']', delay = 58, sound = true } = {}, signal = null) {
+  async typeCommand(cmd, { prompt = ']', delay = 58, sound = true, allowTypo = true } = {}, signal = null) {
     let buf = '';
     this._renderText(buf, prompt);
-    for (let i = 0; i < cmd.length; i++) {
-      buf += cmd[i];
-      this._renderText(buf, prompt);
-      if (sound && cmd[i] !== ' ') this.sounds.keyClick();
-      await this.wait(delay + Math.random() * 34, signal);
-    }
+    await typeHuman(cmd, { base: delay, allowTypo }, {
+      check: () => this._checkSignal(signal),
+      apply: (step) => {
+        if (step.kind === 'backspace') buf = buf.slice(0, -1);
+        else buf += step.ch;
+        this._renderText(buf, prompt);
+      },
+      sound: (step) => {
+        if (sound && (step.kind === 'backspace' || step.ch !== ' ')) this.sounds.keyClick();
+      },
+      wait: (ms) => this.wait(ms, signal),
+    });
     await this.wait(220, signal);
     if (sound) this.sounds.keyClick();
     this.print(prompt + buf);

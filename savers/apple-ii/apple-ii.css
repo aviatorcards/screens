@@ -65,6 +65,17 @@
     inset 0 0 46px rgba(0, 0, 0, 0.72),
     0 0 48px rgba(0, 0, 0, 0.85),
     0 0 26px var(--a2-phosphor-glow);
+  animation: a2-mains 9.5s linear infinite;
+}
+
+@keyframes a2-mains {
+  0%, 22%, 24%, 81%, 83%, 100% { filter: brightness(1); }
+  23% { filter: brightness(1.07); }
+  82% { filter: brightness(0.94); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .a2-crt { animation: none; }
 }
 
 /* Subtle CRT scanlines + glass vignette */

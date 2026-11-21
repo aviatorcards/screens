@@ -1,4 +1,4 @@
-import { SCREENSAVERS, getSaverById } from './registry.js?v=24';
+import { SCREENSAVERS, getSaverById } from './registry.js?v=25';
 
 const SPEEDS = [0.75, 1, 1.5, 2];
 

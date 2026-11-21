@@ -18,6 +18,7 @@ const ORDER = [
   'lang-swift',
   'lang-go',
   'lang-hs',
+  'workspace',
 ];
 
 export function createScreensaver() {

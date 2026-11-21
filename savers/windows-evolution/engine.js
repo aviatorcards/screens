@@ -1,3 +1,4 @@
+import { settlePointer, typeInto as typeHuman } from '../../js/human.js';
 import { WinEvoSounds } from './sounds.js';
 
 export class WinEvoAbortError extends Error {
@@ -162,9 +163,15 @@ export class WinEvoEngine {
       this.cursor.y = u * u * u * sy + 3 * u * u * t * cy1 + 3 * u * t * t * cy2 + t * t * t * ty;
       this._renderCursor();
     }
-    this.cursor.x = tx;
-    this.cursor.y = ty;
-    this._renderCursor();
+    await settlePointer(sx, sy, tx, ty, {
+      signal,
+      wait: (ms, sig) => this.wait(ms, sig),
+      place: (px, py) => {
+        this.cursor.x = px;
+        this.cursor.y = py;
+        this._renderCursor();
+      },
+    });
   }
 
   async click(el, opts = {}, signal = null) {
@@ -196,15 +203,22 @@ export class WinEvoEngine {
       el.innerHTML = caret ? `${esc}<span class="wev-dos-cursor" style="background:${opts.caretColor || 'currentColor'}"></span>` : esc;
     };
     render(true);
-    for (let i = 0; i < text.length; i++) {
-      buf += text[i];
-      render(true);
-      if (text[i] !== ' ') this.sounds.keyClick();
-      let pause = delay + Math.random() * 34;
-      if (text[i] === '.' || text[i] === '!') pause += 160;
-      else if (text[i] === '\n') pause += 180;
-      await this.wait(pause, signal);
-    }
+    const prefix = buf;
+    await typeHuman(text, { base: delay, allowTypo: opts.allowTypo !== false }, {
+      check: () => this._checkSignal(signal),
+      apply: (step) => {
+        if (step.kind === 'backspace') {
+          if (buf.length > prefix.length) buf = buf.slice(0, -1);
+        } else {
+          buf += step.ch;
+        }
+        render(true);
+      },
+      sound: (step) => {
+        if (step.kind === 'backspace' || step.ch !== ' ') this.sounds.keyClick();
+      },
+      wait: (ms) => this.wait(ms, signal),
+    });
     if (opts.removeCaretAtEnd) render(false);
   }
 

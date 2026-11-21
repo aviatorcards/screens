@@ -1,3 +1,5 @@
+import { typeInto as typeHuman } from '../../js/human.js';
+
 function pickRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -332,22 +334,37 @@ async function dosEdit(engine, signal) {
   const posEl = tui.querySelector('#ed-pos');
   const fileMenuBtn = tui.querySelector('#ed-file');
 
-  const content = pickRandom([
+  if (!engine.sessionNotes) engine.sessionNotes = [];
+  const stamp = `- Checked the desk at ${d.dirTime}.`;
+  if (!engine.sessionNotes.includes(stamp)) engine.sessionNotes.push(stamp);
+  if (engine.sessionNotes.length > 3) engine.sessionNotes.shift();
+
+  const content = `${pickRandom([
     `486DX2-66 SYSTEM LOG — ${d.dosDate}\n========================================\n\n- Conventional memory tuned to 612K free via EMM386.\n- Sound Blaster 16 IRQ 5 / DMA 1 verified in DOOM.\n- Ran DEFRAG on Drive C: (540MB Western Digital).\n- Dial-up BBS session scheduled for ${d.weekday} night (${d.dirTime}).`,
     `REM  AUTOEXEC.BAT NOTES (${d.prettyDate})\n@ECHO OFF\nPROMPT $P$G\nPATH C:\\DOS;C:\\NC;C:\\TELIX\nSET BLASTER=A220 I5 D1 H5 P330 T6\nLH C:\\DOS\\SMARTDRV.EXE /X\nLH C:\\DOS\\MOUSE.COM\nECHO Ready for ${d.weekday}!`,
-  ]);
+    `C:\\NOTES.TXT\n${d.prettyDate}\n\n- ScanDisk finished the surface check.\n- Norton Commander still has C:\\GAMES.\n- Left the turbo light on.`,
+  ])}\n${engine.sessionNotes.join('\n')}`;
 
   let buf = '';
-  for (let i = 0; i < content.length; i++) {
-    buf += content[i];
+  const paint = () => {
     const lines = buf.split('\n');
     const row = String(lines.length).padStart(5, '0');
     const col = String(lines[lines.length - 1].length + 1).padStart(5, '0');
     bodyEl.innerHTML = `${engine.esc(buf)}<span class="dos-cursor" style="background:#fff"></span>`;
     posEl.textContent = `${row}:${col}`;
-    if (content[i] !== ' ') engine.sounds.keyClick();
-    await engine.wait(content[i] === '\n' ? 190 : 42 + Math.random() * 30, signal);
-  }
+  };
+  await typeHuman(content, { base: 36 }, {
+    check: () => engine._checkSignal(signal),
+    apply: (step) => {
+      if (step.kind === 'backspace') buf = buf.slice(0, -1);
+      else buf += step.ch;
+      paint();
+    },
+    sound: (step) => {
+      if (step.kind === 'backspace' || step.ch !== ' ') engine.sounds.keyClick();
+    },
+    wait: (ms) => engine.wait(ms, signal),
+  });
 
   await engine.wait(700, signal);
 

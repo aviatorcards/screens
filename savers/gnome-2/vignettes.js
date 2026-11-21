@@ -66,7 +66,13 @@ async function geditNote(engine, signal) {
   const win = openGedit(engine);
   await engine.wait(360, signal);
   await engine.click(win.docEl, { rx: 0.4, ry: 0.55 }, signal);
-  await engine.typeText(win.docEl, `\n${stamp()} — The workspace switcher sits on the bottom panel.\n`, signal);
+  const lines = [
+    'The workspace switcher sits on the bottom panel.',
+    'Epiphany still opens the local welcome page.',
+    'Nautilus is showing the home folder.',
+  ];
+  const line = lines[Math.floor(Math.random() * lines.length)];
+  await engine.typeText(win.docEl, `\n${stamp()} — ${line}\n`, signal);
   await engine.wait(240, signal);
   await engine.openWindowMenu(win, 'File', 'Save', signal);
   win.statusEl.textContent = 'Saved notes.txt';

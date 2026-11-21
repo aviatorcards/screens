@@ -100,7 +100,12 @@ async function notepadJournal(engine, signal) {
   const note = openNotepad(engine);
   await engine.wait(320, signal);
   await engine.click(note.docEl, { rx: 0.22, ry: 0.72 }, signal);
-  await engine.typeText(note.docEl, '\nThe taskbar still knows which windows are open.', signal);
+  const lines = [
+    '\nThe taskbar still knows which windows are open.',
+    '\nWordPad is under Accessories.',
+    '\nMy Computer is on the desktop.',
+  ];
+  await engine.typeText(note.docEl, lines[Math.floor(Math.random() * lines.length)], signal);
   await engine.openWindowMenu(note, 'File', 'Save', signal);
   await engine.wait(420, signal);
 }

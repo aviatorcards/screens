@@ -1,3 +1,4 @@
+import { caretApply, settlePointer, typeInto as typeHuman } from '../../js/human.js';
 import { Win31Sounds } from './sounds.js';
 import { FLAG } from './icons.js';
 
@@ -210,9 +211,15 @@ export class Win31Engine {
       this.cursor.y = k * k * sy + 2 * k * u * cy + u * u * y;
       this._renderCursor();
     }, signal);
-    this.cursor.x = x;
-    this.cursor.y = y;
-    this._renderCursor();
+    await settlePointer(sx, sy, x, y, {
+      signal,
+      wait: (ms, sig) => this.wait(ms, sig),
+      place: (px, py) => {
+        this.cursor.x = px;
+        this.cursor.y = py;
+        this._renderCursor();
+      },
+    });
   }
 
   async moveToElement(el, rx = 0.5, ry = 0.5, duration, signal) {
@@ -263,16 +270,12 @@ export class Win31Engine {
   }
 
   async typeText(el, text, signal) {
-    for (const ch of text) {
-      this._check(signal);
-      const caret = el.querySelector?.('.w31-caret');
-      const node = document.createTextNode(ch);
-      if (caret) el.insertBefore(node, caret);
-      else el.appendChild(node);
-      if (el.scrollHeight) el.scrollTop = el.scrollHeight;
-      this.sounds.key();
-      await this.wait(ch === '\n' ? 70 : ch === ' ' ? 28 : 40, signal);
-    }
+    await typeHuman(text, { base: 40 }, {
+      check: () => this._check(signal),
+      apply: caretApply(el, '.w31-caret'),
+      sound: () => this.sounds.key(),
+      wait: (ms) => this.wait(ms, signal),
+    });
   }
 
   async dragEl(el, x, y, ms, signal) {

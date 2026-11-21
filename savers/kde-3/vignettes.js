@@ -71,7 +71,13 @@ async function kwriteNote(engine, signal) {
   const win = openKWrite(engine);
   await engine.wait(320, signal);
   await engine.click(win.docEl, { rx: 0.4, ry: 0.55 }, signal);
-  await engine.typeText(win.docEl, `\n${stamp()} — This note stays in the home folder.\n`, signal);
+  const lines = [
+    'This note stays in the home folder.',
+    'Konqueror has the welcome page in a second tab.',
+    'The kicker clock matches the session.',
+  ];
+  const line = lines[Math.floor(Math.random() * lines.length)];
+  await engine.typeText(win.docEl, `\n${stamp()} — ${line}\n`, signal);
   await engine.wait(240, signal);
   await engine.openWindowMenu(win, 'File', 'Save', signal);
   await engine.wait(220, signal);

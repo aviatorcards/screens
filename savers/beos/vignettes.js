@@ -72,7 +72,12 @@ async function styledEdit(engine, signal) {
   const edit = openStyledEdit(engine, 'ReadMe.txt');
   await engine.wait(500, signal);
   await engine.click(edit.docEl, { rx: 0.7, ry: 0.72 }, signal);
-  await engine.typeText(edit.docEl, '\nNetPositive still opens the local welcome page.\n', signal);
+  const lines = [
+    '\nNetPositive still opens the local welcome page.\n',
+    '\nTracker is showing /boot/home.\n',
+    '\nPulse is quiet on this desk.\n',
+  ];
+  await engine.typeText(edit.docEl, lines[Math.floor(Math.random() * lines.length)], signal);
   await engine.wait(280, signal);
   await engine.openWindowMenu(edit, 'File', 'Save', signal);
   await engine.wait(640, signal);

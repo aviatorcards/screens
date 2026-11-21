@@ -78,10 +78,10 @@ A Monitor II P31 green-phosphor & NTSC color composite CRT framed by subtle scan
 - **Classic Special Moments** (`✦` HUD menu): **Cold Boot & Disk II Catalog**, **VisiCalc (1979) Spreadsheet**, **The Oregon Trail (MECC)**, **Hi-Res Vector & Apple Logo**, and **CALL -151 (6502 Monitor)**.
 
 #### CP/M-80 (`1979 · CP/M`)
-A green phosphor terminal at the CP/M-80 2.2 `A>` prompt. The sign-on is the sample BIOS line `64K CP/M VERS 2.2`. Directory listings are four across, in directory order, with no dates. A drive lamp sits beside the tube and lights while a command reads the disk.
+A green phosphor terminal at the CP/M-80 2.2 `A>` prompt. The sign-on is the sample BIOS line `64K CP/M VERS 2.2`. Directory listings are four across, in directory order, with the drive letter once per line and no dates. A drive lamp sits beside the tube and lights while a command reads the disk. The phosphor flickers, typing hesitates, and a long command sometimes gets one wrong key and a backspace.
 
-- **Vignettes**: Cold boot, `DIR`, `TYPE NOTES.TXT`, `PIP` copying `NOTES.TXT` to `NOTES.BAK` on the same drive, `STAT` for free space and the notes file, and a short original MBASIC program (`LIST`, `RUN`, `SYSTEM`). MBASIC is on this working disk; it was not part of the Digital Research 2.2 master.
-- **Specials** (`✦` HUD menu): Cold boot, DIR, PIP, and MBASIC.
+- **Vignettes**: Cold boot, `DIR`, `TYPE NOTES.TXT`, `PIP` copying `NOTES.TXT` to `NOTES.BAK` on the same drive, `STAT` for free space and the notes file, and a short original MBASIC program (`LIST`, `RUN`, `SYSTEM`). Then `DIRR?` (unknown command), `ED` appending a timestamped line to `NOTES.TXT`, a short `DDT` dump of that notes buffer, and `ERA NOTES.BAK` once the backup exists. `TYPE` and `STAT` show the notes file as it grows. MBASIC is on this working disk; it was not part of the Digital Research 2.2 master.
+- **Specials** (`✦` HUD menu): Cold boot, DIR, PIP, MBASIC, and ED notes.
 
 #### Commodore 64 (`1982 · 8-bit`)
 A dual-mode Commodore 64 framed by its authentic VIC-II 16-color border, subtle scanline sheen, and a bottom-right **1541 Drive 8** red activity LED — moving organically between **BASIC V2** and **GEOS 2.0 deskTop**.
@@ -279,9 +279,9 @@ KDE 3.1, released 28 January 2003, with Keramik window frames and the kicker alo
 - **Specials**: About KDE (Version 3.1.0), Lock Session, switch desktop, and Logout.
 
 #### Compilers (`C · Rust · Zig · Swift`)
-A full-bleed `src $ ` build terminal with an amber **`BUILD`** lamp and opt-in key click, build tick, and completion blip audio. No distribution or compiler version is named. Seven compiled languages take turns writing short original programs via heredocs, streaming a verbose compile log, and running the resulting binaries.
+A full-bleed `src $ ` build terminal with an amber **`BUILD`** lamp and opt-in key click, build tick, and completion blip audio. No distribution or compiler version is named. Seven compiled languages take turns writing short original programs via heredocs, streaming a verbose compile log, and running the resulting binaries. Typing hesitates and sometimes corrects one wrong key. When the scrollback gets long, the next scene starts with `clear`. A later pass of each language writes a different program. The later C program stops on an unused-variable warning, deletes that line, and compiles again. `ls -l` then lists the binaries built so far.
 
-- **7 Autonomous Vignettes**:
+- **8 Autonomous Vignettes**:
   1. **C** — Writes `squares.c`, compiles with `cc -v -Q` (search path, the source, `Assembling functions: main`, assemble, link), and runs `./squares`.
   2. **C++** — Writes `lengths.cpp`, compiles with `c++ -v -Q` the same way, and runs `./lengths`.
   3. **Rust** — Writes `marks.rs`, type-checks verbosely, hits `rustc` `error[E0308]: mismatched types` (`expected i32, found &str`), writes the fix, recompiles verbosely, and runs `./marks`.
@@ -289,7 +289,8 @@ A full-bleed `src $ ` build terminal with an amber **`BUILD`** lamp and opt-in k
   5. **Swift** — Writes `labels.swift`, compiles with `swiftc -v` (frontend, type-check, SIL, link), and runs `./labels`.
   6. **Go** — Writes `table.go`, compiles with `go build -x` (importcfg, compile, link), and runs `./table`.
   7. **Haskell** — Writes `series.hs`, compiles with `ghc -v` (parser through CodeGen, `[1 of 1] Compiling Main`, `Linking series ...`), and runs `./series`.
-- **Language Triggers** (`✦` HUD menu): Jump directly to **C**, **C++**, **Rust**, **Zig**, **Swift**, **Go**, or **Haskell**.
+  8. **Workspace** — `ls -l` shows the binaries built during this session, then `date`.
+- **Language Triggers** (`✦` HUD menu): Jump directly to **C**, **C++**, **Rust**, **Zig**, **Swift**, **Go**, or **Haskell**. The second visit to a language writes a different program (`countdown.c`, `widths.cpp`, `tally.rs`, `steps.zig`, `tags.swift`, `keys.go`, `range.hs`).
 
 ---
 
@@ -333,10 +334,13 @@ Move the mouse near the bottom edge of the screen to reveal the floating HUD, or
 ├── css/
 │   ├── landing.css               # Lobby layout, CRT diorama, and OS card thumbnails
 │   └── shell.css                 # Fullscreen stage, hidden hover HUD, switcher modal
-├── js/
-│   ├── registry.js               # Screensaver catalog & dynamic module loaders
-│   ├── landing.js                # Lobby clock, diorama scaling, shelf rendering
-│   └── shell.js                  # Player lifecycle, HUD, shortcuts, fullscreen API
+    ├── js/
+    │   ├── registry.js               # Screensaver catalog & dynamic module loaders
+    │   ├── human.js                  # Key cadence, one corrected typo, pointer settle
+    │   ├── landing.js                # Lobby clock, diorama scaling, shelf rendering
+    │   └── shell.js                  # Player lifecycle, HUD, shortcuts, fullscreen API
+    ├── tests/
+    │   └── human.test.mjs            # Node test for typing, pointer settle, CP/M DIR rows
 └── savers/
     ├── mac-os-9/
     │   ├── index.js              # Mac OS 9 screensaver entry & vignette scheduler
@@ -470,7 +474,7 @@ Move the mouse near the bottom edge of the screen to reveal the floating HUD, or
     └── compilers/
         ├── index.js              # Compilers screensaver entry & 7-language scheduler
         ├── engine.js             # Terminal viewport, prompt, syntax classes & BUILD indicator lamp
-        ├── vignettes.js          # C, C++, Rust (E0308 fix), Zig, Swift, Go & Haskell build-and-run scenes
+        ├── vignettes.js          # C, C++, Rust (E0308 fix), Zig, Swift, Go, Haskell & a later program for each
         ├── compilers.css         # Terminal bezel, lamp & diagnostic output styles
         └── sounds.js             # Opt-in key click, build tick & completion blip synthesis
 ```

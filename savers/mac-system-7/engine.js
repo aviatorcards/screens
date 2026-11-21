@@ -1,3 +1,4 @@
+import { settlePointer, textApply, typeInto as typeHuman } from '../../js/human.js';
 import { SYS7_ICONS } from './icons.js';
 import { Sys7Sounds } from './sounds.js';
 
@@ -263,7 +264,10 @@ export class Sys7Engine {
       this._setCursorPos(x, y);
       await new Promise((r) => setTimeout(r, 16));
     }
-    this._setCursorPos(tx, ty);
+    await settlePointer(sx, sy, tx, ty, {
+      wait: (ms) => this.wait(ms),
+      place: (px, py) => this._setCursorPos(px, py),
+    });
   }
 
   getElCenter(el) {
@@ -501,13 +505,15 @@ export class Sys7Engine {
     this.setCursorKind('arrow');
   }
 
-  async typeText(targetEl, text, { charMs = 46, sound = true } = {}) {
-    for (let i = 0; i < text.length; i++) {
-      this.checkAbort();
-      targetEl.textContent += text[i];
-      if (sound && text[i] !== ' ') this.sounds.key();
-      await this.wait(charMs + Math.random() * 24);
-    }
+  async typeText(targetEl, text, { charMs = 46, sound = true, allowTypo = true } = {}) {
+    await typeHuman(text, { base: charMs, allowTypo: allowTypo && sound }, {
+      check: () => this.checkAbort(),
+      apply: textApply(targetEl),
+      sound: (step) => {
+        if (sound && (step.kind === 'backspace' || step.ch !== ' ')) this.sounds.key();
+      },
+      wait: (ms) => this.wait(ms),
+    });
   }
 
   unmount() {

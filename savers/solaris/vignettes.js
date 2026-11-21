@@ -38,7 +38,12 @@ async function textEditor(engine, signal) {
   const win = engine.openEditor();
   await engine.wait(240, signal);
   await engine.click(win.docEl, { rx: 0.3, ry: 0.28 }, signal);
-  const note = `Studio log\nSolaris 9\nCommon Desktop Environment\n${solarisDate()}\n`;
+  const notes = [
+    `Studio log\nSolaris 9\nCommon Desktop Environment\n${solarisDate()}\n`,
+    `Studio log\nFront Panel stays centered.\nWorkspace One is this desk.\n${solarisDate()}\n`,
+    `Studio log\ndtterm still prints SunOS 5.9.\n${solarisDate()}\n`,
+  ];
+  const note = notes[Math.floor(Math.random() * notes.length)];
   await engine.typeText(win.docEl, note, signal);
   await engine.wait(180, signal);
   await engine.appMenu(win, 'File', 'Save As...', signal);

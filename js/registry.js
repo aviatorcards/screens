@@ -19,7 +19,7 @@ export const SCREENSAVERS = [
       { key: 'appearance', label: 'Switch OS 9 Theme' },
       { key: 'control-strip', label: 'Use Control Strip' },
     ],
-    load: () => import('../savers/mac-os-9/index.js?v=5'),
+    load: () => import('../savers/mac-os-9/index.js?v=6'),
   },
   {
     id: 'windows-evolution',
@@ -38,7 +38,7 @@ export const SCREENSAVERS = [
       { key: 'era-win98', label: '1999 · Windows 98 SE' },
       { key: 'era-winxp', label: '2001 · Windows XP Luna' },
     ],
-    load: () => import('../savers/windows-evolution/index.js?v=6'),
+    load: () => import('../savers/windows-evolution/index.js?v=7'),
   },
   {
     id: 'apple-ii',
@@ -56,7 +56,7 @@ export const SCREENSAVERS = [
       { key: 'hires-demo', label: 'Hi-Res Vector & Apple Logo' },
       { key: 'monitor', label: 'CALL -151 (6502 Monitor)' },
     ],
-    load: () => import('../savers/apple-ii/index.js?v=1'),
+    load: () => import('../savers/apple-ii/index.js?v=2'),
   },
   {
     id: 'cpm',
@@ -64,7 +64,7 @@ export const SCREENSAVERS = [
     shortName: 'CP/M',
     era: '1979 · CP/M',
     description:
-      'CP/M-80 2.2 on a green phosphor screen. The A> prompt runs DIR, PIP, and a little MBASIC.',
+      'CP/M-80 2.2 on a green phosphor screen. The A> prompt runs DIR, ED, PIP, DDT, and a little MBASIC. The notes file grows as the session goes on.',
     thumbClass: 'thumb-cpm',
     status: 'available',
     specials: [
@@ -72,8 +72,9 @@ export const SCREENSAVERS = [
       { key: 'cpm-dir', label: 'DIR' },
       { key: 'cpm-pip', label: 'PIP' },
       { key: 'cpm-mbasic', label: 'MBASIC' },
+      { key: 'cpm-ed', label: 'ED notes' },
     ],
-    load: () => import('../savers/cpm/index.js?v=1'),
+    load: () => import('../savers/cpm/index.js?v=2'),
   },
   {
     id: 'commodore-64',
@@ -90,7 +91,7 @@ export const SCREENSAVERS = [
       { key: 'sid-demo', label: '6581 SID Demo Scene' },
       { key: 'hard-reset', label: 'C64 Power-On Reset' },
     ],
-    load: () => import('../savers/commodore-64/index.js?v=4'),
+    load: () => import('../savers/commodore-64/index.js?v=5'),
   },
   {
     id: 'apple-lisa',
@@ -108,7 +109,7 @@ export const SCREENSAVERS = [
       { key: 'lisa-project', label: 'LisaProject Critical Path' },
       { key: 'lisa-guide', label: 'LisaGuide Mouse Tutorial' },
     ],
-    load: () => import('../savers/apple-lisa/index.js?v=1'),
+    load: () => import('../savers/apple-lisa/index.js?v=2'),
   },
   {
     id: 'amiga-workbench',
@@ -125,7 +126,7 @@ export const SCREENSAVERS = [
       { key: 'shell', label: 'AmigaShell' },
       { key: 'kickstart', label: 'Kickstart Disk' },
     ],
-    load: () => import('../savers/amiga/index.js?v=4'),
+    load: () => import('../savers/amiga/index.js?v=5'),
   },
   {
     id: 'windows-3.1',
@@ -142,7 +143,7 @@ export const SCREENSAVERS = [
       { key: 'gpf', label: 'General Protection Fault' },
       { key: 'restart', label: 'Restart Windows' },
     ],
-    load: () => import('../savers/windows-3.1/index.js?v=6'),
+    load: () => import('../savers/windows-3.1/index.js?v=7'),
   },
   {
     id: 'nextstep',
@@ -159,7 +160,7 @@ export const SCREENSAVERS = [
       { key: 'interface-builder', label: 'Interface Builder (.nib)' },
       { key: 'dps-demo', label: 'Display PostScript Vector' },
     ],
-    load: () => import('../savers/nextstep/index.js?v=6'),
+    load: () => import('../savers/nextstep/index.js?v=7'),
   },
   {
     id: 'ms-dos',
@@ -176,7 +177,7 @@ export const SCREENSAVERS = [
       { key: 'qbasic', label: 'QBasic GORILLA.BAS' },
       { key: 'bios-boot', label: '486DX2 BIOS Cold Boot' },
     ],
-    load: () => import('../savers/ms-dos/index.js?v=4'),
+    load: () => import('../savers/ms-dos/index.js?v=5'),
   },
   {
     id: 'mac-system-7',
@@ -193,7 +194,7 @@ export const SCREENSAVERS = [
       { key: 'after-dark-city', label: 'After Dark: Starry Night' },
       { key: 'desktop-patterns', label: 'Desktop Patterns Panel' },
     ],
-    load: () => import('../savers/mac-system-7/index.js?v=8'),
+    load: () => import('../savers/mac-system-7/index.js?v=9'),
   },
   {
     id: 'windows-95',
@@ -210,7 +211,7 @@ export const SCREENSAVERS = [
       { key: 'win98', label: 'Windows 98 SE' },
       { key: 'shutdown', label: 'Shut Down' },
     ],
-    load: () => import('../savers/windows-95/index.js?v=7'),
+    load: () => import('../savers/windows-95/index.js?v=8'),
   },
   {
     id: 'os2-warp',
@@ -227,7 +228,7 @@ export const SCREENSAVERS = [
       { key: 'scheme-palette', label: 'WPS Scheme Palette Drag' },
       { key: 'webexplorer', label: 'IBM WebExplorer (1996)' },
     ],
-    load: () => import('../savers/os2-warp/index.js?v=7'),
+    load: () => import('../savers/os2-warp/index.js?v=8'),
   },
   {
     id: 'haiku',
@@ -244,7 +245,7 @@ export const SCREENSAVERS = [
       { key: 'find', label: 'Find on the disk' },
       { key: 'restart', label: 'Restart' },
     ],
-    load: () => import('../savers/beos/index.js?v=4'),
+    load: () => import('../savers/beos/index.js?v=5'),
   },
   {
     id: 'windows-xp',
@@ -263,7 +264,7 @@ export const SCREENSAVERS = [
       { key: 'pipes-3d', label: '3D Pipes Screensaver' },
       { key: 'error-cascade', label: 'Classic XP Error Cascade' },
     ],
-    load: () => import('../savers/windows-xp/index.js?v=13'),
+    load: () => import('../savers/windows-xp/index.js?v=14'),
   },
   {
     id: 'solaris',
@@ -279,7 +280,7 @@ export const SCREENSAVERS = [
       { key: 'logout', label: 'Log out' },
       { key: 'workspace', label: 'Switch workspace' },
     ],
-    load: () => import('../savers/solaris/index.js?v=1'),
+    load: () => import('../savers/solaris/index.js?v=2'),
   },
   {
     id: 'gnome-2',
@@ -296,7 +297,7 @@ export const SCREENSAVERS = [
       { key: 'workspaces', label: 'Switch workspace' },
       { key: 'logout', label: 'Log Out' },
     ],
-    load: () => import('../savers/gnome-2/index.js?v=4'),
+    load: () => import('../savers/gnome-2/index.js?v=5'),
   },
   {
     id: 'kde-3',
@@ -313,7 +314,7 @@ export const SCREENSAVERS = [
       { key: 'desktops', label: 'Switch desktop' },
       { key: 'logout', label: 'Logout' },
     ],
-    load: () => import('../savers/kde-3/index.js?v=4'),
+    load: () => import('../savers/kde-3/index.js?v=5'),
   },
   {
     id: 'compilers',
@@ -321,7 +322,7 @@ export const SCREENSAVERS = [
     shortName: 'Compilers',
     era: 'C · Rust · Zig · Swift',
     description:
-      'C, C++, Rust, Zig, Swift, Go, and Haskell take turns in a terminal. Each program is typed, then the compiler prints a verbose log, then the program runs. Rust stops on a type error, then the fix is compiled.',
+      'C, C++, Rust, Zig, Swift, Go, and Haskell take turns in a terminal. Each program is typed, then the compiler prints a verbose log, then the program runs. Rust stops on a type error, then the fix is compiled. Later passes write different programs, and the built binaries stay in the directory.',
     thumbClass: 'thumb-compilers',
     status: 'available',
     specials: [
@@ -333,7 +334,7 @@ export const SCREENSAVERS = [
       { key: 'lang-go', label: 'Go' },
       { key: 'lang-hs', label: 'Haskell' },
     ],
-    load: () => import('../savers/compilers/index.js?v=2'),
+    load: () => import('../savers/compilers/index.js?v=3'),
   },
 ];
 
